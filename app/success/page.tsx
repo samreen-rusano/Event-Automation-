@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   CheckCircle,
@@ -13,8 +13,22 @@ import {
   LifeBuoy,
   ArrowRight,
   Loader2,
+  Copy,
+  Check,
+  ExternalLink,
+  Lock,
+  Clock,
+  VideoOff
 } from "lucide-react";
 import { fbEvent } from "@/components/FacebookPixel";
+import { ZOOM_DETAILS } from "@/lib/config";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 type SessionData = {
   name: string;
@@ -27,30 +41,28 @@ type SessionData = {
 
 function SuccessContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const sessionId = searchParams.get("session_id");
 
   const [sessionData, setSessionData] = useState<SessionData | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  // Fallback values for query-param previewing (dev / legacy)
-  const fallback: SessionData = {
-    name: searchParams.get("name") || "there",
-    email: searchParams.get("email") || "—",
-    amount: searchParams.get("amount") || "$97.00",
-    transactionId: searchParams.get("transactionId") || "—",
-    paymentStatus: "paid",
+  const copyToClipboard = (text: string, field: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2000);
   };
 
   const date = "April 10, 2026";
-  const time = "5:00 PM EST";
-  const zoomLink = process.env.NEXT_PUBLIC_ZOOM_LINK || "https://zoom.us/";
+  const time = "6:00 AM DUBAI (GST)";
 
   useEffect(() => {
     if (!sessionId) {
-      // No Stripe session – use fallback params
-      setSessionData(fallback);
-      setLoading(false);
+      // Direct access attempt - redirect to home
+      router.replace("/");
       return;
     }
 
@@ -80,7 +92,8 @@ function SuccessContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
-  const d = sessionData ?? fallback;
+  if (!sessionData && !loading && !error) return null;
+  const d = sessionData!;
 
   if (loading) {
     return (
@@ -177,11 +190,12 @@ function SuccessContent() {
                 <p className="text-[13px] text-gray-600 leading-relaxed mb-3">
                   <strong>This step is required to attend.</strong> Click below to secure your unique live session access link.
                 </p>
-                <a href={zoomLink} target="_blank" rel="noopener noreferrer">
-                  <Button className="bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[14px] px-6 py-5 rounded shadow-md flex items-center gap-2 transition-all hover:scale-[1.02]">
-                    Register for Zoom Session <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </a>
+                <Button 
+                  onClick={() => setIsZoomModalOpen(true)}
+                  className="bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[14px] px-6 py-5 rounded shadow-md flex items-center gap-2 transition-all hover:scale-[1.02]"
+                >
+                  Register for Zoom Session <ArrowRight className="w-4 h-4" />
+                </Button>
               </div>
             </div>
 
@@ -282,11 +296,12 @@ function SuccessContent() {
           <p className="text-[13px] text-gray-500 mb-6">
             Lock in your focus. Block out distractions. Get ready to transform your brand.
           </p>
-          <a href={zoomLink} target="_blank" rel="noopener noreferrer">
-            <Button className="w-full md:w-auto bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[16px] md:text-[18px] px-10 py-6 rounded shadow-lg transition-all hover:scale-[1.02] flex items-center gap-2 mx-auto">
-              Join Zoom Now <ArrowRight className="w-5 h-5" />
-            </Button>
-          </a>
+          <Button 
+            onClick={() => setIsZoomModalOpen(true)}
+            className="w-full md:w-auto bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[16px] md:text-[18px] px-10 py-6 rounded shadow-lg transition-all hover:scale-[1.02] flex items-center gap-2 mx-auto"
+          >
+            Join Zoom Now <ArrowRight className="w-5 h-5" />
+          </Button>
         </div>
 
         {/* FOOTER */}
@@ -304,6 +319,96 @@ function SuccessContent() {
         </div>
 
       </div>
+
+      {/* ZOOM DETAILS MODAL */}
+      <Dialog open={isZoomModalOpen} onOpenChange={setIsZoomModalOpen}>
+        <DialogContent className="bg-[#040B1A] border-gray-800 text-white max-w-[500px] p-0 overflow-hidden rounded-2xl shadow-2xl">
+          <div className="bg-[#1877f2] p-6 flex flex-col items-center justify-center text-center">
+            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
+              <Video className="w-8 h-8 text-white" />
+            </div>
+            <DialogTitle className="text-xl md:text-2xl font-bold mb-2">Zoom Meeting Details</DialogTitle>
+            <DialogDescription className="text-blue-100/80 text-[14px]">
+              Copy your access details below or join the live session directly.
+            </DialogDescription>
+          </div>
+
+          <div className="p-6 space-y-5">
+            {/* Topic & Time */}
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="mt-1 shrink-0"><Video className="w-4 h-4 text-gray-400" /></div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold mb-0.5">Topic</p>
+                  <p className="text-[14px] text-gray-200 font-medium">{ZOOM_DETAILS.topic}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="mt-1 shrink-0"><Clock className="w-4 h-4 text-gray-400" /></div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold mb-0.5">Time</p>
+                  <p className="text-[14px] text-gray-200 font-medium">{ZOOM_DETAILS.time}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="h-px bg-gray-800 w-full" />
+
+            {/* ID & Passcode Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-800 flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">Meeting ID</p>
+                  <button 
+                    onClick={() => copyToClipboard(ZOOM_DETAILS.meetingId, 'id')}
+                    className="p-1.5 hover:bg-white/5 rounded transition-colors"
+                  >
+                    {copiedField === 'id' ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5 text-gray-400" />}
+                  </button>
+                </div>
+                <p className="text-[15px] font-mono font-bold text-white leading-none">{ZOOM_DETAILS.meetingId}</p>
+              </div>
+
+              <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-800 flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">Passcode</p>
+                  <button 
+                    onClick={() => copyToClipboard(ZOOM_DETAILS.passcode, 'passcode')}
+                    className="p-1.5 hover:bg-white/5 rounded transition-colors"
+                  >
+                    {copiedField === 'passcode' ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5 text-gray-400" />}
+                  </button>
+                </div>
+                <p className="text-[15px] font-mono font-bold text-white leading-none">{ZOOM_DETAILS.passcode}</p>
+              </div>
+            </div>
+
+            {/* Link Box */}
+            <div className="bg-blue-500/5 p-4 rounded-lg border border-blue-500/10 space-y-2">
+              <div className="flex items-center justify-between">
+                <p className="text-[10px] uppercase tracking-wider text-[#1877f2] font-bold">Meeting Link</p>
+                <button 
+                  onClick={() => copyToClipboard(ZOOM_DETAILS.link, 'link')}
+                  className="p-1.5 hover:bg-blue-500/10 rounded transition-colors"
+                >
+                  {copiedField === 'link' ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5 text-[#1877f2]" />}
+                </button>
+              </div>
+              <p className="text-[12px] font-mono text-gray-400 break-all leading-tight mb-2">
+                {ZOOM_DETAILS.link}
+              </p>
+              <a 
+                href={ZOOM_DETAILS.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-full flex items-center justify-center gap-2 bg-[#1877f2] hover:bg-[#1565c0] text-white py-3 rounded-lg font-bold text-[14px] transition-all"
+              >
+                Launch Zoom Meeting <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

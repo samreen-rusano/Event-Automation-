@@ -3,7 +3,10 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
+const RAW_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID || "";
+
+// Only activate if the ID looks like a real numeric FB Pixel ID (not a placeholder)
+const FB_PIXEL_ID = /^\d{10,}$/.test(RAW_PIXEL_ID) ? RAW_PIXEL_ID : null;
 
 // Declare fbq on the window object
 declare global {

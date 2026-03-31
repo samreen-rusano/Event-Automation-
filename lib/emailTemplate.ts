@@ -15,9 +15,25 @@ export function renderHtml(firstName: string, lines: string[]): string {
     // Absolute URL is required for email clients to render images
     // Make sure NEXT_PUBLIC_APP_URL is set in your environment (e.g. https://your-domain.com)
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "";
+    const zoomLink = process.env.NEXT_PUBLIC_ZOOM_LINK || "https://zoom.us/";
+    const replayLink = process.env.NEXT_PUBLIC_REPLAY_LINK || `${baseUrl}/replay`;
+
+    // Google Calendar "Add to Calendar" link
+    // Event: April 10, 2026 06:00 AM – 07:30 AM DUBAI (90 min workshop)
+    const calendarUrl = "https://www.google.com/calendar/render?action=TEMPLATE"
+        + "&text=" + encodeURIComponent("The Ultimate Sales Engine Framework — Live Workshop")
+        + "&dates=20260410T020000Z/20260410T033000Z"
+        + "&details=" + encodeURIComponent("Join the live workshop to learn how to transform your clothing brand into a predictable revenue machine.\n\nZoom Link: " + zoomLink)
+        + "&location=" + encodeURIComponent("Zoom (Online)")
+        + "&sf=true&output=xml";
 
     const formattedLines = lines.map(line => {
         if (!line.trim()) return "<br/>";
+
+        // Replace placeholder links with real URLs
+        line = line.replace(/\[Registration Link\]/g, zoomLink);
+        line = line.replace(/\[Replay Link\]/g, replayLink);
+        line = line.replace(/\[Calendar Link\]/g, calendarUrl);
         
         // Strip out any old inline button styles and rebrand it to our premium button
         if (line.includes("<a href=")) {
@@ -49,7 +65,7 @@ export function renderHtml(firstName: string, lines: string[]): string {
                     <!-- Header -->
                     <tr>
                         <td align="center" style="background-color: ${bgDark}; padding: 35px 20px; border-bottom: 4px solid ${primaryColor};">
-                            <img src="${baseUrl}/logo.png" alt="Company Logo" width="160" style="display: block; max-width: 100%; height: auto;" onerror="this.style.display='none'">
+                            <img src="${baseUrl}/logoMain.png" alt="Zen Focus Media" width="160" style="display: block; max-width: 100%; height: auto;" onerror="this.style.display='none'">
                         </td>
                     </tr>
                     
@@ -179,7 +195,7 @@ const templates = [
             "✓ How to finally take control of your revenue so you can focus on creativity, lifestyle, and growth",
             "Plus, there’s a special bonus for live attendees only—something that could save you months of trial and error.",
             "Your spot is reserved. All you need to do is show up.",
-            "<a href=\"[Registration Link]\" style=\"display: inline-block; padding: 12px 24px; background-color: #d93025; color: #ffffff; text-decoration: none; border-radius: 6px; margin-top: 15px;\">Add to Calendar Here</a>",
+            "<a href=\"[Calendar Link]\" style=\"display: inline-block; padding: 12px 24px; background-color: #d93025; color: #ffffff; text-decoration: none; border-radius: 6px; margin-top: 15px;\">Add to Calendar Here</a>",
             "Tomorrow, everything changes. I can’t wait to share it with you."
         ]
     },

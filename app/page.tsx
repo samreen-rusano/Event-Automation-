@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,15 @@ export default function WorkshopLandingPage() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [step, setStep] = useState(1);
+  const [visitorCount, setVisitorCount] = useState(0);
+
+  // Track visitor on mount
+  useEffect(() => {
+    fetch("/api/visitors", { method: "POST" })
+      .then(res => res.json())
+      .then(data => setVisitorCount(data.count))
+      .catch(() => { });
+  }, []);
 
   const scrollToForm = () => {
     const el = document.getElementById("register-form");
@@ -95,9 +104,20 @@ export default function WorkshopLandingPage() {
       <div className="max-w-[800px] mx-auto px-4 flex flex-col items-center">
 
         {/* Date / Time Badge */}
-        <div className="w-full max-w-[600px] bg-[#1877f2] text-white font-bold text-[13px] md:text-[15px] py-2 rounded mb-6 text-center uppercase tracking-wide">
-          FREE ONLINE MASTERCLASS — April 10, 2026 | 5:00 PM EST
+        <div className="w-full max-w-[600px] bg-[#1877f2] text-white font-bold text-[13px] md:text-[15px] py-2 rounded mb-4 text-center uppercase tracking-wide">
+          FREE ONLINE MASTERCLASS — April 10, 2026 | 6:00 AM DUBAI (GST)
         </div>
+
+        {/* Live Visitor Counter */}
+        {visitorCount > 0 && (
+          <div className="flex items-center gap-2 mb-6 text-[13px] text-gray-400 font-medium">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+            </span>
+            <span><strong className="text-white">{visitorCount.toLocaleString()}</strong> people have viewed this page</span>
+          </div>
+        )}
 
         {/* Headline */}
         <h1 className="text-3xl md:text-[42px] font-bold text-center leading-[1.1] mb-8 text-[#f8fafc]">
@@ -357,7 +377,7 @@ export default function WorkshopLandingPage() {
             <div className="flex-[2] bg-white rounded-2xl shadow-xl p-3 flex flex-col">
               <div className="rounded-xl overflow-hidden relative group" style={{ minHeight: "200px" }}>
                 <Image
-                  src="/1.png"
+                  src="/1.jpeg"
                   alt="Social proof 1"
                   width={450}
                   height={280}
@@ -373,7 +393,7 @@ export default function WorkshopLandingPage() {
             <div className="flex-[1] bg-white rounded-2xl shadow-xl p-3 flex flex-col">
               <div className="rounded-xl overflow-hidden relative group flex-1" style={{ minHeight: "200px" }}>
                 <Image
-                  src="/6.png"
+                  src="/6.jpeg"
                   alt="Social proof 6"
                   width={220}
                   height={280}
@@ -388,7 +408,7 @@ export default function WorkshopLandingPage() {
 
           {/* Middle row: 3 square cards */}
           <div className="grid grid-cols-3 gap-4 mb-4">
-            {[{ src: "/2.png", n: 2 }, { src: "/3.png", n: 3 }, { src: "/4.png", n: 4 }].map(({ src, n }) => (
+            {[{ src: "/2.png", n: 2 }, { src: "/3.png", n: 3 }, { src: "/4.jpeg", n: 4 }].map(({ src, n }) => (
               <div key={n} className="bg-white rounded-2xl shadow-xl p-3 flex flex-col">
                 <div className="rounded-xl overflow-hidden relative group aspect-square">
                   <Image
@@ -409,7 +429,7 @@ export default function WorkshopLandingPage() {
           <div className="bg-white rounded-2xl shadow-xl p-3">
             <div className="rounded-xl overflow-hidden relative group" style={{ height: "170px" }}>
               <Image
-                src="/5.png"
+                src="/5.jpeg"
                 alt="Social proof 5"
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"

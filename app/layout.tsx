@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import FacebookPixel from "@/components/FacebookPixel";
+import MicrosoftClarity from "@/components/MicrosoftClarity";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +22,8 @@ export const metadata: Metadata = {
     "Transform your clothing brand into a predictable revenue machine in 90 days. Join the live workshop for just $97.",
 };
 
-const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
+const RAW_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID || "";
+const FB_PIXEL_ID = /^\d{10,}$/.test(RAW_PIXEL_ID) ? RAW_PIXEL_ID : null;
 
 export default function RootLayout({
   children,
@@ -48,6 +52,12 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         {/* Facebook Pixel — initializes on mount, tracks PageView on every route change */}
         <FacebookPixel />
+        {/* Microsoft Clarity — cursor tracking, heatmaps, session recordings */}
+        <MicrosoftClarity />
+        {/* Vercel Analytics — tracks visitors, page views, geography, devices */}
+        <Analytics />
+        {/* Vercel Speed Insights — tracks Core Web Vitals (LCP, FID, CLS) */}
+        <SpeedInsights />
         {children}
       </body>
     </html>
