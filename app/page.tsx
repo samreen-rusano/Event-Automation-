@@ -104,7 +104,7 @@ export default function WorkshopLandingPage() {
 
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 flex flex-col items-center">
 
-        <div className="w-full max-w-[1000px] bg-[#1877f2] text-white font-bold text-[12px] sm:text-[15px] md:text-[20px] py-3 sm:py-4 px-2 rounded mb-6 text-center uppercase tracking-wide shadow-md leading-tight">
+        <div className="w-full max-w-[1000px] bg-[#1877f2] text-white font-bold text-[11px] sm:text-[13px] md:text-[17px] py-2.5 sm:py-3 px-2 rounded mb-6 text-center uppercase tracking-wide shadow-md leading-tight">
           FREE ONLINE MASTERCLASS — April 14, 2026 | 8pm New York time (EST)
         </div>
 
@@ -115,13 +115,15 @@ export default function WorkshopLandingPage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
             </span>
-            <span><strong className="text-white">{visitorCount.toLocaleString()}</strong> people have viewed this page</span>
+            <span><strong className="text-white">{visitorCount.toLocaleString()}</strong> times people have viewed this page</span>
           </div>
         )}
 
         {/* Headline */}
-        <h1 className="text-4xl md:text-[64px] font-extrabold text-center leading-[1.05] mb-12 text-[#f8fafc] tracking-tight w-full max-w-[1100px]">
-          <span className="block mb-4 md:mb-6 text-[#1877f2]">THE ULTIMATE SALES ENGINE FRAMEWORK:</span>
+        <h1 className="text-[28px] sm:text-3xl md:text-[50px] font-extrabold text-center leading-[1.1] mb-8 md:mb-10 text-[#f8fafc] tracking-tight w-full max-w-[950px]">
+          <span className="block mb-3 md:mb-5 text-[#1877f2]">
+            THE ULTIMATE SALES ENGINE FRAMEWORK:
+          </span>
           TRANSFORM YOUR CLOTHING BRAND INTO <br className="hidden md:block" />
           A PREDICTABLE REVENUE MACHINE IN 90 DAYS
         </h1>
@@ -129,60 +131,96 @@ export default function WorkshopLandingPage() {
         {/* Top CTA */}
         <Button
           onClick={scrollToForm}
-          className="w-full md:w-[1000px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[16px] sm:text-[22px] md:text-[30px] py-6 sm:py-9 md:py-12 rounded shadow-2xl mb-14 transition-all hover:scale-[1.02] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4"
+          className="w-full md:w-[900px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-14 transition-all hover:scale-[1.02] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4"
         >
           SECURE YOUR SPOT FOR JUST $97
         </Button>
 
         {/* What You Will Learn */}
-        <div className="w-full md:w-[1100px] mb-14">
-          <h2 className="text-[26px] md:text-[36px] font-extrabold text-center mb-10 text-white tracking-tight">
+        <div className="w-full md:max-w-[1000px] mx-auto mb-14 px-4">
+          <h2 className="text-[22px] sm:text-[26px] md:text-[32px] font-extrabold text-center mb-8 text-white tracking-tight">
             WHAT YOU WILL LEARN
           </h2>
-          <ul className="space-y-4 text-[15px] md:text-[16px] text-gray-200">
-            <li className="flex items-start gap-3">
-              <CheckIcon />
 
-              <p><strong className="text-green-500">Predictable Revenue System:</strong> Discover how to generate consistent, scalable sales on demand that grow your clothing brand every month—without relying on unpredictable algorithms or trends.</p>
-            </li>
+          <ul className="space-y-5 md:space-y-6 text-[16px] sm:text-[18px] md:text-[21px] text-gray-200 leading-[1.7]">
+
             <li className="flex items-start gap-3">
-              <CheckIcon />
-              <p><strong className="text-green-500">The AI Sales Engine Method:</strong> Learn the proven AI-powered sales engine that's helped a 6-figure fashion brand go from inconsistent results to predictable multi-6 and 7-figure growth within months.</p>
+              <div className="mt-1 shrink-0">
+                <CheckIcon />
+              </div>
+              <p>
+                <strong className="text-green-500">Predictable Revenue System:</strong> Discover how to generate consistent, scalable sales on demand that grow your clothing brand every month—without relying on unpredictable algorithms or trends.
+              </p>
             </li>
+
             <li className="flex items-start gap-3">
-              <CheckIcon />
-              <p><strong className="text-green-500">Fix Unstable ROAS:</strong> Finally overcome declining ROAS and inconsistent sales with a step-by-step system that works even if your ads have stopped converting or performance keeps dropping.</p>
+              <div className="mt-1 shrink-0">
+                <CheckIcon />
+              </div>
+              <p>
+                <strong className="text-green-500">The AI Sales Engine Method:</strong> Learn the proven AI-powered sales engine that's helped a 6-figure fashion brand go from inconsistent results to predictable multi-6 and 7-figure growth within months.
+              </p>
             </li>
+
             <li className="flex items-start gap-3">
-              <CheckIcon />
-              <p><strong className="text-green-500">Hidden Demand Control:</strong> Gain access to demand-generation strategies most fashion brand owners never discover—giving you the ability to control when and how your brand makes money.</p>
+              <div className="mt-1 shrink-0">
+                <CheckIcon />
+              </div>
+              <p>
+                <strong className="text-green-500">Fix Unstable ROAS:</strong> Finally overcome declining ROAS and inconsistent sales with a step-by-step system that works even if your ads have stopped converting or performance keeps dropping.
+              </p>
             </li>
+
             <li className="flex items-start gap-3">
-              <CheckIcon />
-              <p><strong className="text-green-500">Plug-and-Play Execution:</strong> Walk away with 3 actionable systems and frameworks you can implement immediately to stabilize revenue and start scaling with confidence.</p>
+              <div className="mt-1 shrink-0">
+                <CheckIcon />
+              </div>
+              <p>
+                <strong className="text-green-500">Hidden Demand Control:</strong> Gain access to demand-generation strategies most fashion brand owners never discover—giving you the ability to control when and how your brand makes money.
+              </p>
             </li>
+
             <li className="flex items-start gap-3">
-              <CheckIcon />
-              <p><strong className="text-green-500">Direct Expert Guidance:</strong> Learn from a system backed by 2000+ brand consultations and $15M+ generated, so you can scale your brand with clarity—without guesswork or costly mistakes.</p>
+              <div className="mt-1 shrink-0">
+                <CheckIcon />
+              </div>
+              <p>
+                <strong className="text-green-500">Plug-and-Play Execution:</strong> Walk away with 3 actionable systems and frameworks you can implement immediately to stabilize revenue and start scaling with confidence.
+              </p>
             </li>
+
             <li className="flex items-start gap-3">
-              <CheckIcon />
-              <p><strong className="text-green-500">Eliminate Scaling Risk:</strong> Remove the fear of scaling ads and losing profitability, so you can grow aggressively with confidence, knowing your system is stable and repeatable.</p>
+              <div className="mt-1 shrink-0">
+                <CheckIcon />
+              </div>
+              <p>
+                <strong className="text-green-500">Direct Expert Guidance:</strong> Learn from a system backed by 2000+ brand consultations and $15M+ generated, so you can scale your brand with clarity—without guesswork or costly mistakes.
+              </p>
             </li>
+
+            <li className="flex items-start gap-3">
+              <div className="mt-1 shrink-0">
+                <CheckIcon />
+              </div>
+              <p>
+                <strong className="text-green-500">Eliminate Scaling Risk:</strong> Remove the fear of scaling ads and losing profitability, so you can grow aggressively with confidence, knowing your system is stable and repeatable.
+              </p>
+            </li>
+
           </ul>
         </div>
 
         {/* Mid CTA */}
         <Button
           onClick={scrollToForm}
-          className="w-full md:w-[1000px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[16px] sm:text-[22px] md:text-[30px] py-6 sm:py-9 md:py-12 rounded shadow-2xl mb-10 transition-all hover:scale-[1.02] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4"
+          className="w-full md:w-[900px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-10 transition-all hover:scale-[1.02] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4"
         >
           ATTEND FOR JUST $97
         </Button>
 
         {/* Note Box */}
         <div className="w-full md:w-[1000px] bg-white text-black p-6 md:p-8 rounded-sm shadow-xl mb-10 border border-gray-200">
-          <p className="text-[15px] md:text-[18px] leading-relaxed text-center font-semibold">
+          <p className="text-[15px] md:text-[18px] leading-relaxed text-center ">
             <span className="text-[#ef4444] font-bold">NOTE:</span> This workshop is priced at $97 for fashion brand owners who are serious about scaling profitably and stepping into a true leadership role. The framework is built on years of experience and proven results across dozens of brands.
           </p>
         </div>
@@ -248,7 +286,7 @@ export default function WorkshopLandingPage() {
                     />
                     <Button
                       type="submit"
-                      className="w-full bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[16px] sm:text-[18px] md:text-[22px] py-5 sm:py-7 md:py-8 rounded shadow-lg mt-4 transition-all h-auto whitespace-normal leading-tight"
+                      className="w-full bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[14px] sm:text-[16px] md:text-[18px] py-3.5 sm:py-5 md:py-6 rounded shadow-lg mt-4 transition-all h-auto whitespace-normal leading-tight"
                     >
                       SECURE YOUR SPOT
                     </Button>
@@ -272,7 +310,7 @@ export default function WorkshopLandingPage() {
                     <Button
                       onClick={handleStripePayment}
                       disabled={loading}
-                      className="w-full bg-[#111827] hover:bg-[#1f2937] text-white font-bold text-[16px] sm:text-[18px] md:text-[22px] py-5 sm:py-7 md:py-8 rounded shadow-xl transition-all flex justify-center items-center gap-2 h-auto whitespace-normal leading-tight px-2"
+                      className="w-full bg-[#111827] hover:bg-[#1f2937] text-white font-bold text-[14px] sm:text-[16px] md:text-[18px] py-3.5 sm:py-5 md:py-6 rounded shadow-xl transition-all flex justify-center items-center gap-2 h-auto whitespace-normal leading-tight px-2"
                     >
                       {loading ? (
                         <>
@@ -306,7 +344,7 @@ export default function WorkshopLandingPage() {
         {/* Large White Block */}
         <div className="w-full md:w-[1100px] bg-white text-black p-6 sm:p-10 md:p-20 rounded-md shadow-[0_0_40px_rgba(255,255,255,0.05)] mb-16 flex flex-col items-center">
 
-          <h2 className="text-[32px] md:text-[46px] font-black mb-12 text-center tracking-tight">
+          <h2 className="text-[26px] md:text-[38px] font-black mb-10 text-center tracking-tight">
             HOW IT WORKS
           </h2>
 
@@ -318,13 +356,13 @@ export default function WorkshopLandingPage() {
             </ol>
           </div>
 
-          <h2 className="text-[26px] md:text-[34px] font-extrabold mb-8 text-center tracking-tight">
+          <h2 className="text-[22px] md:text-[30px] font-extrabold mb-8 text-center tracking-tight">
             YOUR DECISION IS <br className="md:hidden" /> RISK-FREE
           </h2>
 
           {/* Worst Case */}
           <div className="w-full max-w-[850px] mb-8 border border-red-100 rounded-lg overflow-hidden shadow-sm">
-            <div className="bg-[#ef4444] text-white font-extrabold text-[16px] sm:text-[20px] md:text-[26px] text-center py-3 md:py-4 tracking-wide px-2 h-auto whitespace-normal">
+            <div className="bg-[#ef4444] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] text-center py-2.5 md:py-3 tracking-wide px-2 h-auto whitespace-normal">
               WORST CASE SCENARIO:
             </div>
             <div className="p-4 sm:p-6 md:p-8 bg-white text-center">
@@ -339,7 +377,7 @@ export default function WorkshopLandingPage() {
 
           {/* Best Case */}
           <div className="w-full max-w-[850px] mb-12 border border-green-100 rounded-lg overflow-hidden shadow-sm">
-            <div className="bg-[#22c55e] text-white font-extrabold text-[16px] sm:text-[20px] md:text-[26px] text-center py-3 md:py-4 tracking-wide px-2 h-auto whitespace-normal">
+            <div className="bg-[#22c55e] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] text-center py-2.5 md:py-3 tracking-wide px-2 h-auto whitespace-normal">
               BEST CASE SCENARIO:
             </div>
             <div className="p-4 sm:p-6 md:p-8 bg-white text-center">
@@ -358,14 +396,14 @@ export default function WorkshopLandingPage() {
           {/* Internal CTA */}
           <Button
             onClick={scrollToForm}
-            className="w-full md:w-[900px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[16px] sm:text-[22px] md:text-[28px] py-6 sm:py-9 md:py-12 rounded shadow-xl mt-8 hover:scale-[1.02] transition-all h-auto whitespace-normal leading-tight px-4"
+            className="w-full md:w-[800px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-xl mt-8 hover:scale-[1.02] transition-all h-auto whitespace-normal leading-tight px-4"
           >
             RESERVE YOUR PLACE NOW FOR $97
           </Button>
         </div>
 
         {/* P.S. Section */}
-        <h3 className="text-[#1877f2] font-black text-[18px] sm:text-[24px] md:text-[36px] text-center mb-12 uppercase px-4 leading-tight max-w-[1000px] tracking-tight">
+        <h3 className="text-[#1877f2] font-black text-[16px] sm:text-[20px] md:text-[30px] text-center mb-12 uppercase px-4 leading-tight max-w-[1000px] tracking-tight">
           P.S. HERE'S SOME FACTS ABOUT US AND WHY YOU SHOULD ATTEND THIS WORKSHOP...
         </h3>
 
@@ -407,7 +445,7 @@ export default function WorkshopLandingPage() {
                   </h4>
                   {card.subheadline.includes('•') ? (
                     <div className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
-                      {card.subheadline.split('•').map((part, i) => 
+                      {card.subheadline.split('•').map((part, i) =>
                         i === 0 ? (
                           <span key={i} className="block mb-2 font-bold text-gray-800">{part.trim()}</span>
                         ) : (
@@ -464,7 +502,7 @@ export default function WorkshopLandingPage() {
                   </h4>
                   {card.subheadline.includes('•') ? (
                     <div className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium">
-                      {card.subheadline.split('•').map((part, i) => 
+                      {card.subheadline.split('•').map((part, i) =>
                         i === 0 ? (
                           <span key={i} className="block mb-2 font-bold text-gray-800">{part.trim()}</span>
                         ) : (
@@ -485,7 +523,7 @@ export default function WorkshopLandingPage() {
         {/* Final CTA */}
         <Button
           onClick={scrollToForm}
-          className="w-full md:w-[1000px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[16px] sm:text-[22px] md:text-[28px] py-6 sm:py-9 md:py-12 rounded shadow-2xl mb-20 hover:scale-[1.02] transition-all uppercase tracking-wide h-auto whitespace-normal leading-tight px-4"
+          className="w-full md:w-[900px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-20 hover:scale-[1.02] transition-all uppercase tracking-wide h-auto whitespace-normal leading-tight px-4"
         >
           RESERVE YOUR PLACE NOW FOR $97
         </Button>
