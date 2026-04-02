@@ -131,7 +131,7 @@ export default function WorkshopLandingPage() {
         {/* Top CTA */}
         <Button
           onClick={scrollToForm}
-          className="w-full md:w-[900px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-14 transition-all hover:scale-[1.02] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4"
+          className="w-full md:w-[900px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-14 transition-all hover:scale-[1.02] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4 cursor-pointer"
         >
           SECURE YOUR SPOT FOR JUST $97
         </Button>
@@ -213,7 +213,7 @@ export default function WorkshopLandingPage() {
         {/* Mid CTA */}
         <Button
           onClick={scrollToForm}
-          className="w-full md:w-[900px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-10 transition-all hover:scale-[1.02] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4"
+          className="w-full md:w-[900px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-10 transition-all hover:scale-[1.02] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4 cursor-pointer"
         >
           ATTEND FOR JUST $97
         </Button>
@@ -286,7 +286,7 @@ export default function WorkshopLandingPage() {
                     />
                     <Button
                       type="submit"
-                      className="w-full bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[14px] sm:text-[16px] md:text-[18px] py-3.5 sm:py-5 md:py-6 rounded shadow-lg mt-4 transition-all h-auto whitespace-normal leading-tight"
+                      className="w-full bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[14px] sm:text-[16px] md:text-[18px] py-3.5 sm:py-5 md:py-6 rounded shadow-lg mt-4 transition-all h-auto whitespace-normal leading-tight cursor-pointer "
                     >
                       SECURE YOUR SPOT
                     </Button>
@@ -310,7 +310,7 @@ export default function WorkshopLandingPage() {
                     <Button
                       onClick={handleStripePayment}
                       disabled={loading}
-                      className="w-full bg-[#111827] hover:bg-[#1f2937] text-white font-bold text-[14px] sm:text-[16px] md:text-[18px] py-3.5 sm:py-5 md:py-6 rounded shadow-xl transition-all flex justify-center items-center gap-2 h-auto whitespace-normal leading-tight px-2"
+                      className="w-full bg-[#111827] hover:bg-[#1f2937] text-white font-bold text-[14px] sm:text-[16px] md:text-[18px] py-3.5 sm:py-5 md:py-6 rounded shadow-xl transition-all flex justify-center items-center gap-2 h-auto whitespace-normal leading-tight px-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {loading ? (
                         <>
@@ -396,7 +396,7 @@ export default function WorkshopLandingPage() {
           {/* Internal CTA */}
           <Button
             onClick={scrollToForm}
-            className="w-full md:w-[800px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-xl mt-8 hover:scale-[1.02] transition-all h-auto whitespace-normal leading-tight px-4"
+            className="w-full md:w-[800px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-xl mt-8 hover:scale-[1.02] transition-all h-auto whitespace-normal leading-tight px-4 cursor-pointer"
           >
             RESERVE YOUR PLACE NOW FOR $97
           </Button>

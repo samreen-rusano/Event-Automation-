@@ -110,7 +110,7 @@ function SuccessContent() {
         <AlertCircle className="w-12 h-12 text-red-400" />
         <h1 className="text-2xl font-bold text-white">Something went wrong</h1>
         <p className="text-gray-400 text-[14px] max-w-sm">{error}</p>
-        <Button onClick={() => window.location.href = "/"} className="bg-[#1877f2] hover:bg-[#1565c0] text-white px-8 py-4 rounded font-bold mt-2">
+        <Button onClick={() => window.location.href = "/"} className="bg-[#1877f2] hover:bg-[#1565c0] text-white px-8 py-4 rounded font-bold mt-2 transition-all hover:scale-[1.02] cursor-pointer">
           Return to Home
         </Button>
       </div>
@@ -192,7 +192,7 @@ function SuccessContent() {
                 </p>
                 <Button
                   onClick={() => setIsZoomModalOpen(true)}
-                  className="bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[13px] sm:text-[14px] px-4 sm:px-6 py-4 sm:py-5 rounded shadow-md flex items-center justify-center gap-2 transition-all hover:scale-[1.02] w-full sm:w-auto h-auto whitespace-normal leading-tight"
+                  className="bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[13px] sm:text-[14px] px-4 sm:px-6 py-4 sm:py-5 rounded shadow-md flex items-center justify-center gap-2 transition-all hover:scale-[1.02] w-full sm:w-auto h-auto whitespace-normal leading-tight cursor-pointer"
                 >
                   View Google Meet Details <ArrowRight className="w-4 h-4 shrink-0" />
                 </Button>
@@ -283,7 +283,7 @@ function SuccessContent() {
               <p className="text-[12px] text-gray-500">Our team is happy to help with any questions. Email us at yasirsultan1992@gmail.com</p>
             </div>
           </div>
-          <Button onClick={() => window.location.href = "mailto:yasirsultan1992@gmail.com"} variant="outline" className="border-[#1877f2] text-[#1877f2] hover:bg-[#1877f2] hover:text-white text-[13px] font-bold transition-all w-full sm:w-auto h-auto whitespace-normal leading-tight py-3">
+          <Button onClick={() => window.location.href = "mailto:yasirsultan1992@gmail.com"} variant="outline" className="border-[#1877f2] text-[#1877f2] hover:bg-[#1877f2] hover:text-white text-[13px] font-bold transition-all w-full sm:w-auto h-auto whitespace-normal leading-tight py-3 cursor-pointer">
             Contact Support
           </Button>
         </div>
@@ -298,7 +298,7 @@ function SuccessContent() {
           </p>
           <Button
             onClick={() => setIsZoomModalOpen(true)}
-            className="w-full md:w-auto bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[16px] md:text-[18px] px-10 py-6 rounded shadow-lg transition-all hover:scale-[1.02] flex items-center gap-2 mx-auto"
+            className="w-full md:w-auto bg-[#1877f2] hover:bg-[#1565c0] text-white font-bold text-[16px] md:text-[18px] px-10 py-6 rounded shadow-lg transition-all hover:scale-[1.02] flex items-center gap-2 mx-auto cursor-pointer h-auto whitespace-normal leading-tight"
           >
             Join Zoom Now <ArrowRight className="w-5 h-5" />
           </Button>
@@ -361,7 +361,7 @@ function SuccessContent() {
                   <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">Phone Dial In</p>
                   <button
                     onClick={() => copyToClipboard(MEET_DETAILS.dialIn || '', 'dial')}
-                    className="p-1.5 hover:bg-white/5 rounded transition-colors"
+                    className="p-1.5 hover:bg-white/5 rounded transition-colors cursor-pointer"
                   >
                     {copiedField === 'dial' ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5 text-gray-400" />}
                   </button>
@@ -376,7 +376,7 @@ function SuccessContent() {
                 <p className="text-[10px] uppercase tracking-wider text-[#1877f2] font-bold">Meeting Link</p>
                 <button
                   onClick={() => copyToClipboard(MEET_DETAILS.link, 'link')}
-                  className="p-1.5 hover:bg-blue-500/10 rounded transition-colors"
+                  className="p-1.5 hover:bg-blue-500/10 rounded transition-colors cursor-pointer"
                 >
                   {copiedField === 'link' ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5 text-[#1877f2]" />}
                 </button>
@@ -388,7 +388,7 @@ function SuccessContent() {
                 href={MEET_DETAILS.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 bg-[#1877f2] hover:bg-[#1565c0] text-white py-3 rounded-lg font-bold text-[14px] transition-all"
+                className="w-full flex items-center justify-center gap-2 bg-[#1877f2] hover:bg-[#1565c0] text-white py-3 rounded-lg font-bold text-[14px] transition-all cursor-pointer"
               >
                 Launch Google Meet <ExternalLink className="w-4 h-4" />
               </a>
