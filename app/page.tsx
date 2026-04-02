@@ -370,85 +370,114 @@ export default function WorkshopLandingPage() {
         </h3>
 
         {/* ✨ PREMIUM MASONRY GALLERY ✨ */}
-        <div className="w-full md:w-[1100px] mb-14 px-4 md:px-0 flex flex-col gap-4">
+        <div className="w-full md:w-[1100px] mb-14 px-4 md:px-0 flex flex-col gap-6">
 
-          {/* Featured top row: image 1 large left + image 2 portrait right */}
-          <div className="flex flex-col md:flex-row gap-4">
-            {/* Large feature card */}
-            <div className="flex-[2] bg-white rounded-2xl shadow-xl p-3 flex flex-col">
-              <div
-                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center"
-                onClick={() => setPreviewImage("/1.jpeg")}
-              >
-                <Image
-                  src="/1.jpeg"
-                  alt="Social proof 1"
-                  width={1000}
-                  height={1000}
-                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 rounded-xl" />
-              </div>
-              <p className="font-extrabold text-[14px] text-black mt-3 px-1">Social proof image 1 👍</p>
-            </div>
-
-            {/* Portrait card */}
-            <div className="flex-[1] bg-white rounded-2xl shadow-xl p-3 flex flex-col">
-              <div
-                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex-1 flex items-center justify-center"
-                onClick={() => setPreviewImage("/2.png")}
-              >
-                <Image
-                  src="/2.png"
-                  alt="Social proof 2"
-                  width={1000}
-                  height={1000}
-                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 rounded-xl" />
-              </div>
-              <p className="font-extrabold text-[14px] text-black mt-3 px-1">Social proof image 2 👍</p>
-            </div>
-          </div>
-
-          {/* Middle row: 3 square cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[{ src: "/3.png", n: 3 }, { src: "/4.jpeg", n: 4 }, { src: "/5.jpeg", n: 5 }].map(({ src, n }) => (
-              <div key={n} className="bg-white rounded-2xl shadow-xl p-3 flex flex-col">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              {
+                id: 1,
+                headline: "Over 100 Satisfied Clients and Counting",
+                subheadline: "Includes: • 50+ Verified 5-Star Testimonials on Upwork • Top Rated in the top 3% of marketers • 10 Video Testimonials • Dozens of written text testimonials • $25M generated for clients in 15 different niches",
+                src: "/1.png"
+              },
+              {
+                id: 2,
+                headline: "We Built an Automated AI Sales Engine for our Own marketing agency",
+                subheadline: "This helped us: • Generate over $800K for my business at 80% profit margin ($200K/year) • Dozens of paying clients every year",
+                src: "/2.png"
+              }
+            ].map(card => (
+              <div key={card.id} className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl">
                 <div
-                  className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex-1 flex items-center justify-center"
-                  onClick={() => setPreviewImage(src)}
+                  className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex-1 flex items-center justify-center mb-5 border border-gray-100"
+                  onClick={() => setPreviewImage(card.src)}
                 >
                   <Image
-                    src={src}
-                    alt={`Social proof ${n}`}
-                    width={800}
-                    height={800}
-                    className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
+                    src={card.src}
+                    alt={`Proof ${card.id}`}
+                    width={1000}
+                    height={1000}
+                    className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 rounded-xl" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-[#1877f2]/10 transition-colors duration-300 rounded-xl" />
                 </div>
-                <p className="font-extrabold text-[13px] text-black mt-3 px-1">Social proof image {n} 👍</p>
+                <div className="px-1 text-left">
+                  <h4 className="font-extrabold text-[16px] md:text-[18px] text-gray-900 leading-tight mb-2">
+                    {card.headline}
+                  </h4>
+                  {card.subheadline.includes('•') ? (
+                    <div className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                      {card.subheadline.split('•').map((part, i) => 
+                        i === 0 ? (
+                          <span key={i} className="block mb-2 font-bold text-gray-800">{part.trim()}</span>
+                        ) : (
+                          <span key={i} className="block mb-1 pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#1877f2] before:rounded-full before:absolute before:left-0 before:top-2 text-gray-600">{part.trim()}</span>
+                        )
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">{card.subheadline}</p>
+                  )}
+                </div>
               </div>
             ))}
           </div>
 
-          {/* Bottom: individual card */}
-          <div className="bg-white rounded-2xl shadow-xl p-3 w-full max-w-[500px] mx-auto">
-            <div
-              className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center"
-              onClick={() => setPreviewImage("/6.jpeg")}
-            >
-              <Image
-                src="/6.jpeg"
-                alt="Social proof 6"
-                width={800}
-                height={800}
-                className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 rounded-xl" />
-            </div>
-            <p className="font-extrabold text-[14px] text-black mt-3 px-1 text-center">Social proof image 6 👍</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                id: 3,
+                headline: "Consulted and audited over 2000+ businesses",
+                subheadline: "Helping countless brand owners identify critical bottlenecks and architect scalable growth systems tailored for their massive success.",
+                src: "/3.png"
+              },
+              {
+                id: 4,
+                headline: "I spoke about our marketing success at an 8 figure business owners scaling event",
+                subheadline: "Sharing battle-tested frameworks stage-side with elite founders, dissecting the exact strategies that scale from 6 to 8 figures in record time.",
+                src: "/4.png"
+              },
+              {
+                id: 5,
+                headline: "We helped a Clothing Brand Owner Add $1.2M to His Brand in 13 Months",
+                subheadline: "This success helped him: • Generate 50,000+ orders in 2 years • Build an in-house manufacturing team providing stable employment • Pay designers full-time income • Partner with long-term shipment companies & become Assassin’s Creed official merchandise partner",
+                src: "/5.png"
+              }
+            ].map(card => (
+              <div key={card.id} className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl">
+                <div
+                  className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex-1 flex items-center justify-center mb-5 border border-gray-100"
+                  onClick={() => setPreviewImage(card.src)}
+                >
+                  <Image
+                    src={card.src}
+                    alt={`Proof ${card.id}`}
+                    width={800}
+                    height={800}
+                    className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-[#1877f2]/10 transition-colors duration-300 rounded-xl" />
+                </div>
+                <div className="px-1 text-left">
+                  <h4 className="font-extrabold text-[15px] md:text-[16px] text-gray-900 leading-tight mb-2">
+                    {card.headline}
+                  </h4>
+                  {card.subheadline.includes('•') ? (
+                    <div className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium">
+                      {card.subheadline.split('•').map((part, i) => 
+                        i === 0 ? (
+                          <span key={i} className="block mb-2 font-bold text-gray-800">{part.trim()}</span>
+                        ) : (
+                          <span key={i} className="block mb-1 pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#1877f2] before:rounded-full before:absolute before:left-0 before:top-1.5 text-gray-600">{part.trim()}</span>
+                        )
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium">{card.subheadline}</p>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
 
         </div>
