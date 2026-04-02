@@ -105,7 +105,7 @@ export default function WorkshopLandingPage() {
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 flex flex-col items-center">
 
         <div className="w-full max-w-[1000px] bg-[#1877f2] text-white font-bold text-[11px] sm:text-[13px] md:text-[17px] py-2.5 sm:py-3 px-2 rounded mb-6 text-center uppercase tracking-wide shadow-md leading-tight">
-          FREE ONLINE MASTERCLASS — April 14, 2026 | 8pm New York time (EST)
+          FREE ONLINE MASTERCLASS — April 13, 2026 | 8pm New York time (EST)
         </div>
 
         {/* Live Visitor Counter */}
