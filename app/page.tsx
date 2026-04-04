@@ -151,11 +151,12 @@ export default function WorkshopLandingPage() {
 
         {/* Top CTA */}
         <Button
+          type="button"
           onClick={() => {
             trackScrollCtaClick("top");
             scrollToForm();
           }}
-          className="w-full md:w-[900px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-14 transition-all hover:scale-[1.02] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4 cursor-pointer"
+          className="w-full md:w-[900px] bg-[#1877f2] active:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-14 transition-all active:scale-[0.99] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4 cursor-pointer"
         >
           SECURE YOUR SPOT FOR JUST $97
         </Button>
@@ -236,11 +237,12 @@ export default function WorkshopLandingPage() {
 
         {/* Mid CTA */}
         <Button
+          type="button"
           onClick={() => {
             trackScrollCtaClick("middle");
             scrollToForm();
           }}
-          className="w-full md:w-[900px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-10 transition-all hover:scale-[1.02] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4 cursor-pointer"
+          className="w-full md:w-[900px] bg-[#1877f2] active:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-10 transition-all active:scale-[0.99] uppercase tracking-wide h-auto whitespace-normal leading-tight px-4 cursor-pointer"
         >
           ATTEND FOR JUST $97
         </Button>
@@ -264,13 +266,17 @@ export default function WorkshopLandingPage() {
             <>
               {/* Stepper Tabs */}
               <div className="flex w-full mb-6 mt-2 px-2 transition-all duration-500">
-                <div className={`w-1/2 flex flex-col items-center ${step === 2 && 'opacity-40 cursor-pointer'}`} onClick={() => step === 2 && setStep(1)}>
+                <button
+                  type="button"
+                  className={`w-1/2 flex flex-col items-center ${step === 2 && 'opacity-40 cursor-pointer'}`}
+                  onClick={() => step === 2 && setStep(1)}
+                >
                   <span className="text-[12px] font-bold text-[#1877f2] mb-1">Step 1</span>
                   <span className="text-[14px] font-bold text-[#1877f2] mb-2">Your details</span>
                   <div className="w-full h-1 bg-[#1877f2] relative">
                     {step === 1 && <div className="absolute left-1/2 -bottom-[6px] -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-transparent border-t-[#1877f2]" />}
                   </div>
-                </div>
+                </button>
                 <div className={`w-1/2 flex flex-col items-center ${step === 1 && 'opacity-40'}`}>
                   <span className="text-[12px] font-bold text-[#1877f2] mb-1">Step 2</span>
                   <span className="text-[14px] font-bold text-[#1877f2] mb-2">Secure your spot</span>
@@ -335,9 +341,10 @@ export default function WorkshopLandingPage() {
                     </div>
 
                     <Button
+                      type="button"
                       onClick={handleStripePayment}
                       disabled={loading}
-                      className="w-full bg-[#111827] hover:bg-[#1f2937] text-white font-bold text-[14px] sm:text-[16px] md:text-[18px] py-3.5 sm:py-5 md:py-6 rounded shadow-xl transition-all flex justify-center items-center gap-2 h-auto whitespace-normal leading-tight px-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full bg-[#111827] active:bg-[#1f2937] text-white font-bold text-[14px] sm:text-[16px] md:text-[18px] py-3.5 sm:py-5 md:py-6 rounded shadow-xl transition-all flex justify-center items-center gap-2 h-auto whitespace-normal leading-tight px-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {loading ? (
                         <>
@@ -422,11 +429,12 @@ export default function WorkshopLandingPage() {
 
           {/* Internal CTA */}
           <Button
+            type="button"
             onClick={() => {
               trackScrollCtaClick("bottom");
               scrollToForm();
             }}
-            className="w-full md:w-[800px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-xl mt-8 hover:scale-[1.02] transition-all h-auto whitespace-normal leading-tight px-4 cursor-pointer"
+            className="w-full md:w-[800px] bg-[#1877f2] active:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-xl mt-8 active:scale-[0.99] transition-all h-auto whitespace-normal leading-tight px-4 cursor-pointer"
           >
             RESERVE YOUR PLACE NOW FOR $97
           </Button>
@@ -552,8 +560,9 @@ export default function WorkshopLandingPage() {
 
         {/* Final CTA */}
         <Button
+          type="button"
           onClick={scrollToForm}
-          className="w-full md:w-[900px] bg-[#1877f2] hover:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-20 hover:scale-[1.02] transition-all uppercase tracking-wide h-auto whitespace-normal leading-tight px-4"
+          className="w-full md:w-[900px] bg-[#1877f2] active:bg-[#1565c0] text-white font-extrabold text-[14px] sm:text-[17px] md:text-[22px] py-4 sm:py-6 md:py-8 rounded shadow-2xl mb-20 active:scale-[0.99] transition-all uppercase tracking-wide h-auto whitespace-normal leading-tight px-4"
         >
           RESERVE YOUR PLACE NOW FOR $97
         </Button>
