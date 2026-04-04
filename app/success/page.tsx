@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { fbEvent } from "@/components/FacebookPixel";
 import { MEET_DETAILS } from "@/lib/config";
+import { copyTextToClipboard } from "@/lib/browser";
 import {
   Dialog,
   DialogContent,
@@ -50,8 +51,11 @@ function SuccessContent() {
   const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  const copyToClipboard = (text: string, field: string) => {
-    navigator.clipboard.writeText(text);
+  const copyToClipboard = async (text: string, field: string) => {
+    const copied = await copyTextToClipboard(text);
+
+    if (!copied) return;
+
     setCopiedField(field);
     setTimeout(() => setCopiedField(null), 2000);
   };

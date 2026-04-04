@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ImageIcon, X } from "lucide-react";
 import { fbEvent } from "@/components/FacebookPixel";
+import { readSessionStorage, writeSessionStorage } from "@/lib/browser";
 
 // Reusable SVG for the solid blue checkmark seen in the image
 const CheckIcon = () => (
@@ -43,20 +44,25 @@ export default function WorkshopLandingPage() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const key = "fb_viewcontent_landing";
-    if (window.sessionStorage.getItem(key)) return;
+    if (readSessionStorage(key)) return;
 
     fbEvent("ViewContent", {
       content_name: "Sales Engine Workshop Landing",
       content_category: "Workshop",
     });
-    window.sessionStorage.setItem(key, "1");
+    writeSessionStorage(key, "1");
   }, []);
 
   const scrollToForm = () => {
     const el = document.getElementById("register-form");
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY - 32;
-      window.scrollTo({ top, behavior: "smooth" });
+      if ("scrollBehavior" in document.documentElement.style) {
+        window.scrollTo({ top, behavior: "smooth" });
+        return;
+      }
+
+      window.scrollTo(0, top);
     }
   };
 
