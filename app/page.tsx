@@ -343,7 +343,7 @@ export default function WorkshopLandingPage() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#162228] hover:bg-black text-white font-extrabold text-[15px] sm:text-[18px] py-4 sm:py-5 rounded-xl shadow-lg mt-4 transition-all duration-300 h-auto whitespace-normal leading-tight cursor-pointer disabled:opacity-75 flex justify-center items-center gap-2"
+                  className="w-full bg-gradient-to-r from-[#F46F00] to-[#E34200] hover:from-[#E34200] hover:to-[#F46F00] text-white font-extrabold text-[15px] sm:text-[18px] py-4 sm:py-5 rounded-xl shadow-[0_6px_24px_rgba(244,111,0,0.35)] mt-4 transition-all duration-300 h-auto whitespace-normal leading-tight cursor-pointer disabled:opacity-75 flex justify-center items-center gap-2 hover:scale-[1.01] active:scale-[0.99]"
                 >
                   {loading ? (
                     <>
