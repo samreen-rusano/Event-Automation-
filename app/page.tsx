@@ -72,6 +72,40 @@ export default function WorkshopLandingPage() {
     }
   };
 
+  /* 
+  // FUTURE STRIPE REDO PAYMENT METHOD
+  // Uncomment this code to revert back to Stripe $97 payment flow
+  const handleStripePayment = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      fbEvent("InitiateCheckout", {
+        value: 97,
+        currency: "USD",
+        content_name: "Sales Engine Workshop",
+      });
+
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || "Could not create payment session.");
+      }
+
+      window.location.href = data.url;
+    } catch (err: any) {
+      setError(err.message || "An error occurred.");
+      setLoading(false);
+    }
+  };
+  */
+
   const handleFreeRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.phone) {
@@ -128,7 +162,7 @@ export default function WorkshopLandingPage() {
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 flex flex-col items-center">
         {/* Date Banner */}
         <div className="w-full max-w-[1000px] bg-gradient-to-r from-[#F46F00] to-[#E34200] text-white font-extrabold text-[12px] sm:text-[14px] md:text-[18px] py-3 px-4 rounded-xl mb-6 text-center uppercase tracking-wider shadow-lg leading-tight animate-pulse">
-          ONLINE MASTERCLASS — June 14, 2026 | 3PM EST
+          ONLINE MASTERCLASS — June 14, 2026 | 11PM GST (Asia/Dubai Time)
         </div>
 
         {/* Live Visitor Counter */}
@@ -302,7 +336,7 @@ export default function WorkshopLandingPage() {
                     <div>
                       <p className="font-bold text-[15px] text-white mb-1">3. Lock It In Your Calendar</p>
                       <p className="text-[13px] text-gray-300 leading-relaxed">
-                        Block out **June 14, 2026 at 3:00 PM EST**. Real results require full presence. Ensure you attend live for the interactive Q&A session.
+                        Block out **June 14, 2026 at 11:00 PM (Asia/Dubai Time)**. Real results require full presence. Ensure you attend live for the interactive Q&A session.
                       </p>
                     </div>
                   </div>
