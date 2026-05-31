@@ -8,13 +8,24 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     try {
-        const user = await User.create({
-            name: body.name,
-            email: body.email,
-        });
+        const user = await User.findOneAndUpdate(
+            { email: body.email },
+            {
+                $set: {
+                    name: body.name,
+                    phone: body.phone,
+                    isPaid: true,
+                },
+                $setOnInsert: {
+                    registeredAt: new Date(),
+                    sentEmails: [],
+                }
+            },
+            { upsert: true, new: true }
+        );
 
         return NextResponse.json(user);
-    } catch (error) {
-        return NextResponse.json({ error: "User already exists" });
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message || "Failed to register user" }, { status: 500 });
     }
 }
