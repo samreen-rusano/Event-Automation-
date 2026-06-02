@@ -85,7 +85,8 @@ export function renderHtml(firstName: string, lines: string[]): string {
                                 <tr>
                                     <td>
                                         <p style="font-size: 16px; color: ${textMuted}; margin: 0 0 6px 0;">Talk soon,</p>
-                                        <p style="font-size: 18px; font-weight: 800; color: ${textDark}; margin: 0; letter-spacing: -0.3px;">Yasser Sultan</p>
+                                        <p style="font-size: 18px; font-weight: 800; color: ${textDark}; margin: 0; letter-spacing: -0.3px;">Yasir Sultan</p>
+                                        <p style="font-size: 14px; font-weight: 500; color: ${textMuted}; margin: 0;">Founder, Zen Focus Media</p>
                                     </td>
                                 </tr>
                             </table>
@@ -113,6 +114,38 @@ export function renderHtml(firstName: string, lines: string[]): string {
 // All templates defined with their trigger time (in hours relative to event)
 // e.g. positive = before event, negative = after event
 const templates = [
+    // --- IMMEDIATE WELCOME EMAIL ---
+    {
+        id: "immediate_welcome", triggerHours: 999999, subject: "You're In! Your Workshop Registration Is Confirmed",
+        body: [
+            "You're officially registered.",
+            "On June 14th, I'll be breaking down how we helped a clothing brand add $1.2 million in revenue in 13 months—and more importantly, the exact process we used to identify the bottlenecks that were preventing growth in the first place.",
+            "Workshop Details:",
+            "<b>Date:</b> June 14, 2026",
+            "<b>Time:</b> 3PM EST",
+            "<a href=\"[Registration Link]\">Click here to Join the Google Meet</a>",
+            "",
+            "Before we meet, I'd like you to think about one question:",
+            "What's the biggest thing currently preventing your brand from growing?",
+            "Most brand owners immediately answer:",
+            "\"More traffic.\"",
+            "\"Better ads.\"",
+            "\"More content.\"",
+            "\"More followers.\"",
+            "But after auditing hundreds of clothing brands, I've noticed something interesting:",
+            "Most brands don't struggle because they're missing tactics.",
+            "They struggle because they're solving the wrong problem.",
+            "The brands that scale consistently aren't necessarily working harder.",
+            "They're simply focusing on the right bottleneck at the right time.",
+            "During this workshop, I'll walk you through the same root cause analysis framework we used to identify the constraint limiting growth for a clothing brand that eventually went on to add $1.2 million in revenue.",
+            "My goal isn't to give you another list of marketing tactics.",
+            "My goal is to help you gain clarity on what actually deserves your attention next.",
+            "In the meantime, add the workshop to your calendar and set a reminder now.",
+            "<a href=\"[Calendar Link]\">Add to Google Calendar</a>",
+            "I look forward to seeing you there."
+        ]
+    },
+    
     // --- PRE-WEBINAR EMAILS ---
     {
         id: "pre_7d", triggerHours: 168, subject: "They lied to you about scaling clothing brands...",
@@ -469,11 +502,21 @@ const templates = [
 ];
 
 export function getPendingEmail(sentEmailIds: string[], hoursUntilEvent: number, firstName: string): EmailData | null {
-    // Sort templates: we want to trigger the ones that are closest to current time, but their trigger time has already passed.
+    // 1. Always prioritize the immediate welcome email if it hasn't been sent yet.
+    const immediateTemplate = templates.find(t => t.id === "immediate_welcome");
+    if (immediateTemplate && !sentEmailIds.includes(immediateTemplate.id)) {
+        return {
+            id: immediateTemplate.id,
+            subject: immediateTemplate.subject,
+            html: renderHtml(firstName, immediateTemplate.body)
+        };
+    }
+
+    // Sort remaining timeline templates: we want to trigger the ones that are closest to current time, but their trigger time has already passed.
     // That means triggerHours >= hoursUntilEvent (for pre-event emails, say it's 70 hours until event. triggerHours 72 means the 72h email is eligible).
 
-    // Let's filter all eligible templates:
-    const eligibleTemplates = templates.filter(t => t.triggerHours >= hoursUntilEvent);
+    // Let's filter all eligible templates (excluding immediate_welcome):
+    const eligibleTemplates = templates.filter(t => t.triggerHours >= hoursUntilEvent && t.id !== "immediate_welcome");
 
     // Pick the one with the smallest triggerHours (the closest to the current time, so the newest)
     eligibleTemplates.sort((a, b) => a.triggerHours - b.triggerHours);
