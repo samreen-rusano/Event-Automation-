@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { connectDB } from "@/lib/db";
 import User from "@/models/user";
 import { transporter } from "@/lib/mailer";

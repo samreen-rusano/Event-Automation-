@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { connectDB } from "@/lib/db";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
@@ -23,7 +25,7 @@ export async function POST() {
     const doc = await Counter.findOneAndUpdate(
         { key: "visitors" },
         { $inc: { count: 1 } },
-        { upsert: true, returnDocument: "after" }
+        { upsert: true, new: true }
     );
     return NextResponse.json({ count: doc.count });
 }

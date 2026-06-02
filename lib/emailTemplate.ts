@@ -471,18 +471,6 @@ const templates = [
 export function getPendingEmail(sentEmailIds: string[], hoursUntilEvent: number, firstName: string): EmailData | null {
     // Sort templates: we want to trigger the ones that are closest to current time, but their trigger time has already passed.
     // That means triggerHours >= hoursUntilEvent (for pre-event emails, say it's 70 hours until event. triggerHours 72 means the 72h email is eligible).
-    // Wait, the logic:
-    // Event is AT `eventTime`. Current time is `currentTime`.
-    // hoursUntilEvent = (eventTime - currentTime)
-    // If we are 120 hours before event, `pre_5d` (trigger: 120) becomes eligible.
-    // If we are 119 hours before event, `pre_5d` is still eligible until the next one.
-    // So if triggerHours >= hoursUntilEvent, it's eligible.
-    // We want the **most recent** eligible one (smallest triggerHours that is >= hoursUntilEvent is wrong, because smallest triggerHours could be 0, which is later).
-    // Wait! As time passes, hoursUntilEvent decreases. 
-    // Example: 
-    // hoursUntilEvent = 120 -> pre_5d (120) is eligible.
-    // hoursUntilEvent = 119 -> pre_5d (120), pre_7d (168) are both mathematically triggerHours >= hoursUntilEvent.
-    // The most recent one is the one with the SMALLER triggerHours among the eligible ones.
 
     // Let's filter all eligible templates:
     const eligibleTemplates = templates.filter(t => t.triggerHours >= hoursUntilEvent);
@@ -490,12 +478,15 @@ export function getPendingEmail(sentEmailIds: string[], hoursUntilEvent: number,
     // Pick the one with the smallest triggerHours (the closest to the current time, so the newest)
     eligibleTemplates.sort((a, b) => a.triggerHours - b.triggerHours);
 
-    for (const template of eligibleTemplates) {
-        if (!sentEmailIds.includes(template.id)) {
+    // Only send the SINGLE most recent eligible email. If they just registered, we don't want to send them 
+    // older backlog emails (e.g., sending a "7 days left" email when there are only 3 days left).
+    if (eligibleTemplates.length > 0) {
+        const mostRecentTemplate = eligibleTemplates[0];
+        if (!sentEmailIds.includes(mostRecentTemplate.id)) {
             return {
-                id: template.id,
-                subject: template.subject,
-                html: renderHtml(firstName, template.body)
+                id: mostRecentTemplate.id,
+                subject: mostRecentTemplate.subject,
+                html: renderHtml(firstName, mostRecentTemplate.body)
             };
         }
     }
