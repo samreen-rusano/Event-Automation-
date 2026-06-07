@@ -112,6 +112,18 @@ export default function WorkshopLandingPage() {
       setError("Please fill in all fields.");
       return;
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    const phoneRegex = /^\+?[\d\s\-()]{7,20}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      setError("Please enter a valid phone number.");
+      return;
+    }
     setError("");
     setLoading(true);
 

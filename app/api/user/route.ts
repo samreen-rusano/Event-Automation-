@@ -10,6 +10,20 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
+    if (!body.name || !body.email || !body.phone) {
+        return NextResponse.json({ error: "Please fill in all fields." }, { status: 400 });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(body.email)) {
+        return NextResponse.json({ error: "Please enter a valid email address." }, { status: 400 });
+    }
+
+    const phoneRegex = /^\+?[\d\s\-()]{7,20}$/;
+    if (!phoneRegex.test(body.phone)) {
+        return NextResponse.json({ error: "Please enter a valid phone number." }, { status: 400 });
+    }
+
     try {
         const user = await User.findOneAndUpdate(
             { email: body.email },
