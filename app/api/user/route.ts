@@ -10,7 +10,7 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    if (!body.name || !body.email || !body.phone) {
+    if (!body.name || !body.email || !body.phone || !body.website) {
         return NextResponse.json({ error: "Please fill in all fields." }, { status: 400 });
     }
 
@@ -31,6 +31,7 @@ export async function POST(req: Request) {
                 $set: {
                     name: body.name,
                     phone: body.phone,
+                    website: body.website,
                     isPaid: true,
                 },
                 $setOnInsert: {

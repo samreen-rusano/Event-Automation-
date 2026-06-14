@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema({
     name: { type: String },
     email: { type: String, required: true, unique: true },
     phone: { type: String },
+    website: { type: String, required: true },
     registeredAt: { type: Date, default: Date.now },
     isPaid: { type: Boolean, default: false },
     lastEmailType: String,

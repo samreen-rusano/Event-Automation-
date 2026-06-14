@@ -24,7 +24,7 @@ const CheckIcon = () => (
 );
 
 export default function WorkshopLandingPage() {
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", website: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -108,7 +108,7 @@ export default function WorkshopLandingPage() {
 
   const handleFreeRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.website) {
       setError("Please fill in all fields.");
       return;
     }
@@ -413,6 +413,14 @@ export default function WorkshopLandingPage() {
                   placeholder="Phone Number..."
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="bg-gray-50 border-gray-300 h-13 text-[15px] rounded-xl focus-visible:ring-[#F46F00] focus-visible:border-[#F46F00]"
+                />
+                <Input
+                  type="url"
+                  required
+                  placeholder="Website URL... (e.g. https://yourbrand.com)"
+                  value={formData.website}
+                  onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                   className="bg-gray-50 border-gray-300 h-13 text-[15px] rounded-xl focus-visible:ring-[#F46F00] focus-visible:border-[#F46F00]"
                 />
                 <Button
