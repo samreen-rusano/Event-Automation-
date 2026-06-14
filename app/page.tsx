@@ -174,7 +174,7 @@ export default function WorkshopLandingPage() {
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 flex flex-col items-center">
         {/* Date Banner */}
         <div className="w-full max-w-[1000px] bg-gradient-to-r from-[#F46F00] to-[#E34200] text-white font-extrabold text-[12px] sm:text-[14px] md:text-[18px] py-3 px-4 rounded-xl mb-6 text-center uppercase tracking-wider shadow-lg leading-tight animate-pulse">
-          ONLINE MASTERCLASS — June 14, 2026 | 3PM EST
+          ONLINE MASTERCLASS - JUNE 25, 2026 | 3PM EST (TORONTO)
         </div>
 
         {/* Live Visitor Counter */}
@@ -192,11 +192,11 @@ export default function WorkshopLandingPage() {
         <div className="text-center w-full max-w-[1000px] mb-8 md:mb-12">
           <h1 className="text-[28px] sm:text-4xl md:text-[52px] font-black leading-[1.15] text-[#f8fafc] tracking-tight">
             <span className="block mb-4 text-[#F46F00] uppercase tracking-normal">
-              How We Helped a Clothing Brand Add $1.2 Million in Revenue in 13 Months
+              How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad
             </span>
           </h1>
           <p className="text-[17px] sm:text-[20px] md:text-[24px] font-normal text-gray-300 leading-relaxed max-w-[850px] mx-auto border-t border-gray-700/50 pt-6">
-            A live breakdown of the root cause analysis, scaling mistakes, growth strategy, and customer acquisition system that helped a clothing brand grow from $35k/month to consistent $100k+ months.
+            Discover The One Viral Ad Framework That Helped A Streetwear Brand Sell 153 Hoodies And Generate $7,650 In Sales In Just 30 Days With Only $965 In Ad Spend.
           </p>
         </div>
 
@@ -223,9 +223,8 @@ export default function WorkshopLandingPage() {
             <div className="flex items-start gap-4 p-5 rounded-xl bg-[#162228]/50 border border-gray-700/20 hover:border-[#F46F00]/30 transition-all duration-300">
               <BulletIcon num={1} />
               <div>
-                <h4 className="font-extrabold text-[#F46F00] text-[17px] md:text-[19px] mb-2 leading-snug">Why Most Clothing Brands Stay Stuck for Years</h4>
                 <p className="text-gray-300 text-[14px] md:text-[15px]">
-                  Discover the root cause analysis process we used to identify the exact bottleneck limiting growth—and why fixing that bottleneck created more impact than spending more on ads, content, or influencers.
+                  <strong>Discover How To Create One Viral Ad</strong> That Sells Out Your Next Drop In 30 Days Without Wasting Money On Guesswork.
                 </p>
               </div>
             </div>
@@ -234,9 +233,8 @@ export default function WorkshopLandingPage() {
             <div className="flex items-start gap-4 p-5 rounded-xl bg-[#162228]/50 border border-gray-700/20 hover:border-[#F46F00]/30 transition-all duration-300">
               <BulletIcon num={2} />
               <div>
-                <h4 className="font-extrabold text-[#F46F00] text-[17px] md:text-[19px] mb-2 leading-snug">How to Define a Clear Vision, Purpose, and Growth Targets</h4>
                 <p className="text-gray-300 text-[14px] md:text-[15px]">
-                  Learn why our client spent years running in circles chasing tactics, and how defining a clear destination made every marketing decision simpler, faster, and more effective.
+                  <strong>Learn the proven One Viral Ad Method</strong> that helped a streetwear brand generate $7,650 in sales from just $965 in ad spend in 30 days.
                 </p>
               </div>
             </div>
@@ -245,9 +243,8 @@ export default function WorkshopLandingPage() {
             <div className="flex items-start gap-4 p-5 rounded-xl bg-[#162228]/50 border border-gray-700/20 hover:border-[#F46F00]/30 transition-all duration-300">
               <BulletIcon num={3} />
               <div>
-                <h4 className="font-extrabold text-[#F46F00] text-[17px] md:text-[19px] mb-2 leading-snug">How to Build a Customer Acquisition System That Supports Your Goals</h4>
                 <p className="text-gray-300 text-[14px] md:text-[15px]">
-                  See how we mapped out the path from $35k/month to $100k+ months by aligning offers, messaging, customer acquisition, and business objectives into one cohesive growth strategy.
+                  <strong>Finally overcome inconsistent sales</strong> with a step-by-step process that works even if you have no audience and limited budget.
                 </p>
               </div>
             </div>
@@ -256,9 +253,38 @@ export default function WorkshopLandingPage() {
             <div className="flex items-start gap-4 p-5 rounded-xl bg-[#162228]/50 border border-gray-700/20 hover:border-[#F46F00]/30 transition-all duration-300">
               <BulletIcon num={4} />
               <div>
-                <h4 className="font-extrabold text-[#F46F00] text-[17px] md:text-[19px] mb-2 leading-snug">How to Execute, Measure, and Unlock More Profit in the Next 90 Days</h4>
                 <p className="text-gray-300 text-[14px] md:text-[15px]">
-                  Discover the metrics, testing process, and optimization framework we used to continuously improve performance without relying on guesswork, trends, or constant reinvention.
+                  <strong>Learn the hidden psychology behind viral ads</strong> that most streetwear founders never discover—giving you a significant advantage over your competition.
+                </p>
+              </div>
+            </div>
+
+            {/* Learn Block 5 */}
+            <div className="flex items-start gap-4 p-5 rounded-xl bg-[#162228]/50 border border-gray-700/20 hover:border-[#F46F00]/30 transition-all duration-300">
+              <BulletIcon num={5} />
+              <div>
+                <p className="text-gray-300 text-[14px] md:text-[15px]">
+                  <strong>Walk away with the 7-Step One Viral Ad Framework</strong> you can implement in just 60 minutes to sell out your next drop in 30 days.
+                </p>
+              </div>
+            </div>
+
+            {/* Learn Block 6 */}
+            <div className="flex items-start gap-4 p-5 rounded-xl bg-[#162228]/50 border border-gray-700/20 hover:border-[#F46F00]/30 transition-all duration-300">
+              <BulletIcon num={6} />
+              <div>
+                <p className="text-gray-300 text-[14px] md:text-[15px]">
+                  <strong>Benefit from analyzing over 10,000 e-commerce ads</strong> as you learn exactly what generates qualified attention—and what to avoid—to create a viral ad that sells out your next drop.
+                </p>
+              </div>
+            </div>
+
+            {/* Learn Block 7 */}
+            <div className="flex items-start gap-4 p-5 rounded-xl bg-[#162228]/50 border border-gray-700/20 hover:border-[#F46F00]/30 transition-all duration-300 md:col-span-2">
+              <BulletIcon num={7} />
+              <div>
+                <p className="text-gray-300 text-[14px] md:text-[15px]">
+                  <strong>Eliminate the fear of wasting money on ads that don't work</strong> by learning how to find a viral ad that sells out your next drop profitably.
                 </p>
               </div>
             </div>
@@ -280,7 +306,10 @@ export default function WorkshopLandingPage() {
         {/* Note Box */}
         <div className="w-full md:w-[1000px] bg-[#162228] border-2 border-dashed border-[#F46F00]/60 p-6 md:p-8 rounded-2xl shadow-xl mb-12 backdrop-blur-md">
           <p className="text-[15px] md:text-[18px] leading-relaxed text-center text-gray-200">
-            <span className="text-[#F46F00] font-black tracking-wide uppercase mr-2">NOTE:</span> This workshop is FREE for fashion brand owners who are serious about scaling profitably and stepping into a true leadership role. The framework is built on years of experience and proven results across dozens of brands.
+            <span className="text-[#F46F00] font-black tracking-wide uppercase mr-2">NOTE:</span> This workshop is FREE for streetwear brand owners who are serious about selling out their next drop without guesswork, endless content creation, or wasting money on ads that don't work.
+            <br className="hidden md:block" />
+            <br className="hidden md:block" />
+            The framework is built on years of experience and proven results across dozens of brands.
           </p>
         </div>
 
@@ -416,10 +445,32 @@ export default function WorkshopLandingPage() {
           Your information is 100% secure and will not be shared.
         </p>
 
-        {/* YOUR TIME IS VALUABLE (Worst Case, Best Case, Only Risk) */}
+        {/* HOW IT WORKS */}
+        <div className="w-full md:max-w-[1000px] mx-auto mb-16 px-4 py-8 bg-[#45606D]/10 rounded-2xl border border-gray-700/30 backdrop-blur-sm">
+          <h2 className="text-[24px] sm:text-[28px] md:text-[36px] font-black text-center mb-10 text-white tracking-tight flex items-center justify-center gap-3">
+            HOW IT WORKS
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center text-[15px] sm:text-[17px] text-gray-200">
+            <div className="flex flex-col items-center gap-4 p-6 rounded-xl bg-[#162228]/50 border border-gray-700/20 hover:border-[#F46F00]/30 transition-all duration-300">
+              <div className="w-12 h-12 bg-gradient-to-r from-[#F46F00] to-[#E34200] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg shrink-0">1</div>
+              <p className="font-semibold text-gray-300">Register now and receive access details. Can't make it live? A replay will be available for 48 hours.</p>
+            </div>
+            <div className="flex flex-col items-center gap-4 p-6 rounded-xl bg-[#162228]/50 border border-gray-700/20 hover:border-[#F46F00]/30 transition-all duration-300">
+              <div className="w-12 h-12 bg-gradient-to-r from-[#F46F00] to-[#E34200] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg shrink-0">2</div>
+              <p className="font-semibold text-gray-300">Participate in the interactive session where you can ask questions and get personalized insights.</p>
+            </div>
+            <div className="flex flex-col items-center gap-4 p-6 rounded-xl bg-[#162228]/50 border border-gray-700/20 hover:border-[#F46F00]/30 transition-all duration-300">
+              <div className="w-12 h-12 bg-gradient-to-r from-[#F46F00] to-[#E34200] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg shrink-0">3</div>
+              <p className="font-semibold text-gray-300">Apply what you learn and watch as your results improve dramatically.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* YOUR DECISION IS RISK-FREE */}
         <div className="w-full md:w-[1100px] bg-white text-black p-6 sm:p-10 md:p-16 rounded-2xl shadow-[0_15px_50px_rgba(0,0,0,0.3)] mb-16 flex flex-col items-center border border-gray-100">
           <h2 className="text-[26px] md:text-[38px] font-black mb-4 text-center tracking-tight text-gray-900 uppercase">
-            YOUR TIME IS VALUABLE
+            YOUR DECISION IS RISK-FREE
           </h2>
           <p className="text-gray-500 text-[15px] sm:text-[17px] mb-12 text-center font-medium max-w-[650px]">
             Here is a realistic look at the trade-off of spending an hour with us:
@@ -433,7 +484,7 @@ export default function WorkshopLandingPage() {
               </div>
               <div className="p-6 sm:p-8 bg-white text-center">
                 <p className="text-gray-800 text-[15px] md:text-[18px] leading-relaxed font-semibold">
-                  You spend an hour with us and walk away with a clearer understanding of what's actually limiting growth in your business—and a few practical ideas you can implement immediately.
+                  You spend an hour with us and walk away with a clearer understanding of why your drops aren't generating the demand you expected—and a practical framework you can apply to your next launch.
                 </p>
               </div>
             </div>
@@ -445,7 +496,7 @@ export default function WorkshopLandingPage() {
               </div>
               <div className="p-6 sm:p-8 bg-white text-center">
                 <p className="text-gray-800 text-[15px] md:text-[18px] leading-relaxed font-semibold">
-                  You uncover the biggest bottleneck holding your brand back and learn the same growth principles that helped a clothing brand add $1.2M in revenue in 13 months.
+                  You discover how to create a viral ad capable of selling out your next drop, generating the cash flow needed to fund future collections and grow your brand without relying on luck or guesswork.
                 </p>
               </div>
             </div>
@@ -457,7 +508,7 @@ export default function WorkshopLandingPage() {
               </div>
               <div className="p-6 sm:p-8 bg-white text-center">
                 <p className="text-gray-800 text-[15px] md:text-[18px] leading-relaxed font-semibold">
-                  Continuing to guess what's limiting growth when the answer may be simpler than you think.
+                  Launching another drop without a proven framework to identify winning ad ideas before you spend money testing them.
                 </p>
               </div>
             </div>
@@ -476,10 +527,10 @@ export default function WorkshopLandingPage() {
             <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
               <div
                 className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
-                onClick={() => setPreviewImage("/5.png")}
+                onClick={() => setPreviewImage("/6.png")}
               >
                 <Image
-                  src="/5.png"
+                  src="/6.png"
                   alt="Proof Case Study 1"
                   width={1000}
                   height={1000}
@@ -490,23 +541,27 @@ export default function WorkshopLandingPage() {
               <div className="px-1 text-left flex-1 flex flex-col">
                 <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case study 1</span>
                 <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
-                  We helped a Clothing Brand Owner Add $1.2M to His Brand in 13 Months
+                  We helped a streetwear brand owner sell 153 hoodies in 30 days with one viral ad.
                 </h4>
-                <p className="text-[13px] md:text-[14px] text-gray-500 font-bold mb-3">This success helped him:</p>
-                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-2 flex-1">
-                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
-                    Generate 50,000+ orders in 2 years
-                  </li>
-                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
-                    Build an in-house manufacturing team providing stable employment
-                  </li>
-                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
-                    Pay designers full-time income
-                  </li>
-                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
-                    Partner with long-term shipment companies & become Assassin’s Creed official merchandise partner
-                  </li>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">SUMMARY</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-1 mb-4">
+                  <li>• Daily Ad Spend: ~$30/day</li>
+                  <li>• Total Ad Spend: $965</li>
+                  <li>• Average Order Value: $50</li>
+                  <li>• Units Sold: 153 Hoodies</li>
+                  <li>• Total Revenue Generated: $7,650</li>
+                  <li>• Cash Remaining After Ad Spend: $6,685</li>
                 </ul>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">CONCLUSION</p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  Instead of relying on luck, endless content creation, or guessing what might work, the brand used a single viral ad to generate enough demand to sell 153 hoodies in 30 days while spending only $965 on advertising.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  This generated the cash flow needed to fund future growth from the brand's own profits—without relying on loans, investors, or risky financial decisions.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                  Thanks to the additional cash flow, the brand was able to reinvest into the business, delegate responsibilities, and spend more time focusing on growth rather than handling every task alone.
+                </p>
               </div>
             </div>
 
@@ -514,11 +569,55 @@ export default function WorkshopLandingPage() {
             <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
               <div
                 className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/5.png")}
+              >
+                <Image
+                  src="/5.png"
+                  alt="Proof Case Study 2"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 2</span>
+                <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                  We helped the streetwear brand convert the profits into $1.2 million in the next 15 months.
+                </h4>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-4">
+                  Instead of withdrawing the profits, the brand reinvested the cash flow generated from the viral ad back into larger advertising campaigns.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-3">This Success Allowed The Brand To:</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-2 flex-1">
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Generate 50,000+ orders over a 2-year period
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Build an in-house manufacturing team that provided stable employment opportunities
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Pay designers a full-time income
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Establish long-term partnerships with shipping providers
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Become an official merchandise partner for the video game franchise Assassin's Creed
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Case Study 3 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
                 onClick={() => setPreviewImage("/3.png")}
               >
                 <Image
                   src="/3.png"
-                  alt="Proof Case Study 2"
+                  alt="Proof Case Study 3"
                   width={1000}
                   height={1000}
                   className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
@@ -527,7 +626,7 @@ export default function WorkshopLandingPage() {
               </div>
               <div className="px-1 text-left flex-1 flex flex-col justify-between">
                 <div>
-                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 2</span>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 3</span>
                   <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
                     Consulted and audited over 300+ Clothing brands
                   </h4>
@@ -537,10 +636,8 @@ export default function WorkshopLandingPage() {
                 </p>
               </div>
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Case Study 3 */}
+            {/* Case Study 4 */}
             <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
               <div
                 className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
@@ -548,7 +645,7 @@ export default function WorkshopLandingPage() {
               >
                 <Image
                   src="/1.png"
-                  alt="Proof Case Study 3"
+                  alt="Proof Case Study 4"
                   width={800}
                   height={800}
                   className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
@@ -556,7 +653,7 @@ export default function WorkshopLandingPage() {
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
               </div>
               <div className="px-1 text-left flex-1 flex flex-col">
-                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 3</span>
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 4</span>
                 <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-3">
                   Over 100 Satisfied eCommerce Clients and Counting
                 </h4>
@@ -569,7 +666,7 @@ export default function WorkshopLandingPage() {
                     Top Rated in the top 3% of marketers
                   </li>
                   <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
-                    10 Video Testimonials from 6 and 7 Figure eCommerce business owners.
+                    10 Video Testimonials from eCommerce business owners.
                   </li>
                   <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
                     Dozens of written text testimonials from eCommerce business Owners
@@ -581,7 +678,7 @@ export default function WorkshopLandingPage() {
               </div>
             </div>
 
-            {/* Case Study 4 */}
+            {/* Case Study 5 */}
             <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
               <div
                 className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
@@ -589,7 +686,7 @@ export default function WorkshopLandingPage() {
               >
                 <Image
                   src="/4.png"
-                  alt="Proof Case Study 4"
+                  alt="Proof Case Study 5"
                   width={800}
                   height={800}
                   className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
@@ -598,7 +695,7 @@ export default function WorkshopLandingPage() {
               </div>
               <div className="px-1 text-left flex-1 flex flex-col justify-between">
                 <div>
-                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 4</span>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 5</span>
                   <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
                     I spoke about our marketing success at a 7 figure business owners scaling event
                   </h4>
@@ -609,7 +706,7 @@ export default function WorkshopLandingPage() {
               </div>
             </div>
 
-            {/* Case Study 5 */}
+            {/* Case Study 6 */}
             <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
               <div
                 className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
@@ -617,7 +714,7 @@ export default function WorkshopLandingPage() {
               >
                 <Image
                   src="/2.png"
-                  alt="Proof Case Study 5"
+                  alt="Proof Case Study 6"
                   width={800}
                   height={800}
                   className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
@@ -625,7 +722,7 @@ export default function WorkshopLandingPage() {
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
               </div>
               <div className="px-1 text-left flex-1 flex flex-col">
-                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 5</span>
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 6</span>
                 <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
                   Proof of My personal success from running my own eCommerce marketing agency
                 </h4>
