@@ -535,10 +535,10 @@ export default function WorkshopLandingPage() {
             <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
               <div
                 className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
-                onClick={() => setPreviewImage("/5.png")}
+                onClick={() => setPreviewImage("/2.png")}
               >
                 <Image
-                  src="/5.png"
+                  src="/2.png"
                   alt="Proof Case Study 2"
                   width={1000}
                   height={1000}
@@ -607,10 +607,10 @@ export default function WorkshopLandingPage() {
             <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
               <div
                 className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
-                onClick={() => setPreviewImage("/4.png")}
+                onClick={() => setPreviewImage("/5.png")}
               >
                 <Image
-                  src="/4.png"
+                  src="/5.png"
                   alt="Proof Case Study 5"
                   width={800}
                   height={800}
@@ -635,10 +635,10 @@ export default function WorkshopLandingPage() {
             <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
               <div
                 className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
-                onClick={() => setPreviewImage("/1.png")}
+                onClick={() => setPreviewImage("/4.png")}
               >
                 <Image
-                  src="/1.png"
+                  src="/4.png"
                   alt="Proof Case Study 4"
                   width={800}
                   height={800}
@@ -676,10 +676,10 @@ export default function WorkshopLandingPage() {
             <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
               <div
                 className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
-                onClick={() => setPreviewImage("/2.png")}
+                onClick={() => setPreviewImage("/6.png")}
               >
                 <Image
-                  src="/2.png"
+                  src="/6.png"
                   alt="Proof Case Study 6"
                   width={800}
                   height={800}
@@ -707,10 +707,10 @@ export default function WorkshopLandingPage() {
             <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
               <div
                 className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
-                onClick={() => setPreviewImage("/6.png")}
+                onClick={() => setPreviewImage("/1.png")}
               >
                 <Image
-                  src="/6.png"
+                  src="/1.png"
                   alt="Proof Case Study 1"
                   width={1000}
                   height={1000}
