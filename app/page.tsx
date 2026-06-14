@@ -416,13 +416,14 @@ export default function WorkshopLandingPage() {
                   className="bg-gray-50 border-gray-300 h-13 text-[15px] rounded-xl focus-visible:ring-[#F46F00] focus-visible:border-[#F46F00]"
                 />
                 <Input
-                  type="url"
+                  type="text"
                   required
-                  placeholder="Website URL... (e.g. https://yourbrand.com)"
+                  placeholder="Website URL... (e.g. yourbrand.com)"
                   value={formData.website}
                   onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                   className="bg-gray-50 border-gray-300 h-13 text-[15px] rounded-xl focus-visible:ring-[#F46F00] focus-visible:border-[#F46F00]"
                 />
+
                 <Button
                   type="submit"
                   disabled={loading}
@@ -745,6 +746,1082 @@ export default function WorkshopLandingPage() {
                 </ul>
               </div>
             </div>
+          </div>
+            {/* Case Study 2 */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/6.png")}
+              >
+                <Image
+                  src="/6.png"
+                  alt="Proof Case Study 1"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case study 1</span>
+                <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                  We helped a streetwear brand owner sell 153 hoodies in 30 days with one viral ad.
+                </h4>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">SUMMARY</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-1 mb-4">
+                  <li>• Daily Ad Spend: ~$30/day</li>
+                  <li>• Total Ad Spend: $965</li>
+                  <li>• Average Order Value: $50</li>
+                  <li>• Units Sold: 153 Hoodies</li>
+                  <li>• Total Revenue Generated: $7,650</li>
+                  <li>• Cash Remaining After Ad Spend: $6,685</li>
+                </ul>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">CONCLUSION</p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  Instead of relying on luck, endless content creation, or guessing what might work, the brand used a single viral ad to generate enough demand to sell 153 hoodies in 30 days while spending only $965 on advertising.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  This generated the cash flow needed to fund future growth from the brand's own profits—without relying on loans, investors, or risky financial decisions.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                  Thanks to the additional cash flow, the brand was able to reinvest into the business, delegate responsibilities, and spend more time focusing on growth rather than handling every task alone.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 2 */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/5.png")}
+              >
+                <Image
+                  src="/5.png"
+                  alt="Proof Case Study 2"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 2</span>
+                <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                  We helped the streetwear brand convert the profits into $1.2 million in the next 15 months.
+                </h4>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-4">
+                  Instead of withdrawing the profits, the brand reinvested the cash flow generated from the viral ad back into larger advertising campaigns.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-3">This Success Allowed The Brand To:</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-2 flex-1">
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Generate 50,000+ orders over a 2-year period
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Build an in-house manufacturing team that provided stable employment opportunities
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Pay designers a full-time income
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Establish long-term partnerships with shipping providers
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Become an official merchandise partner for the video game franchise Assassin's Creed
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Case Study 3 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/3.png")}
+              >
+                <Image
+                  src="/3.png"
+                  alt="Proof Case Study 3"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 3</span>
+                  <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                    Consulted and audited over 300+ Clothing brands
+                  </h4>
+                </div>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                  Helping countless brand owners identify critical bottlenecks and architect scalable growth systems tailored for their massive success.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 4 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/1.png")}
+              >
+                <Image
+                  src="/1.png"
+                  alt="Proof Case Study 4"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 4</span>
+                <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-3">
+                  Over 100 Satisfied eCommerce Clients and Counting
+                </h4>
+                <p className="text-[12px] text-gray-400 font-bold mb-2">Includes:</p>
+                <ul className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium space-y-1.5 flex-1">
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    50+ Verified 5-Star Testimonials on Upwork
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Top Rated in the top 3% of marketers
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    10 Video Testimonials from eCommerce business owners.
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Dozens of written text testimonials from eCommerce business Owners
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    $25M generated for clients in 15 different eCommerce niches
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Case Study 5 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/4.png")}
+              >
+                <Image
+                  src="/4.png"
+                  alt="Proof Case Study 5"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 5</span>
+                  <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
+                    I spoke about our marketing success at a 7 figure business owners scaling event
+                  </h4>
+                </div>
+                <p className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium">
+                  Sharing battle-tested frameworks stage-side with elite founders, dissecting the exact strategies that scale from 6 and 7 figures to 8 figures in record time.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 6 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/2.png")}
+              >
+                <Image
+                  src="/2.png"
+                  alt="Proof Case Study 6"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 6</span>
+                <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
+                  Proof of My personal success from running my own eCommerce marketing agency
+                </h4>
+                <p className="text-[12px] text-gray-400 font-bold mb-2">This helped us:</p>
+                <ul className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium space-y-1.5 flex-1">
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Generate over $800K for my business at 80% profit margin ($200K/year)
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Dozens of paying clients every year
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+            {/* Case Study 3 */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/6.png")}
+              >
+                <Image
+                  src="/6.png"
+                  alt="Proof Case Study 1"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case study 1</span>
+                <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                  We helped a streetwear brand owner sell 153 hoodies in 30 days with one viral ad.
+                </h4>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">SUMMARY</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-1 mb-4">
+                  <li>• Daily Ad Spend: ~$30/day</li>
+                  <li>• Total Ad Spend: $965</li>
+                  <li>• Average Order Value: $50</li>
+                  <li>• Units Sold: 153 Hoodies</li>
+                  <li>• Total Revenue Generated: $7,650</li>
+                  <li>• Cash Remaining After Ad Spend: $6,685</li>
+                </ul>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">CONCLUSION</p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  Instead of relying on luck, endless content creation, or guessing what might work, the brand used a single viral ad to generate enough demand to sell 153 hoodies in 30 days while spending only $965 on advertising.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  This generated the cash flow needed to fund future growth from the brand's own profits—without relying on loans, investors, or risky financial decisions.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                  Thanks to the additional cash flow, the brand was able to reinvest into the business, delegate responsibilities, and spend more time focusing on growth rather than handling every task alone.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 2 */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/5.png")}
+              >
+                <Image
+                  src="/5.png"
+                  alt="Proof Case Study 2"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 2</span>
+                <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                  We helped the streetwear brand convert the profits into $1.2 million in the next 15 months.
+                </h4>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-4">
+                  Instead of withdrawing the profits, the brand reinvested the cash flow generated from the viral ad back into larger advertising campaigns.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-3">This Success Allowed The Brand To:</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-2 flex-1">
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Generate 50,000+ orders over a 2-year period
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Build an in-house manufacturing team that provided stable employment opportunities
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Pay designers a full-time income
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Establish long-term partnerships with shipping providers
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Become an official merchandise partner for the video game franchise Assassin's Creed
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Case Study 3 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/3.png")}
+              >
+                <Image
+                  src="/3.png"
+                  alt="Proof Case Study 3"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 3</span>
+                  <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                    Consulted and audited over 300+ Clothing brands
+                  </h4>
+                </div>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                  Helping countless brand owners identify critical bottlenecks and architect scalable growth systems tailored for their massive success.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 4 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/1.png")}
+              >
+                <Image
+                  src="/1.png"
+                  alt="Proof Case Study 4"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 4</span>
+                <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-3">
+                  Over 100 Satisfied eCommerce Clients and Counting
+                </h4>
+                <p className="text-[12px] text-gray-400 font-bold mb-2">Includes:</p>
+                <ul className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium space-y-1.5 flex-1">
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    50+ Verified 5-Star Testimonials on Upwork
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Top Rated in the top 3% of marketers
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    10 Video Testimonials from eCommerce business owners.
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Dozens of written text testimonials from eCommerce business Owners
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    $25M generated for clients in 15 different eCommerce niches
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Case Study 5 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/4.png")}
+              >
+                <Image
+                  src="/4.png"
+                  alt="Proof Case Study 5"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 5</span>
+                  <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
+                    I spoke about our marketing success at a 7 figure business owners scaling event
+                  </h4>
+                </div>
+                <p className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium">
+                  Sharing battle-tested frameworks stage-side with elite founders, dissecting the exact strategies that scale from 6 and 7 figures to 8 figures in record time.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 6 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/2.png")}
+              >
+                <Image
+                  src="/2.png"
+                  alt="Proof Case Study 6"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 6</span>
+                <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
+                  Proof of My personal success from running my own eCommerce marketing agency
+                </h4>
+                <p className="text-[12px] text-gray-400 font-bold mb-2">This helped us:</p>
+                <ul className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium space-y-1.5 flex-1">
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Generate over $800K for my business at 80% profit margin ($200K/year)
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Dozens of paying clients every year
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+            {/* Case Study 4 */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/6.png")}
+              >
+                <Image
+                  src="/6.png"
+                  alt="Proof Case Study 1"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case study 1</span>
+                <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                  We helped a streetwear brand owner sell 153 hoodies in 30 days with one viral ad.
+                </h4>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">SUMMARY</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-1 mb-4">
+                  <li>• Daily Ad Spend: ~$30/day</li>
+                  <li>• Total Ad Spend: $965</li>
+                  <li>• Average Order Value: $50</li>
+                  <li>• Units Sold: 153 Hoodies</li>
+                  <li>• Total Revenue Generated: $7,650</li>
+                  <li>• Cash Remaining After Ad Spend: $6,685</li>
+                </ul>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">CONCLUSION</p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  Instead of relying on luck, endless content creation, or guessing what might work, the brand used a single viral ad to generate enough demand to sell 153 hoodies in 30 days while spending only $965 on advertising.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  This generated the cash flow needed to fund future growth from the brand's own profits—without relying on loans, investors, or risky financial decisions.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                  Thanks to the additional cash flow, the brand was able to reinvest into the business, delegate responsibilities, and spend more time focusing on growth rather than handling every task alone.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 2 */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/5.png")}
+              >
+                <Image
+                  src="/5.png"
+                  alt="Proof Case Study 2"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 2</span>
+                <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                  We helped the streetwear brand convert the profits into $1.2 million in the next 15 months.
+                </h4>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-4">
+                  Instead of withdrawing the profits, the brand reinvested the cash flow generated from the viral ad back into larger advertising campaigns.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-3">This Success Allowed The Brand To:</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-2 flex-1">
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Generate 50,000+ orders over a 2-year period
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Build an in-house manufacturing team that provided stable employment opportunities
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Pay designers a full-time income
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Establish long-term partnerships with shipping providers
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Become an official merchandise partner for the video game franchise Assassin's Creed
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Case Study 3 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/3.png")}
+              >
+                <Image
+                  src="/3.png"
+                  alt="Proof Case Study 3"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 3</span>
+                  <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                    Consulted and audited over 300+ Clothing brands
+                  </h4>
+                </div>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                  Helping countless brand owners identify critical bottlenecks and architect scalable growth systems tailored for their massive success.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 4 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/1.png")}
+              >
+                <Image
+                  src="/1.png"
+                  alt="Proof Case Study 4"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 4</span>
+                <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-3">
+                  Over 100 Satisfied eCommerce Clients and Counting
+                </h4>
+                <p className="text-[12px] text-gray-400 font-bold mb-2">Includes:</p>
+                <ul className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium space-y-1.5 flex-1">
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    50+ Verified 5-Star Testimonials on Upwork
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Top Rated in the top 3% of marketers
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    10 Video Testimonials from eCommerce business owners.
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Dozens of written text testimonials from eCommerce business Owners
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    $25M generated for clients in 15 different eCommerce niches
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Case Study 5 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/4.png")}
+              >
+                <Image
+                  src="/4.png"
+                  alt="Proof Case Study 5"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 5</span>
+                  <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
+                    I spoke about our marketing success at a 7 figure business owners scaling event
+                  </h4>
+                </div>
+                <p className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium">
+                  Sharing battle-tested frameworks stage-side with elite founders, dissecting the exact strategies that scale from 6 and 7 figures to 8 figures in record time.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 6 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/2.png")}
+              >
+                <Image
+                  src="/2.png"
+                  alt="Proof Case Study 6"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 6</span>
+                <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
+                  Proof of My personal success from running my own eCommerce marketing agency
+                </h4>
+                <p className="text-[12px] text-gray-400 font-bold mb-2">This helped us:</p>
+                <ul className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium space-y-1.5 flex-1">
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Generate over $800K for my business at 80% profit margin ($200K/year)
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Dozens of paying clients every year
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+            {/* Case Study 5 */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/6.png")}
+              >
+                <Image
+                  src="/6.png"
+                  alt="Proof Case Study 1"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case study 1</span>
+                <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                  We helped a streetwear brand owner sell 153 hoodies in 30 days with one viral ad.
+                </h4>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">SUMMARY</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-1 mb-4">
+                  <li>• Daily Ad Spend: ~$30/day</li>
+                  <li>• Total Ad Spend: $965</li>
+                  <li>• Average Order Value: $50</li>
+                  <li>• Units Sold: 153 Hoodies</li>
+                  <li>• Total Revenue Generated: $7,650</li>
+                  <li>• Cash Remaining After Ad Spend: $6,685</li>
+                </ul>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">CONCLUSION</p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  Instead of relying on luck, endless content creation, or guessing what might work, the brand used a single viral ad to generate enough demand to sell 153 hoodies in 30 days while spending only $965 on advertising.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  This generated the cash flow needed to fund future growth from the brand's own profits—without relying on loans, investors, or risky financial decisions.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                  Thanks to the additional cash flow, the brand was able to reinvest into the business, delegate responsibilities, and spend more time focusing on growth rather than handling every task alone.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 2 */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/5.png")}
+              >
+                <Image
+                  src="/5.png"
+                  alt="Proof Case Study 2"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 2</span>
+                <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                  We helped the streetwear brand convert the profits into $1.2 million in the next 15 months.
+                </h4>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-4">
+                  Instead of withdrawing the profits, the brand reinvested the cash flow generated from the viral ad back into larger advertising campaigns.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-3">This Success Allowed The Brand To:</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-2 flex-1">
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Generate 50,000+ orders over a 2-year period
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Build an in-house manufacturing team that provided stable employment opportunities
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Pay designers a full-time income
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Establish long-term partnerships with shipping providers
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Become an official merchandise partner for the video game franchise Assassin's Creed
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Case Study 3 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/3.png")}
+              >
+                <Image
+                  src="/3.png"
+                  alt="Proof Case Study 3"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 3</span>
+                  <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                    Consulted and audited over 300+ Clothing brands
+                  </h4>
+                </div>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                  Helping countless brand owners identify critical bottlenecks and architect scalable growth systems tailored for their massive success.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 4 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/1.png")}
+              >
+                <Image
+                  src="/1.png"
+                  alt="Proof Case Study 4"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 4</span>
+                <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-3">
+                  Over 100 Satisfied eCommerce Clients and Counting
+                </h4>
+                <p className="text-[12px] text-gray-400 font-bold mb-2">Includes:</p>
+                <ul className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium space-y-1.5 flex-1">
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    50+ Verified 5-Star Testimonials on Upwork
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Top Rated in the top 3% of marketers
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    10 Video Testimonials from eCommerce business owners.
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Dozens of written text testimonials from eCommerce business Owners
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    $25M generated for clients in 15 different eCommerce niches
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Case Study 5 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/4.png")}
+              >
+                <Image
+                  src="/4.png"
+                  alt="Proof Case Study 5"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 5</span>
+                  <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
+                    I spoke about our marketing success at a 7 figure business owners scaling event
+                  </h4>
+                </div>
+                <p className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium">
+                  Sharing battle-tested frameworks stage-side with elite founders, dissecting the exact strategies that scale from 6 and 7 figures to 8 figures in record time.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 6 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/2.png")}
+              >
+                <Image
+                  src="/2.png"
+                  alt="Proof Case Study 6"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 6</span>
+                <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
+                  Proof of My personal success from running my own eCommerce marketing agency
+                </h4>
+                <p className="text-[12px] text-gray-400 font-bold mb-2">This helped us:</p>
+                <ul className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium space-y-1.5 flex-1">
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Generate over $800K for my business at 80% profit margin ($200K/year)
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Dozens of paying clients every year
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+            {/* Case Study 6 */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/6.png")}
+              >
+                <Image
+                  src="/6.png"
+                  alt="Proof Case Study 1"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case study 1</span>
+                <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                  We helped a streetwear brand owner sell 153 hoodies in 30 days with one viral ad.
+                </h4>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">SUMMARY</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-1 mb-4">
+                  <li>• Daily Ad Spend: ~$30/day</li>
+                  <li>• Total Ad Spend: $965</li>
+                  <li>• Average Order Value: $50</li>
+                  <li>• Units Sold: 153 Hoodies</li>
+                  <li>• Total Revenue Generated: $7,650</li>
+                  <li>• Cash Remaining After Ad Spend: $6,685</li>
+                </ul>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-2">CONCLUSION</p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  Instead of relying on luck, endless content creation, or guessing what might work, the brand used a single viral ad to generate enough demand to sell 153 hoodies in 30 days while spending only $965 on advertising.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-3">
+                  This generated the cash flow needed to fund future growth from the brand's own profits—without relying on loans, investors, or risky financial decisions.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                  Thanks to the additional cash flow, the brand was able to reinvest into the business, delegate responsibilities, and spend more time focusing on growth rather than handling every task alone.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 2 */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/5.png")}
+              >
+                <Image
+                  src="/5.png"
+                  alt="Proof Case Study 2"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 2</span>
+                <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                  We helped the streetwear brand convert the profits into $1.2 million in the next 15 months.
+                </h4>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium mb-4">
+                  Instead of withdrawing the profits, the brand reinvested the cash flow generated from the viral ad back into larger advertising campaigns.
+                </p>
+                <p className="text-[13px] md:text-[14px] text-gray-800 font-bold mb-3">This Success Allowed The Brand To:</p>
+                <ul className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium space-y-2 flex-1">
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Generate 50,000+ orders over a 2-year period
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Build an in-house manufacturing team that provided stable employment opportunities
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Pay designers a full-time income
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Establish long-term partnerships with shipping providers
+                  </li>
+                  <li className="pl-4 relative before:content-[''] before:w-1.5 before:h-1.5 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Become an official merchandise partner for the video game franchise Assassin's Creed
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Case Study 3 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/3.png")}
+              >
+                <Image
+                  src="/3.png"
+                  alt="Proof Case Study 3"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 3</span>
+                  <h4 className="font-extrabold text-[18px] md:text-[20px] text-gray-900 leading-tight mb-4">
+                    Consulted and audited over 300+ Clothing brands
+                  </h4>
+                </div>
+                <p className="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium">
+                  Helping countless brand owners identify critical bottlenecks and architect scalable growth systems tailored for their massive success.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 4 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/1.png")}
+              >
+                <Image
+                  src="/1.png"
+                  alt="Proof Case Study 4"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 4</span>
+                <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-3">
+                  Over 100 Satisfied eCommerce Clients and Counting
+                </h4>
+                <p className="text-[12px] text-gray-400 font-bold mb-2">Includes:</p>
+                <ul className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium space-y-1.5 flex-1">
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    50+ Verified 5-Star Testimonials on Upwork
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Top Rated in the top 3% of marketers
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    10 Video Testimonials from eCommerce business owners.
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Dozens of written text testimonials from eCommerce business Owners
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    $25M generated for clients in 15 different eCommerce niches
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Case Study 5 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/4.png")}
+              >
+                <Image
+                  src="/4.png"
+                  alt="Proof Case Study 5"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col justify-between">
+                <div>
+                  <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 5</span>
+                  <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
+                    I spoke about our marketing success at a 7 figure business owners scaling event
+                  </h4>
+                </div>
+                <p className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium">
+                  Sharing battle-tested frameworks stage-side with elite founders, dissecting the exact strategies that scale from 6 and 7 figures to 8 figures in record time.
+                </p>
+              </div>
+            </div>
+
+            {/* Case Study 6 */}
+            <div className="bg-white rounded-2xl shadow-xl p-5 flex flex-col border border-gray-100 transition-all hover:shadow-2xl text-black">
+              <div
+                className="rounded-xl overflow-hidden relative group cursor-pointer bg-gray-50 flex items-center justify-center mb-5 border border-gray-100"
+                onClick={() => setPreviewImage("/2.png")}
+              >
+                <Image
+                  src="/2.png"
+                  alt="Proof Case Study 6"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#F46F00]/10 transition-colors duration-300 rounded-xl" />
+              </div>
+              <div className="px-1 text-left flex-1 flex flex-col">
+                <span className="text-[11px] font-black text-[#F46F00] uppercase tracking-widest mb-1 block">Case Study 6</span>
+                <h4 className="font-extrabold text-[15px] md:text-[17px] text-gray-900 leading-tight mb-4">
+                  Proof of My personal success from running my own eCommerce marketing agency
+                </h4>
+                <p className="text-[12px] text-gray-400 font-bold mb-2">This helped us:</p>
+                <ul className="text-[12px] md:text-[13px] text-gray-600 leading-relaxed font-medium space-y-1.5 flex-1">
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Generate over $800K for my business at 80% profit margin ($200K/year)
+                  </li>
+                  <li className="pl-3.5 relative before:content-[''] before:w-1 before:h-1 before:bg-[#F46F00] before:rounded-full before:absolute before:left-0 before:top-2">
+                    Dozens of paying clients every year
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
