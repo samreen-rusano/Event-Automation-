@@ -15,7 +15,7 @@ export function renderHtml(firstName: string, lines: string[]): string {
     // Absolute URL is required for email clients to render images
     // Make sure NEXT_PUBLIC_APP_URL is set in your environment (e.g. https://your-domain.com)
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "";
-    const meetLink = process.env.NEXT_PUBLIC_MEET_LINK || "https://meet.google.com/jqn-iuob-pbz";
+    const meetLink = process.env.NEXT_PUBLIC_MEET_LINK || "https://meet.google.com/wfh-imfb-dno";
     const replayLink = process.env.NEXT_PUBLIC_REPLAY_LINK || `${baseUrl}/replay`;
 
     // Google Calendar "Add to Calendar" link
@@ -32,6 +32,9 @@ export function renderHtml(firstName: string, lines: string[]): string {
 
         // Replace placeholder links with real URLs
         line = line.replace(/\[Registration Link\]/g, meetLink);
+        line = line.replace(/\[LINK\]/gi, meetLink);
+        line = line.replace(/\[Link\]/gi, meetLink);
+        line = line.replace(/\[link\]/gi, meetLink);
         line = line.replace(/\[Replay Link\]/g, replayLink);
         line = line.replace(/\[Calendar Link\]/g, calendarUrl);
         
