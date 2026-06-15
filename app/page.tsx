@@ -377,7 +377,7 @@ export default function WorkshopLandingPage() {
                     <div>
                       <p className="font-bold text-[15px] text-white mb-1">3. Lock It In Your Calendar</p>
                       <p className="text-[13px] text-gray-300 leading-relaxed">
-                        Block out **June 14, 2026 at 3:00 PM EST (New York Time)**. Real results require full presence. Ensure you attend live for the interactive Q&A session.
+                        Block out **June 25, 2026 at 3:00 PM EST (Toronto)**. Real results require full presence. Ensure you attend live for the interactive Q&A session.
                       </p>
                     </div>
                   </div>
