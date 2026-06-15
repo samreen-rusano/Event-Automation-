@@ -61,7 +61,7 @@ function SuccessContent() {
   };
 
   const date = "June 25, 2026";
-  const time = "3:00 PM EST (Toronto)";
+  const time = "11:00 PM – 12:00 AM (Asia/Dubai)";
 
   useEffect(() => {
     if (!sessionId) {
