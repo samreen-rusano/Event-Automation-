@@ -2,6 +2,9 @@ import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/user";
+import { transporter } from "@/lib/mailer";
+import { getPendingEmail } from "@/lib/emailTemplate";
+import { EVENT_DATE } from "@/lib/config";
 
 export async function GET(req: Request) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
@@ -26,7 +29,7 @@ export async function GET(req: Request) {
 
     // Upsert user in DB and mark as paid
     await connectDB();
-    await User.findOneAndUpdate(
+    const userDoc = await User.findOneAndUpdate(
       { email },
       {
         $set: {
@@ -42,6 +45,32 @@ export async function GET(req: Request) {
       },
       { upsert: true, returnDocument: "after" }
     );
+
+    // Send immediate welcome email if not already sent
+    if (userDoc && !userDoc.sentEmails.includes("immediate_welcome")) {
+      const diffTime = EVENT_DATE.getTime() - new Date().getTime();
+      const hoursLeft = diffTime / (1000 * 60 * 60);
+      const firstName = userDoc.name ? userDoc.name.split(" ")[0] : "there";
+      
+      const emailObj = getPendingEmail(userDoc.sentEmails || [], hoursLeft, firstName);
+      
+      if (emailObj && emailObj.id === "immediate_welcome") {
+        try {
+          await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: userDoc.email,
+            subject: emailObj.subject,
+            html: emailObj.html,
+          });
+          
+          userDoc.sentEmails.push(emailObj.id);
+          userDoc.lastSentAt = new Date();
+          await userDoc.save();
+        } catch (emailErr) {
+          console.error("Failed to send welcome email:", emailErr);
+        }
+      }
+    }
 
     return NextResponse.json({
       name,

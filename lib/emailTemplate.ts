@@ -118,6 +118,20 @@ export function renderHtml(firstName: string, lines: string[]): string {
 // e.g. positive = before event, negative = after event
 const templates = [
     {
+        id: "immediate_welcome", triggerHours: Infinity, subject: "You're registered! Here are your workshop details",
+        body: [
+            "Your registration for the workshop is officially confirmed.",
+            "I'm excited to share the exact systems we use to scale clothing brands without destroying profitability.",
+            "Here are your access details:",
+            "Google Meet Link: [Registration Link]",
+            "Make sure to block out the time so you don't miss any of the live strategies.",
+            "[Calendar Link]",
+            "See you inside,",
+            "Yasir Sultan",
+            "Founder, Zen Focus Media"
+        ]
+    },
+    {
         id: "pre_promo_1", triggerHours: 168, subject: "They lied to you about scaling clothing brands...",
         body: [
             "If you've been working hard to grow your clothing brand but still feel stuck...",
