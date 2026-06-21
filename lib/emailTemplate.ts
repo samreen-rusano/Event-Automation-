@@ -8,10 +8,10 @@ export function renderHtml(firstName: string, lines: string[]): string {
     const primaryColor = "#F46F00"; // Pumpkin
     const primaryDark = "#E34200"; // Flame
     const bgDark = "#162228"; // Charleston Green
-    const textDark = "#162228"; 
+    const textDark = "#162228";
     const textMuted = "#45606D"; // Deep Space Sparkle
-    const bgLight = "#F4F5F7"; 
-    
+    const bgLight = "#F4F5F7";
+
     // Absolute URL is required for email clients to render images
     // Make sure NEXT_PUBLIC_APP_URL is set in your environment (e.g. https://your-domain.com)
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "";
@@ -19,11 +19,12 @@ export function renderHtml(firstName: string, lines: string[]): string {
     const replayLink = process.env.NEXT_PUBLIC_REPLAY_LINK || `${baseUrl}/replay`;
 
     // Google Calendar "Add to Calendar" link
-    // Event: Tuesday, May 26, 2026 03:00 PM – 04:30 PM New York time (EST) (90 min workshop)
+    // Event: June 25, 2026 11:00 PM – June 26, 2026 12:00 AM Dubai time (Asia/Dubai, UTC+4)
+    // Start: 2026-06-25 19:00 UTC | End: 2026-06-25 20:00 UTC
     const calendarUrl = "https://www.google.com/calendar/render?action=TEMPLATE"
-        + "&text=" + encodeURIComponent("How Clothing Brands Scale Without Destroying Profitability — Live Workshop")
-        + "&dates=20260526T190000Z/20260526T203000Z"
-        + "&details=" + encodeURIComponent("Join the live workshop to learn the system behind predictable growth and stable ROAS for your clothing brand.\n\nGoogle Meet Link: " + meetLink + "\nPhone Dial: +1 289-949-4718 PIN: 619 166 014#")
+        + "&text=" + encodeURIComponent("How Streetwear Brand Owners Can Sell Out Their Next Drop With One Viral Ad — Live Workshop")
+        + "&dates=20260625T190000Z/20260625T200000Z"
+        + "&details=" + encodeURIComponent("Join the live workshop.\n\nGoogle Meet Link: " + meetLink)
         + "&location=" + encodeURIComponent("Google Meet (Online)")
         + "&sf=true&output=xml";
 
@@ -37,7 +38,7 @@ export function renderHtml(firstName: string, lines: string[]): string {
         line = line.replace(/\[link\]/gi, meetLink);
         line = line.replace(/\[Replay Link\]/g, replayLink);
         line = line.replace(/\[Calendar Link\]/g, calendarUrl);
-        
+
         // Strip out any old inline button styles and rebrand it to our premium button
         if (line.includes("<a href=")) {
             return line.replace(
@@ -68,34 +69,33 @@ export function renderHtml(firstName: string, lines: string[]): string {
                     <!-- Header -->
                     <tr>
                         <td align="center" style="background-color: ${bgDark}; padding: 35px 20px; border-bottom: 4px solid ${primaryColor};">
-                            <img 
-                                src="${baseUrl}/logoMain.png" 
-                                alt="Zen Focus Media" 
-                                width="180" 
+                            <img
+                                src="${baseUrl}/logoMain.png"
+                                alt="Zen Focus Media"
+                                width="180"
                                 style="display: block; border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;"
                             >
                         </td>
                     </tr>
-                    
+
                     <!-- Body Content -->
                     <tr>
                         <td style="padding: 40px 45px 30px 45px;">
                             <h1 style="font-size: 24px; color: ${textDark}; margin-top: 0; margin-bottom: 24px; font-weight: 800; letter-spacing: -0.5px;">Hello ${firstName},</h1>
-                            
+
                             ${formattedLines}
-                            
+
                             <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 45px; border-top: 2px solid #F0F2F5; padding-top: 35px;">
                                 <tr>
                                     <td>
-                                        <p style="font-size: 16px; color: ${textMuted}; margin: 0 0 6px 0;">Talk soon,</p>
-                                        <p style="font-size: 18px; font-weight: 800; color: ${textDark}; margin: 0; letter-spacing: -0.3px;">Yasir Sultan</p>
-                                        <p style="font-size: 14px; font-weight: 500; color: ${textMuted}; margin: 0;">Founder, Zen Focus Media</p>
+                                        <p style="font-size: 16px; color: ${textMuted}; margin: 0 0 6px 0;">See you there,</p>
+                                        <p style="font-size: 18px; font-weight: 800; color: ${textDark}; margin: 0; letter-spacing: -0.3px;">Yasir</p>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
-                    
+
                     <!-- Footer -->
                     <tr>
                         <td align="center" style="background-color: ${bgLight}; padding: 30px 24px; border-top: 1px solid #EAECEF;">
@@ -117,20 +117,23 @@ export function renderHtml(firstName: string, lines: string[]): string {
 // All templates defined with their trigger time (in hours relative to event)
 // e.g. positive = before event, negative = after event
 const templates = [
+    // ── ACTIVE ── Registration confirmation email sent immediately on sign-up
     {
-        id: "immediate_welcome", triggerHours: Infinity, subject: "You're registered! Here are your workshop details",
+        id: "immediate_welcome", triggerHours: Infinity, subject: "You're in!",
         body: [
-            "Your registration for the workshop is officially confirmed.",
-            "I'm excited to share the exact systems we use to scale clothing brands without destroying profitability.",
-            "Here are your access details:",
-            "Google Meet Link: [Registration Link]",
-            "Make sure to block out the time so you don't miss any of the live strategies.",
-            "[Calendar Link]",
-            "See you inside,",
-            "Yasir Sultan",
-            "Founder, Zen Focus Media"
+            "Congratulations! You're officially registered for the live workshop:",
+            "",
+            "How Streetwear Brand Owners Can Sell Out Their Next Drop With One Viral Ad",
+            "",
+            "📅 June 25, 2026",
+            "🕒 3:00 PM EST",
+            "",
+            "Join the workshop here on the day of the event:",
+            '<a href="[LINK]">Join Workshop Now</a>',
         ]
     },
+
+    /* ── COMMENTED OUT – all sequence emails disabled ──────────────────────────
     {
         id: "pre_promo_1", triggerHours: 168, subject: "They lied to you about scaling clothing brands...",
         body: [
@@ -156,11 +159,11 @@ const templates = [
             "That's exactly why I'm hosting a free workshop:",
             "How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad",
             "During this workshop, I'll break down:",
-            "\u2713 Why most clothing brands stay stuck for years despite constantly trying new tactics",
-            "\u2713 How to identify the biggest constraint limiting growth in your business",
-            "\u2713 How to define a clear vision, purpose, and growth targets",
-            "\u2713 How to build a customer acquisition system around those goals",
-            "\u2713 The exact framework that helped a clothing brand grow generate $7,650 in sales from just $965 in ad spend",
+            "✓ Why most clothing brands stay stuck for years despite constantly trying new tactics",
+            "✓ How to identify the biggest constraint limiting growth in your business",
+            "✓ How to define a clear vision, purpose, and growth targets",
+            "✓ How to build a customer acquisition system around those goals",
+            "✓ The exact framework that helped a clothing brand grow generate $7,650 in sales from just $965 in ad spend",
             "If you're tired of guessing what's actually holding your brand back, this workshop is for you.",
             "[REGISTER FOR FREE]",
             "P.S. Most founders don't need more information.",
@@ -223,11 +226,11 @@ const templates = [
             "That's exactly why I'm hosting this workshop:",
             "How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad",
             "Inside, I'll walk you through:",
-            "\u2713 Why most clothing brands stay stuck for years",
-            "\u2713 How to identify the biggest constraint limiting growth",
-            "\u2713 How to define a clear vision, purpose, and growth targets",
-            "\u2713 How to build a customer acquisition system around those goals",
-            "\u2713 The exact framework behind a brand's growth generate $7,650 in sales from just $965 in ad spend",
+            "✓ Why most clothing brands stay stuck for years",
+            "✓ How to identify the biggest constraint limiting growth",
+            "✓ How to define a clear vision, purpose, and growth targets",
+            "✓ How to build a customer acquisition system around those goals",
+            "✓ The exact framework behind a brand's growth generate $7,650 in sales from just $965 in ad spend",
             "The goal isn't to give you more tactics.",
             "The goal is to help you identify what actually deserves your attention next.",
             "Reserve your seat here:",
@@ -267,11 +270,11 @@ const templates = [
             "That's exactly what we'll be discussing during the workshop:",
             "How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad",
             "Inside, I'll walk you through:",
-            "\u2713 Why most clothing brands stay stuck for years",
-            "\u2713 How to identify the biggest constraint limiting growth",
-            "\u2713 How to define a clear vision and growth targets",
-            "\u2713 How to build a customer acquisition system around those goals",
-            "\u2713 The framework we use to turn clarity into consistent growth",
+            "✓ Why most clothing brands stay stuck for years",
+            "✓ How to identify the biggest constraint limiting growth",
+            "✓ How to define a clear vision and growth targets",
+            "✓ How to build a customer acquisition system around those goals",
+            "✓ The framework we use to turn clarity into consistent growth",
             "If you're tired of guessing what deserves your attention next, I think you'll find this valuable.",
             "[REGISTER FOR FREE]",
             "P.S. Most founders assume growth comes from finding the right tactic.",
@@ -290,11 +293,11 @@ const templates = [
             "That's exactly what we'll be covering tomorrow.",
             "How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad",
             "Inside the workshop, I'll walk you through:",
-            "\u2713 Why most clothing brands stay stuck for years despite constantly trying new tactics",
-            "\u2713 How to identify the biggest constraint limiting growth in your business",
-            "\u2713 How to define a clear vision, purpose, and growth targets",
-            "\u2713 How to build a customer acquisition system around those goals",
-            "\u2713 How to execute, measure, and improve performance without relying on guesswork",
+            "✓ Why most clothing brands stay stuck for years despite constantly trying new tactics",
+            "✓ How to identify the biggest constraint limiting growth in your business",
+            "✓ How to define a clear vision, purpose, and growth targets",
+            "✓ How to build a customer acquisition system around those goals",
+            "✓ How to execute, measure, and improve performance without relying on guesswork",
             "We'll also break down real-world examples, including the frameworks behind brands that grew generate $7,650 in sales from just $965 in ad spend.",
             "The workshop starts tomorrow at:",
             "[DATE]",
@@ -327,11 +330,11 @@ const templates = [
             "That's exactly what today's workshop is about.",
             "How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad",
             "Inside, I'll walk you through:",
-            "\u2713 Why most clothing brands stay stuck for years despite constantly trying new tactics",
-            "\u2713 How to identify the biggest constraint limiting growth in your business",
-            "\u2713 How to define a clear vision, purpose, and growth targets",
-            "\u2713 How to build a customer acquisition system around those goals",
-            "\u2713 How to execute, measure, and improve performance without relying on guesswork",
+            "✓ Why most clothing brands stay stuck for years despite constantly trying new tactics",
+            "✓ How to identify the biggest constraint limiting growth in your business",
+            "✓ How to define a clear vision, purpose, and growth targets",
+            "✓ How to build a customer acquisition system around those goals",
+            "✓ How to execute, measure, and improve performance without relying on guesswork",
             "We'll also break down real-world examples, including the frameworks behind brands that grew generate $7,650 in sales from just $965 in ad spend.",
             "The workshop starts at:",
             "[TIME]",
@@ -341,20 +344,13 @@ const templates = [
             "If you've ever felt like you're working hard but still unsure what deserves your attention next, I think you'll find today's training valuable.",
             "P.S. Bring a notebook.",
             "The founders who get the most value from this workshop are usually the ones who arrive ready to challenge their assumptions about what's actually limiting growth.",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "Registration Confirmation & Reminder Emails"
         ]
     },
     {
-        id: "immediate_welcome", triggerHours: 999999, subject: "You're In! Your Workshop Registration Is Confirmed",
+        id: "immediate_welcome_v1", triggerHours: 999999, subject: "You're In! Your Workshop Registration Is Confirmed",
         body: [
             "You're officially registered.",
-            "On June 25th, I'll be breaking down How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad\u2014and more importantly, the exact process we used to identify the bottlenecks that were preventing growth in the first place.",
+            "On June 25th, I'll be breaking down How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad—and more importantly, the exact process we used to identify the bottlenecks that were preventing growth in the first place.",
             "Workshop Details:",
             "Date: June 25, 2026",
             "Time: 3PM EST",
@@ -389,11 +385,11 @@ const templates = [
             "Tomorrow, I'll be walking you through the exact process we used to help a clothing brand sell 153 hoodies in 30 days.",
             "More importantly, I'll show you how we identified the bottleneck that was preventing growth before we ever discussed ads, content, or customer acquisition.",
             "Here's what you'll learn:",
-            "\u2713 Why most clothing brands stay stuck for years despite constantly trying new tactics",
-            "\u2713 How to identify the single biggest constraint limiting growth in your business",
-            "\u2713 How to define a clear vision, purpose, and growth targets that make decision-making dramatically easier",
-            "\u2713 How to design a customer acquisition system that supports your goals instead of creating more complexity",
-            "\u2713 How to execute, measure, and improve performance without relying on guesswork or chasing trends",
+            "✓ Why most clothing brands stay stuck for years despite constantly trying new tactics",
+            "✓ How to identify the single biggest constraint limiting growth in your business",
+            "✓ How to define a clear vision, purpose, and growth targets that make decision-making dramatically easier",
+            "✓ How to design a customer acquisition system that supports your goals instead of creating more complexity",
+            "✓ How to execute, measure, and improve performance without relying on guesswork or chasing trends",
             "One thing I've learned after consulting hundreds of clothing brands:",
             "Most owners aren't lacking effort.",
             "Most owners aren't lacking information.",
@@ -424,10 +420,10 @@ const templates = [
             "Today's workshop is designed to help you identify that constraint.",
             "We'll walk through the exact root cause analysis, growth strategy, and customer acquisition framework behind a clothing brand's journey from $35k/month to consistent $100k+ months.",
             "You'll leave with:",
-            "\u2713 A clearer understanding of what's actually limiting growth",
-            "\u2713 A framework for defining your next growth target",
-            "\u2713 A system for aligning your marketing with your business objectives",
-            "\u2713 A practical approach for measuring and improving performance over time",
+            "✓ A clearer understanding of what's actually limiting growth",
+            "✓ A framework for defining your next growth target",
+            "✓ A system for aligning your marketing with your business objectives",
+            "✓ A practical approach for measuring and improving performance over time",
             "A quick favor:",
             "Bring a notebook.",
             "Bring an open mind.",
@@ -448,11 +444,11 @@ const templates = [
             "In the next 60 minutes, you'll get an inside look at How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad.",
             "More importantly, you'll learn the process we used to identify the bottlenecks that were preventing growth long before we discussed ads, content, or customer acquisition.",
             "Here's what we'll cover:",
-            "\u2713 Why most clothing brands stay stuck for years despite constantly trying new tactics",
-            "\u2713 How to identify the biggest constraint limiting growth in your business",
-            "\u2713 How to define a clear vision, purpose, and growth targets",
-            "\u2713 How to build a customer acquisition system that supports your goals",
-            "\u2713 How to execute, measure, and improve performance without relying on guesswork",
+            "✓ Why most clothing brands stay stuck for years despite constantly trying new tactics",
+            "✓ How to identify the biggest constraint limiting growth in your business",
+            "✓ How to define a clear vision, purpose, and growth targets",
+            "✓ How to build a customer acquisition system that supports your goals",
+            "✓ How to execute, measure, and improve performance without relying on guesswork",
             "Before joining, take 30 seconds to answer this question:",
             "\"What do I believe is currently preventing my brand from growing?\"",
             "Write down your answer.",
@@ -464,25 +460,19 @@ const templates = [
         ]
     },
     {
-        id: "rem_live", triggerHours: 0, subject: "We're Live \u2014 Join Us Now",
+        id: "rem_live", triggerHours: 0, subject: "We're Live — Join Us Now",
         body: [
             "We're live right now.",
             "Join here: [LINK]",
             "Today we're breaking down:",
-            "\u2022 How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad",
-            "\u2022 The root cause analysis process we used to identify the bottlenecks limiting growth",
-            "\u2022 The growth strategy and customer acquisition system behind their journey from $35k/month to consistent $100k+ months",
-            "\u2022 The framework you can use to identify what's actually preventing your own clothing brand from growing",
+            "• How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad",
+            "• The root cause analysis process we used to identify the bottlenecks limiting growth",
+            "• The growth strategy and customer acquisition system behind their journey from $35k/month to consistent $100k+ months",
+            "• The framework you can use to identify what's actually preventing your own clothing brand from growing",
             "If you've ever felt like you're working hard but still unsure what's truly holding your business back, this workshop is for you.",
             "Click below and join us now:",
             "[LINK]",
             "P.S. Most founders leave with at least one realization that changes how they think about growth. Don't miss it.",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "Post-Webinar Replay Emails"
         ]
     },
     {
@@ -498,11 +488,11 @@ const templates = [
             "Specifically:",
             "How we identified the bottleneck that was limiting growth before spending more money on ads, content, or influencers.",
             "Inside the replay, you'll learn:",
-            "\u2713 Why most clothing brands stay stuck for years despite constantly trying new tactics",
-            "\u2713 How to identify the biggest constraint limiting growth in your business",
-            "\u2713 How to define a clear vision, purpose, and growth targets",
-            "\u2713 How to build a customer acquisition system around your objectives",
-            "\u2713 How to execute, measure, and improve performance over time",
+            "✓ Why most clothing brands stay stuck for years despite constantly trying new tactics",
+            "✓ How to identify the biggest constraint limiting growth in your business",
+            "✓ How to define a clear vision, purpose, and growth targets",
+            "✓ How to build a customer acquisition system around your objectives",
+            "✓ How to execute, measure, and improve performance over time",
             "One of the biggest mistakes I see founders make is assuming they know what's holding them back.",
             "Often, the real bottleneck is somewhere else entirely.",
             "And until that bottleneck is identified, every new tactic feels like another shot in the dark.",
@@ -541,11 +531,11 @@ const templates = [
             "Because the right solution depends on the actual constraint.",
             "Inside the workshop replay, I walk through the same process we used to identify the bottleneck limiting growth for a clothing brand that eventually went on to sell 153 hoodies in 30 days.",
             "You'll also see:",
-            "\u2713 Why most clothing brands stay stuck for years",
-            "\u2713 How to identify the biggest growth constraint in your business",
-            "\u2713 How to define a clear vision and growth targets",
-            "\u2713 How to build a customer acquisition system that supports those goals",
-            "\u2713 How to measure and improve performance without guessing",
+            "✓ Why most clothing brands stay stuck for years",
+            "✓ How to identify the biggest growth constraint in your business",
+            "✓ How to define a clear vision and growth targets",
+            "✓ How to build a customer acquisition system that supports those goals",
+            "✓ How to measure and improve performance without guessing",
             "Watch the replay here:",
             "[REPLAY LINK]",
             "The replay will be removed soon.",
@@ -574,10 +564,10 @@ const templates = [
             "Correct diagnosis comes before effective action.",
             "Inside the replay, you'll see the exact framework we used to identify the bottleneck limiting growth for a clothing brand that eventually sold 153 hoodies in 30 days.",
             "You'll also learn:",
-            "\u2713 Why most clothing brands stay stuck for years",
-            "\u2713 How to define a clear vision and growth targets",
-            "\u2713 How to build a customer acquisition system around your goals",
-            "\u2713 How to execute, measure, and improve performance over time",
+            "✓ Why most clothing brands stay stuck for years",
+            "✓ How to define a clear vision and growth targets",
+            "✓ How to build a customer acquisition system around your goals",
+            "✓ How to execute, measure, and improve performance over time",
             "And if you're interested in working with us directly, I also explain how we help clothing brands identify their biggest growth constraints and build a strategy around them.",
             "Watch the replay here:",
             "[REPLAY LINK]",
@@ -602,12 +592,12 @@ const templates = [
             "Not because we revealed a magic funnel.",
             "But because many founders realize they've been investing time, money, and energy into solving the wrong problem.",
             "Inside the workshop, we break down:",
-            "\u2713 How we helped a clothing brand sell 153 hoodies in 30 days",
-            "\u2713 The root cause analysis process we used to identify the bottleneck limiting growth",
-            "\u2713 Why most clothing brands stay stuck for years despite constantly trying new tactics",
-            "\u2713 How to define a clear vision, purpose, and growth targets",
-            "\u2713 How to build a customer acquisition system that supports those goals",
-            "\u2713 How to execute, measure, and improve performance without relying on guesswork",
+            "✓ How we helped a clothing brand sell 153 hoodies in 30 days",
+            "✓ The root cause analysis process we used to identify the bottleneck limiting growth",
+            "✓ Why most clothing brands stay stuck for years despite constantly trying new tactics",
+            "✓ How to define a clear vision, purpose, and growth targets",
+            "✓ How to build a customer acquisition system that supports those goals",
+            "✓ How to execute, measure, and improve performance without relying on guesswork",
             "The replay disappears tonight.",
             "After that, it won't be available.",
             "Watch it here before it's gone:",
@@ -615,9 +605,6 @@ const templates = [
             "P.S. Most founders are only one insight away from making dramatically better decisions.",
             "The challenge is that many never discover what that insight is.",
             "Don't let the replay disappear before you've had a chance to watch it.",
-            "",
-            "",
-            "Cart Close/Countdown Promo Emails"
         ]
     },
     {
@@ -645,11 +632,11 @@ const templates = [
             "They need a way to identify the real bottleneck limiting growth and a plan for addressing it.",
             "That's what we help with.",
             "Inside the program, we'll help you:",
-            "\u2713 Identify the biggest constraint limiting growth",
-            "\u2713 Define clear growth targets and business objectives",
-            "\u2713 Build a customer acquisition system aligned with those goals",
-            "\u2713 Create a roadmap for execution and optimization",
-            "\u2713 Focus your resources on the highest-leverage opportunities",
+            "✓ Identify the biggest constraint limiting growth",
+            "✓ Define clear growth targets and business objectives",
+            "✓ Build a customer acquisition system aligned with those goals",
+            "✓ Create a roadmap for execution and optimization",
+            "✓ Focus your resources on the highest-leverage opportunities",
             "This is the same thinking process that helped one clothing brand sell 153 hoodies in 30 days.",
             "Enrollment is now open.",
             "[BUTTON: Apply Now]",
@@ -692,11 +679,11 @@ const templates = [
             "Our goal isn't to give you more marketing tactics.",
             "Our goal is to help identify the constraint limiting growth and build a strategy around solving it.",
             "Inside the program, we'll help you:",
-            "\u2713 Identify what's actually holding your brand back",
-            "\u2713 Define clear growth objectives",
-            "\u2713 Build a customer acquisition system aligned with those objectives",
-            "\u2713 Create an execution roadmap",
-            "\u2713 Focus your resources on the highest-leverage opportunities",
+            "✓ Identify what's actually holding your brand back",
+            "✓ Define clear growth objectives",
+            "✓ Build a customer acquisition system aligned with those objectives",
+            "✓ Create an execution roadmap",
+            "✓ Focus your resources on the highest-leverage opportunities",
             "If you've ever felt like you're working hard but still unsure what deserves your attention next, this was built for you.",
             "[BUTTON: Apply Now]",
             "Enrollment closes in less than 4 days.",
@@ -731,11 +718,11 @@ const templates = [
             "They're identifying the bottleneck and focusing on removing it.",
             "That's exactly what we help clothing brands do.",
             "Inside the program, we help you:",
-            "\u2713 Identify the biggest constraint limiting growth",
-            "\u2713 Define a clear vision and growth targets",
-            "\u2713 Build a customer acquisition system around those objectives",
-            "\u2713 Create a roadmap for execution and optimization",
-            "\u2713 Focus resources where they'll create the greatest impact",
+            "✓ Identify the biggest constraint limiting growth",
+            "✓ Define a clear vision and growth targets",
+            "✓ Build a customer acquisition system around those objectives",
+            "✓ Create a roadmap for execution and optimization",
+            "✓ Focus resources where they'll create the greatest impact",
             "This is the same process that helped one clothing brand grow generate $7,650 in sales from just $965 in ad spend and sell 153 hoodies in 30 days.",
             "If you're tired of guessing what deserves your attention next, this may be exactly what you're looking for.",
             "[BUTTON: Apply Now]",
@@ -765,10 +752,10 @@ const templates = [
             "The first step was identifying the constraint limiting growth.",
             "Because until you understand what's actually preventing progress, every solution becomes guesswork.",
             "Once we identified the bottleneck, we were able to:",
-            "\u2713 Clarify growth objectives",
-            "\u2713 Align acquisition strategy with those objectives",
-            "\u2713 Improve decision making across the business",
-            "\u2713 Create a more scalable path forward",
+            "✓ Clarify growth objectives",
+            "✓ Align acquisition strategy with those objectives",
+            "✓ Improve decision making across the business",
+            "✓ Create a more scalable path forward",
             "The result?",
             "He sold 153 hoodies in 30 days with a single viral ad.",
             "He spent only $965 on ads and generated $7,650 in sales.",
@@ -777,11 +764,11 @@ const templates = [
             "He had a clear understanding of what mattered, what didn't, and where resources should be focused.",
             "That's exactly what we help clothing brands do.",
             "Inside the program, we'll help you:",
-            "\u2713 Identify the biggest constraint limiting growth",
-            "\u2713 Define a clear vision and growth targets",
-            "\u2713 Build a customer acquisition system aligned with those goals",
-            "\u2713 Create an execution roadmap",
-            "\u2713 Optimize based on data rather than guesswork",
+            "✓ Identify the biggest constraint limiting growth",
+            "✓ Define a clear vision and growth targets",
+            "✓ Build a customer acquisition system aligned with those goals",
+            "✓ Create an execution roadmap",
+            "✓ Optimize based on data rather than guesswork",
             "If you're tired of feeling like growth is harder than it should be, this may be the next step.",
             "[BUTTON: Apply Now]",
             "Enrollment closes in less than 2 days.",
@@ -811,11 +798,11 @@ const templates = [
             "That's the real risk.",
             "Inside the program, we're not simply helping you run ads.",
             "We're helping you:",
-            "\u2713 Identify the biggest constraint limiting growth",
-            "\u2713 Define a clear vision and growth objectives",
-            "\u2713 Build a customer acquisition system aligned with those goals",
-            "\u2713 Create a roadmap for execution and optimization",
-            "\u2713 Focus resources on the highest-leverage opportunities",
+            "✓ Identify the biggest constraint limiting growth",
+            "✓ Define a clear vision and growth objectives",
+            "✓ Build a customer acquisition system aligned with those goals",
+            "✓ Create a roadmap for execution and optimization",
+            "✓ Focus resources on the highest-leverage opportunities",
             "This is the same framework that helped a clothing brand grow generate $7,650 in sales from just $965 in ad spend and sell 153 hoodies in 30 days.",
             "The investment is $6,000 USD.",
             "Or 3 payments of $3,000.",
@@ -823,7 +810,7 @@ const templates = [
             "Enrollment closes soon.",
             "And once it does, the opportunity to work together at this level will be gone.",
             "P.S. Most founders don't lose because they make one terrible decision.",
-            "They lose because they spend months\u2014or years\u2014making reasonable decisions based on an incorrect diagnosis.",
+            "They lose because they spend months—or years—making reasonable decisions based on an incorrect diagnosis.",
             "That's what we're trying to prevent."
         ]
     },
@@ -886,10 +873,10 @@ const templates = [
             "But because they're focused on the wrong thing.",
             "That's exactly why we built this program.",
             "To help founders identify:",
-            "\u2713 What's actually limiting growth",
-            "\u2713 Where resources should be focused",
-            "\u2713 What the next priority should be",
-            "\u2713 How to build a strategy around that reality",
+            "✓ What's actually limiting growth",
+            "✓ Where resources should be focused",
+            "✓ What the next priority should be",
+            "✓ How to build a strategy around that reality",
             "Because once the right bottleneck becomes clear, many decisions become dramatically easier.",
             "The opportunity to work together closes in less than 24 hours.",
             "[BUTTON: Apply Now]",
@@ -906,11 +893,11 @@ const templates = [
             "[COUNTDOWN TIMER]",
             "If you've been considering joining, now is the time to make a decision.",
             "Inside the program, we'll help you:",
-            "\u2713 Identify the biggest constraint limiting growth",
-            "\u2713 Define clear growth objectives",
-            "\u2713 Build a customer acquisition system aligned with those objectives",
-            "\u2713 Create a roadmap for execution and optimization",
-            "\u2713 Focus your resources on the highest-leverage opportunities",
+            "✓ Identify the biggest constraint limiting growth",
+            "✓ Define clear growth objectives",
+            "✓ Build a customer acquisition system aligned with those objectives",
+            "✓ Create a roadmap for execution and optimization",
+            "✓ Focus your resources on the highest-leverage opportunities",
             "This is the same framework that helped one clothing brand grow generate $7,650 in sales from just $965 in ad spend and sell 153 hoodies in 30 days.",
             "The question isn't whether your business can grow.",
             "The question is whether you're focused on the right bottleneck.",
@@ -923,12 +910,12 @@ const templates = [
         ]
     },
     {
-        id: "cart_close_9", triggerHours: -288, subject: "FINAL HOURS \u2014 Don't make this mistake",
+        id: "cart_close_9", triggerHours: -288, subject: "FINAL HOURS — Don't make this mistake",
         body: [
             "Enrollment closes in less than 2 hours.",
             "[COUNTDOWN TIMER]",
             "Before we close, I want to leave you with one final thought.",
-            "Over the years, I've worked with founders who invested months\u2014and sometimes years\u2014trying to grow their brands.",
+            "Over the years, I've worked with founders who invested months—and sometimes years—trying to grow their brands.",
             "They weren't lazy.",
             "They weren't unintelligent.",
             "They weren't lacking ambition.",
@@ -944,10 +931,10 @@ const templates = [
             "Not because joining magically guarantees success.",
             "But because clarity changes everything.",
             "When you understand:",
-            "\u2713 What's actually limiting growth",
-            "\u2713 What deserves your attention",
-            "\u2713 What your next priority should be",
-            "\u2713 How your customer acquisition system should support your goals",
+            "✓ What's actually limiting growth",
+            "✓ What deserves your attention",
+            "✓ What your next priority should be",
+            "✓ How your customer acquisition system should support your goals",
             "Decision-making becomes dramatically easier.",
             "That's exactly what we help founders build.",
             "Enrollment closes in less than 2 hours.",
@@ -968,10 +955,10 @@ const templates = [
             "Most clothing brands don't struggle because they lack effort.",
             "They struggle because they're focused on the wrong bottleneck.",
             "Inside the program, we'll help you:",
-            "\u2713 Identify what's actually limiting growth",
-            "\u2713 Define clear growth objectives",
-            "\u2713 Build a customer acquisition system aligned with those goals",
-            "\u2713 Create a roadmap for execution and optimization",
+            "✓ Identify what's actually limiting growth",
+            "✓ Define clear growth objectives",
+            "✓ Build a customer acquisition system aligned with those goals",
+            "✓ Create a roadmap for execution and optimization",
             "This is the same framework that helped a clothing brand grow generate $7,650 in sales from just $965 in ad spend and sell 153 hoodies in 30 days.",
             "In 30 minutes, enrollment closes.",
             "No extensions.",
@@ -992,7 +979,7 @@ const templates = [
             "Over the coming days, we'll begin working together to identify the constraints limiting growth, clarify your objectives, and build a strategy designed around your specific business.",
             "You'll receive your welcome email and onboarding information shortly.",
             "Be sure to check your inbox (and spam folder) for an email titled:",
-            "\"Welcome \u2014 Next Steps\"",
+            "\"Welcome — Next Steps\"",
             "To everyone who chose not to join, I sincerely appreciate you following along throughout the workshop and email series.",
             "My hope is that one idea sticks with you:",
             "Growth becomes much easier when you identify the right bottleneck.",
@@ -1002,17 +989,10 @@ const templates = [
             "Thank you again for your time and attention.",
             "I wish you and your brand nothing but success.",
             "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "Calendly link: (Apply NOW) \u2192 https://calendly.com/60min-scaling/strategy-call"
+            "Calendly link: (Apply NOW) → https://calendly.com/60min-scaling/strategy-call"
         ]
     },
+    ── END COMMENTED OUT ── */
 ];
 
 export function getPendingEmail(sentEmailIds: string[], hoursUntilEvent: number, firstName: string): EmailData | null {
@@ -1035,7 +1015,7 @@ export function getPendingEmail(sentEmailIds: string[], hoursUntilEvent: number,
     // Pick the one with the smallest triggerHours (the closest to the current time, so the newest)
     eligibleTemplates.sort((a, b) => a.triggerHours - b.triggerHours);
 
-    // Only send the SINGLE most recent eligible email. If they just registered, we don't want to send them 
+    // Only send the SINGLE most recent eligible email. If they just registered, we don't want to send them
     // older backlog emails (e.g., sending a "7 days left" email when there are only 3 days left).
     if (eligibleTemplates.length > 0) {
         const mostRecentTemplate = eligibleTemplates[0];
