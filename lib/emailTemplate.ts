@@ -65,17 +65,7 @@ export function renderHtml(firstName: string, lines: string[]): string {
         <tr>
             <td align="center">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 20px rgba(22, 34, 40, 0.08);">
-                    <!-- Header -->
-                    <tr>
-                        <td align="center" style="background-color: ${bgDark}; padding: 35px 20px; border-bottom: 4px solid ${primaryColor};">
-                            <img 
-                                src="${baseUrl}/logoMain.png" 
-                                alt="Zen Focus Media" 
-                                width="180" 
-                                style="display: block; border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;"
-                            >
-                        </td>
-                    </tr>
+                    <!-- No Header -->
                     
                     <!-- Body Content -->
                     <tr>
@@ -88,8 +78,7 @@ export function renderHtml(firstName: string, lines: string[]): string {
                                 <tr>
                                     <td>
                                         <p style="font-size: 16px; color: ${textMuted}; margin: 0 0 6px 0;">Talk soon,</p>
-                                        <p style="font-size: 18px; font-weight: 800; color: ${textDark}; margin: 0; letter-spacing: -0.3px;">Yasir Sultan</p>
-                                        <p style="font-size: 14px; font-weight: 500; color: ${textMuted}; margin: 0;">Founder, Zen Focus Media</p>
+                                        <p style="font-size: 18px; font-weight: 800; color: ${textDark}; margin: 0; letter-spacing: -0.3px;">Yasir</p>
                                     </td>
                                 </tr>
                             </table>
@@ -100,7 +89,7 @@ export function renderHtml(firstName: string, lines: string[]): string {
                     <tr>
                         <td align="center" style="background-color: ${bgLight}; padding: 30px 24px; border-top: 1px solid #EAECEF;">
                             <p style="font-size: 13px; color: ${textMuted}; margin: 0; line-height: 1.6;">
-                                © ${new Date().getFullYear()} Zen Focus Media. All rights reserved.<br>
+                                © ${new Date().getFullYear()} All rights reserved.<br>
                                 No longer want to receive these emails? <a href="${baseUrl}/unsubscribe" style="color: ${primaryColor}; text-decoration: none; font-weight: 600;">Unsubscribe</a>.
                             </p>
                         </td>
@@ -118,17 +107,11 @@ export function renderHtml(firstName: string, lines: string[]): string {
 // e.g. positive = before event, negative = after event
 const templates = [
     {
-        id: "immediate_welcome", triggerHours: Infinity, subject: "You're registered! Here are your workshop details",
+        id: "immediate_welcome", triggerHours: Infinity, subject: "You're registered! Here's what's next...",
         body: [
-            "Your registration for the workshop is officially confirmed.",
-            "I'm excited to share the exact systems we use to scale clothing brands without destroying profitability.",
-            "Here are your access details:",
-            "Google Meet Link: [Registration Link]",
-            "Make sure to block out the time so you don't miss any of the live strategies.",
-            "[Calendar Link]",
-            "See you inside,",
-            "Yasir Sultan",
-            "Founder, Zen Focus Media"
+            "Thanks for reserving your spot for the FREE 4-Week Sell Out Your Drop Challenge.",
+            "Over the next few days, I'll show you exactly how the challenge works, what's included, the unique formula we're using, and how to know whether the FREE 4 Week challenge is the right fit for your brand.",
+            "If it looks like a good fit, I'll explain how to join the challenge."
         ]
     },
     {
@@ -351,33 +334,9 @@ const templates = [
         ]
     },
     {
-        id: "immediate_welcome", triggerHours: 999999, subject: "You're In! Your Workshop Registration Is Confirmed",
+        id: "immediate_welcome2", triggerHours: 999999, subject: "You're In! Your Registration Is Confirmed",
         body: [
-            "You're officially registered.",
-            "On June 25th, I'll be breaking down How We Helped A Streetwear Brand Sell 153 Hoodies In 30 Days With One Viral Ad\u2014and more importantly, the exact process we used to identify the bottlenecks that were preventing growth in the first place.",
-            "Workshop Details:",
-            "Date: June 25, 2026",
-            "Time: 3PM EST",
-            "Join Link: [LINK]",
-            "Before we meet, I'd like you to think about one question:",
-            "What's the biggest thing currently preventing your brand from growing?",
-            "Most brand owners immediately answer:",
-            "\"More traffic.\"",
-            "\"Better ads.\"",
-            "\"More content.\"",
-            "\"More followers.\"",
-            "But after auditing hundreds of clothing brands, I've noticed something interesting:",
-            "Most brands don't struggle because they're missing tactics.",
-            "They struggle because they're solving the wrong problem.",
-            "The brands that scale consistently aren't necessarily working harder.",
-            "They're simply focusing on the right bottleneck at the right time.",
-            "During this workshop, I'll walk you through the same root cause analysis framework we used to identify the constraint limiting growth for a clothing brand that eventually went on to sell 153 hoodies.",
-            "My goal isn't to give you another list of marketing tactics.",
-            "My goal is to help you gain clarity on what actually deserves your attention next.",
-            "In the meantime, add the workshop to your calendar and set a reminder now.",
-            "I look forward to seeing you there.",
-            "Yasir Sultan",
-            "Founder, Zen Focus Media"
+            "You're officially registered."
         ]
     },
     {
