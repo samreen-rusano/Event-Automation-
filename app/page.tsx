@@ -173,8 +173,9 @@ export default function WorkshopLandingPage() {
 
         {/* Headline */}
         <div className="text-center w-full max-w-[1000px] mb-10">
-          <h1 className="text-[32px] sm:text-5xl md:text-[56px] font-black leading-[1.15] text-[#1a202c] tracking-tight uppercase">
-            Streetwear Brand Owners! Join Our FREE 4-Week Sell Out Your Drop Challenge
+          <h1 className="text-[32px] sm:text-5xl md:text-[56px] font-black leading-[1.15] tracking-tight uppercase flex flex-col gap-4">
+            <span className="text-[#B34700]">Streetwear Brand Owners!</span>
+            <span className="text-[#1a202c]">Join Our FREE 4-Week Sell Out Your Drop Challenge</span>
           </h1>
         </div>
 
@@ -187,7 +188,6 @@ export default function WorkshopLandingPage() {
               <li className="flex gap-3"><Check className="text-green-600 shrink-0 mt-1" /> Own a streetwear or movement-driven clothing brand.</li>
               <li className="flex gap-3"><Check className="text-green-600 shrink-0 mt-1" /> Have sold at least $2,500 worth of inventory in the last 90 days.</li>
               <li className="flex gap-3"><Check className="text-green-600 shrink-0 mt-1" /> Be able to invest $30/day into Meta ads.</li>
-              <li className="flex gap-3"><Check className="text-green-600 shrink-0 mt-1" /> Be a male founder.</li>
               <li className="flex gap-3"><Check className="text-green-600 shrink-0 mt-1" /> Be genuinely passionate about building your clothing brand.</li>
             </ul>
           </div>
@@ -197,7 +197,6 @@ export default function WorkshopLandingPage() {
             <ul className="space-y-3 text-lg md:text-xl font-medium text-red-800">
               <li className="flex gap-3"><X className="text-red-500 shrink-0 mt-1" /> You haven't sold at least $2,500 worth of inventory in the last 90 days.</li>
               <li className="flex gap-3"><X className="text-red-500 shrink-0 mt-1" /> You're not passionate about building your clothing brand.</li>
-              <li className="flex gap-3"><X className="text-red-500 shrink-0 mt-1" /> You're a female founder.</li>
             </ul>
           </div>
 
