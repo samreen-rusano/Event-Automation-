@@ -39,7 +39,7 @@ export async function POST(req: Request) {
                     sentEmails: [],
                 }
             },
-            { upsert: true, new: true }
+            { upsert: true, returnDocument: 'after' }
         );
 
         // Trigger immediate email sending logic to ensure the user gets their first email right away

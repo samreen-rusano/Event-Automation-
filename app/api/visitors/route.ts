@@ -25,7 +25,7 @@ export async function POST() {
     const doc = await Counter.findOneAndUpdate(
         { key: "visitors" },
         { $inc: { count: 1 } },
-        { upsert: true, new: true }
+        { upsert: true, returnDocument: 'after' }
     );
     return NextResponse.json({ count: doc.count });
 }
