@@ -107,13 +107,12 @@ export function renderHtml(firstName: string, lines: string[]): string {
 // All templates defined with their trigger time (in hours relative to event)
 // e.g. positive = before event, negative = after event
 const templates = [
-    // ── ACTIVE ── Registration confirmation email sent immediately on sign-up
     {
-        id: "immediate_welcome", triggerHours: Infinity, subject: "You're registered! Here's what's next...",
+        id: "immediate_welcome", triggerHours: Infinity, subject: "Thank you for your order!",
         body: [
-            "Thanks for reserving your spot for the FREE 4-Week Sell Out Your Drop Challenge.",
-            "Over the next few days, I'll show you exactly how the challenge works, what's included, the unique formula we're using, and how to know whether the FREE 4 Week challenge is the right fit for your brand.",
-            "If it looks like a good fit, I'll explain how to join the challenge."
+            "The One Viral Ad Framework will be delivered to your inbox within the next 14 days.",
+            "",
+            "If you have any questions, please email yasirsultan1992@gmail.com, and I'll get back to you within 24 hours."
         ]
     },
 

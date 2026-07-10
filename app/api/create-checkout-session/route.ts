@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
-    const { name, email, phone } = await req.json();
+    const { name, email, phone, website } = await req.json();
 
     const origin = process.env.NEXT_PUBLIC_APP_URL || req.headers.get("origin") || "http://localhost:3000";
 
@@ -15,10 +15,10 @@ export async function POST(req: Request) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "How Clothing Brands Scale Without Destroying Profitability Workshop",
-              description: "Live workshop + replay + all bonus materials",
+              name: "The One Viral Ad Framework",
+              description: "Delivered to your inbox within 14 days.",
             },
-            unit_amount: 9700, // $97.00
+            unit_amount: 495, // $4.95
           },
           quantity: 1,
         },
@@ -28,8 +28,9 @@ export async function POST(req: Request) {
       metadata: {
         name: name,
         phone: phone || "",
+        website: website || "",
       },
-      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${origin}/?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/?cancelled=true`,
     });
 

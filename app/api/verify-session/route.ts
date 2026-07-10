@@ -24,8 +24,9 @@ export async function GET(req: Request) {
 
     const name = session.metadata?.name || "";
     const phone = session.metadata?.phone || "";
+    const website = session.metadata?.website || "";
     const email = session.customer_email || "";
-    const amount = session.amount_total ? `$${(session.amount_total / 100).toFixed(2)}` : "$97.00";
+    const amount = session.amount_total ? `$${(session.amount_total / 100).toFixed(2)}` : "$4.95";
 
     // Upsert user in DB and mark as paid
     await connectDB();
@@ -35,6 +36,7 @@ export async function GET(req: Request) {
         $set: {
           name,
           phone,
+          website,
           email,
           isPaid: true,
         },
@@ -48,11 +50,8 @@ export async function GET(req: Request) {
 
     // Send immediate welcome email if not already sent
     if (userDoc && !userDoc.sentEmails.includes("immediate_welcome")) {
-      const diffTime = EVENT_DATE.getTime() - new Date().getTime();
-      const hoursLeft = diffTime / (1000 * 60 * 60);
       const firstName = userDoc.name ? userDoc.name.split(" ")[0] : "there";
-      
-      const emailObj = getPendingEmail(userDoc.sentEmails || [], hoursLeft, firstName);
+      const emailObj = getPendingEmail(userDoc.sentEmails || [], 0, firstName);
       
       if (emailObj && emailObj.id === "immediate_welcome") {
         try {
