@@ -13,7 +13,7 @@ function LandingPageContent() {
 
   // Form & checkout state
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", website: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
   const [loading, setLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
 
@@ -76,7 +76,7 @@ function LandingPageContent() {
 
   const handleCheckoutSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone || !formData.website) {
+    if (!formData.name || !formData.email || !formData.phone) {
       setCheckoutError("Please fill in all fields.");
       return;
     }
@@ -201,7 +201,7 @@ function LandingPageContent() {
         
         {/* 1. HEADLINE ZONE */}
         <div className="text-center flex flex-col items-center mt-2 sm:mt-4 lg:mt-2 mb-4 lg:mb-4">
-          <div className="flex items-center gap-2 mb-1.5 text-[#FF2E2E] font-black text-xs sm:text-sm tracking-widest uppercase">
+          <div className="flex items-center gap-3 mb-2 text-[#FF2E2E] font-black text-2xl sm:text-3xl md:text-4xl tracking-widest uppercase">
             <span>\</span>
             <span className="text-white">DISCOVER HOW</span>
             <span>/</span>
@@ -209,7 +209,7 @@ function LandingPageContent() {
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[40px] xl:text-[46px] font-black leading-[1.08] tracking-tight uppercase mb-3 flex flex-col">
             <span className="text-[#FFB800] drop-shadow-[0_4px_12px_rgba(255,184,0,0.15)]">STREETWEAR BRAND OWNERS</span>
-            <span className="text-white mt-0.5">CAN SELL OUT THEIR NEXT DROP</span>
+            <span className="text-white mt-0.5">CAN <span className="text-[#FF2E2E]">SELL OUT</span> THEIR NEXT DROP</span>
           </h1>
 
           {/* Yellow Brush stroke wrapper */}
@@ -218,71 +218,62 @@ function LandingPageContent() {
           </div>
 
           {/* White Border text */}
-          <div className="border border-white/40 rounded-full px-5 py-1.5 text-xs sm:text-sm md:text-base font-extrabold uppercase tracking-wide bg-white/5">
+          <div className="border border-white/40 rounded-full px-10 py-3 sm:py-3.5 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold uppercase tracking-wide bg-white/5 mt-2">
             WITH JUST <span className="text-[#FF2E2E] font-black">ONE VIRAL AD</span>
           </div>
         </div>
 
         {/* 2. REQUIREMENTS ZONE */}
         <div className="w-full mb-6 lg:mb-6 text-center">
-          <div className="text-[10px] sm:text-xs font-black tracking-widest text-gray-500 uppercase mb-3">
+          <div className="text-xs sm:text-sm font-black tracking-widest text-white uppercase mb-4 drop-shadow-md">
             — REQUIREMENTS —
           </div>
 
-          {/* Desktop Horizontal / Mobile Vertical Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 items-stretch max-w-3xl mx-auto">
+          {/* 2x2 Grid for all views */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
             
             {/* Req 1 */}
-            <div className="flex items-center gap-3 bg-white/5 rounded-2xl p-3.5 border border-white/10 lg:border-none lg:bg-transparent lg:p-0 lg:flex-row lg:justify-center">
-              <div className="w-8 h-8 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-base shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0">
+            <div className="flex items-center gap-4 bg-white/5 rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-colors text-left">
+              <div className="w-10 h-10 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-lg shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0">
                 $
               </div>
-              <div className="text-left">
-                <div className="text-[#FFB800] font-black text-xs sm:text-sm">$30/DAY</div>
-                <div className="text-white font-bold text-[10px] uppercase tracking-wide text-gray-400">AD SPEND</div>
+              <div>
+                <div className="text-[#FFB800] font-black text-sm sm:text-base leading-tight uppercase">ONLY $30/DAY</div>
+                <div className="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wide text-gray-400 leading-none mt-1">AD SPEND</div>
               </div>
             </div>
-
-            {/* Divider (Desktop Only) */}
-            <div className="hidden lg:block w-px bg-white/20 self-stretch my-1" />
 
             {/* Req 2 */}
-            <div className="flex items-center gap-3 bg-white/5 rounded-2xl p-3.5 border border-white/10 lg:border-none lg:bg-transparent lg:p-0 lg:flex-row lg:justify-center">
-              <div className="w-8 h-8 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-base shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0">
-                <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2V9h2v7zm0-9h-2V5h2v2z"/></svg>
+            <div className="flex items-center gap-4 bg-white/5 rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-colors text-left">
+              <div className="w-10 h-10 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-lg shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0">
+                <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2V9h2v7zm0-9h-2V5h2v2z"/></svg>
               </div>
-              <div className="text-left">
-                <div className="text-[#FFB800] font-black text-xs sm:text-sm">60 MINUTES</div>
-                <div className="text-white font-bold text-[10px] uppercase tracking-wide text-gray-400">TO SET UP</div>
+              <div>
+                <div className="text-[#FFB800] font-black text-sm sm:text-base leading-tight uppercase">60 MINUTES</div>
+                <div className="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wide text-gray-400 leading-none mt-1">TO SET UP</div>
               </div>
             </div>
-
-            {/* Divider (Desktop Only) */}
-            <div className="hidden lg:block w-px bg-white/20 self-stretch my-1" />
 
             {/* Req 3 */}
-            <div className="flex items-center gap-3 bg-white/5 rounded-2xl p-3.5 border border-white/10 lg:border-none lg:bg-transparent lg:p-0 lg:flex-row lg:justify-center">
-              <div className="w-8 h-8 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-base shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0">
-                <User className="w-4 h-4 text-white" />
+            <div className="flex items-center gap-4 bg-white/5 rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-colors text-left">
+              <div className="w-10 h-10 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-lg shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0">
+                <User className="w-5 h-5 text-white" />
               </div>
-              <div className="text-left">
-                <div className="text-[#FFB800] font-black text-xs sm:text-sm">NO PRIOR</div>
-                <div className="text-white font-bold text-[10px] uppercase tracking-wide text-gray-400">MARKETING EXP</div>
+              <div>
+                <div className="text-[#FFB800] font-black text-sm sm:text-base leading-tight uppercase">NO PRIOR MARKETING</div>
+                <div className="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wide text-gray-400 leading-none mt-1">EXPERIENCE NEEDED</div>
               </div>
             </div>
 
-            {/* Divider (Desktop Only) */}
-            <div className="hidden lg:block w-px bg-white/20 self-stretch my-1" />
-
             {/* Req 4 */}
-            <div className="flex items-center gap-3 bg-white/5 rounded-2xl p-3.5 border border-white/10 lg:border-none lg:bg-transparent lg:p-0 lg:flex-row lg:justify-center col-span-1 sm:col-span-2 lg:col-span-1">
-              <div className="w-8 h-8 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-base shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0 relative">
-                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"/></svg>
-                <span className="absolute -top-1 -right-1 bg-yellow-400 text-black text-[8px] font-black px-1 rounded-full border border-black leading-none py-0.5">2</span>
+            <div className="flex items-center gap-4 bg-white/5 rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-colors text-left">
+              <div className="w-10 h-10 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-lg shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0 relative">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"/></svg>
+                <span className="absolute -top-1 -right-1 bg-yellow-400 text-black text-[9px] font-black px-1.5 rounded-full border border-black leading-none py-0.5">2</span>
               </div>
-              <div className="text-left">
-                <div className="text-[#FFB800] font-black text-xs sm:text-sm leading-tight">STREETWEAR BRANDS</div>
-                <div className="text-white font-bold text-[9px] uppercase tracking-wide text-gray-400 leading-none mt-0.5">ONLY</div>
+              <div>
+                <div className="text-[#FFB800] font-black text-sm sm:text-base leading-tight uppercase">Streetwear or identity-driven</div>
+                <div className="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wide text-gray-400 leading-none mt-1">clothing brands only</div>
               </div>
             </div>
 
@@ -390,32 +381,19 @@ function LandingPageContent() {
                 />
               </div>
 
-              {/* Website */}
-              <div className="relative">
-                <Globe className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  required
-                  type="text"
-                  placeholder="Website URL... (e.g. brand.com)"
-                  value={formData.website}
-                  onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-                  className="w-full bg-white/5 border border-white/15 focus:border-[#FF6B00] rounded-xl py-3 pl-10 pr-4 text-white text-sm outline-none transition-colors"
-                />
-              </div>
-
               {/* Submit / Proceed */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#FF6B00] hover:bg-[#e05a00] text-black font-black py-3.5 rounded-xl uppercase tracking-wider text-sm transition-colors cursor-pointer disabled:opacity-75 flex items-center justify-center gap-2 mt-4"
+                className="w-full bg-[#00A36C] hover:bg-[#008A5B] text-white font-black py-3.5 rounded-xl uppercase tracking-wider text-sm transition-colors cursor-pointer disabled:opacity-75 flex items-center justify-center gap-2 mt-2 shadow-[0_4px_20px_rgba(0,163,108,0.3)]"
               >
                 {loading ? (
                   <>
-                    <Loader2 className="w-4 h-4 text-black animate-spin" />
-                    <span>Processing Order...</span>
+                    <Loader2 className="w-4 h-4 text-white animate-spin" />
+                    <span>Processing...</span>
                   </>
                 ) : (
-                  <span>PROCEED TO PAYMENT</span>
+                  <span>GO TO STEP 2</span>
                 )}
               </button>
 
