@@ -5,14 +5,19 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { X, ShoppingCart, Mail, Phone, Globe, User, Loader2, CheckCircle, ShieldCheck } from "lucide-react";
 import { fbEvent } from "@/components/FacebookPixel";
 import { readSessionStorage, writeSessionStorage } from "@/lib/browser";
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import PaymentModal from '@/components/PaymentModal';
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "");
 
 function LandingPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
+  const paymentIntentParam = searchParams.get("payment_intent");
 
   // Form & checkout state
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
   const [loading, setLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
@@ -22,6 +27,9 @@ function LandingPageContent() {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [paymentData, setPaymentData] = useState<any>(null);
   const [paymentError, setPaymentError] = useState("");
+
+  const [clientSecret, setClientSecret] = useState("");
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   // Track landing page intent once per browser tab session
   useEffect(() => {
@@ -36,14 +44,23 @@ function LandingPageContent() {
     writeSessionStorage(key, "1");
   }, []);
 
-  // Verify payment if session_id is in query params
+  // Verify payment if session_id or payment_intent is in query params
   useEffect(() => {
-    if (!sessionId) return;
+    if (!sessionId && !paymentIntentParam) return;
 
     const verify = async () => {
       setVerifyingPayment(true);
       try {
-        const res = await fetch(`/api/verify-session?session_id=${sessionId}`);
+        let res;
+        if (paymentIntentParam) {
+          res = await fetch("/api/verify-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ payment_intent_id: paymentIntentParam }),
+          });
+        } else {
+          res = await fetch(`/api/verify-session?session_id=${sessionId}`);
+        }
         const data = await res.json();
 
         if (!res.ok) throw new Error(data.error || "Verification failed.");
@@ -97,7 +114,7 @@ function LandingPageContent() {
         content_name: "The One Viral Ad Framework",
       });
 
-      const res = await fetch("/api/create-checkout-session", {
+      const res = await fetch("/api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -105,14 +122,52 @@ function LandingPageContent() {
 
       const data = await res.json();
 
-      if (!res.ok || !data.url) {
-        throw new Error(data.error || "Could not create checkout session.");
+      if (!res.ok || !data.clientSecret) {
+        throw new Error(data.error || "Could not initialize payment.");
       }
 
-      window.location.href = data.url;
-    } catch (err: any) {
-      setCheckoutError(err.message || "An error occurred during checkout initialization.");
+      setClientSecret(data.clientSecret);
+      setIsPaymentModalOpen(true);
       setLoading(false);
+    } catch (err: any) {
+      setCheckoutError(err.message || "An error occurred during payment initialization.");
+      setLoading(false);
+    }
+  };
+
+  const handlePaymentSuccess = async (paymentIntentId: string) => {
+    setIsPaymentModalOpen(false);
+    setVerifyingPayment(true);
+    try {
+      const res = await fetch("/api/verify-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ payment_intent_id: paymentIntentId }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || "Verification failed.");
+      
+      setPaymentData(data);
+      setPaymentSuccess(true);
+
+      // Fire Purchase event
+      if (typeof window !== "undefined") {
+        const purchaseKey = `fb_purchase_${paymentIntentId}`;
+        if (!window.sessionStorage.getItem(purchaseKey)) {
+          fbEvent("Purchase", {
+            value: 4.95,
+            currency: "USD",
+            content_name: "The One Viral Ad Framework",
+            transaction_id: paymentIntentId,
+          });
+          window.sessionStorage.setItem(purchaseKey, "1");
+        }
+      }
+    } catch (err: any) {
+      setPaymentError(err.message || "Something went wrong verifying your payment.");
+    } finally {
+      setVerifyingPayment(false);
     }
   };
 
@@ -223,81 +278,82 @@ function LandingPageContent() {
           </div>
         </div>
 
-        {/* 2. REQUIREMENTS ZONE */}
-        <div className="w-full mb-6 lg:mb-6 text-center">
-          <div className="text-xs sm:text-sm font-black tracking-widest text-white uppercase mb-4 drop-shadow-md">
-            — REQUIREMENTS —
-          </div>
-
-          {/* 2x2 Grid for all views */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-            
-            {/* Req 1 */}
-            <div className="flex items-center gap-4 bg-white/5 rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-colors text-left">
-              <div className="w-10 h-10 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-lg shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0">
-                $
-              </div>
-              <div>
-                <div className="text-[#FFB800] font-black text-sm sm:text-base leading-tight uppercase">ONLY $30/DAY</div>
-                <div className="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wide text-gray-400 leading-none mt-1">AD SPEND</div>
-              </div>
-            </div>
-
-            {/* Req 2 */}
-            <div className="flex items-center gap-4 bg-white/5 rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-colors text-left">
-              <div className="w-10 h-10 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-lg shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0">
-                <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2V9h2v7zm0-9h-2V5h2v2z"/></svg>
-              </div>
-              <div>
-                <div className="text-[#FFB800] font-black text-sm sm:text-base leading-tight uppercase">60 MINUTES</div>
-                <div className="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wide text-gray-400 leading-none mt-1">TO SET UP</div>
-              </div>
-            </div>
-
-            {/* Req 3 */}
-            <div className="flex items-center gap-4 bg-white/5 rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-colors text-left">
-              <div className="w-10 h-10 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-lg shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0">
-                <User className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <div className="text-[#FFB800] font-black text-sm sm:text-base leading-tight uppercase">NO PRIOR MARKETING</div>
-                <div className="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wide text-gray-400 leading-none mt-1">EXPERIENCE NEEDED</div>
-              </div>
-            </div>
-
-            {/* Req 4 */}
-            <div className="flex items-center gap-4 bg-white/5 rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-colors text-left">
-              <div className="w-10 h-10 rounded-full bg-[#FF2E2E] text-white flex items-center justify-center font-black text-lg shadow-[0_0_15px_rgba(255,46,46,0.3)] shrink-0 relative">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"/></svg>
-                <span className="absolute -top-1 -right-1 bg-yellow-400 text-black text-[9px] font-black px-1.5 rounded-full border border-black leading-none py-0.5">2</span>
-              </div>
-              <div>
-                <div className="text-[#FFB800] font-black text-sm sm:text-base leading-tight uppercase">Streetwear or identity-driven</div>
-                <div className="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wide text-gray-400 leading-none mt-1">clothing brands only</div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
         {/* 3. PRE-ORDER ACTION CARD */}
         <div className="bg-[#0e0e0e] border border-[#FF6B00]/40 rounded-3xl p-5 sm:p-7 text-center shadow-[0_0_30px_rgba(255,107,0,0.1)] hover:border-[#FF6B00] transition-colors duration-300 max-w-md mx-auto w-full mb-4">
-          <h2 className="text-sm sm:text-base font-black tracking-wider uppercase mb-4">
+          <h2 className="text-sm sm:text-base font-black tracking-wider uppercase mb-1">
             PRE-ORDER THE <span className="text-[#FF2E2E]">ONE VIRAL AD FRAMEWORK</span>
           </h2>
-
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="w-full bg-gradient-to-r from-[#FF6B00] to-[#E03E00] hover:from-[#E03E00] hover:to-[#FF6B00] text-white font-black text-base py-3.5 sm:py-4 rounded-xl flex items-center justify-center gap-3 shadow-[0_6px_25px_rgba(255,107,0,0.3)] hover:shadow-[0_8px_30px_rgba(255,107,0,0.4)] transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
-          >
-            <ShoppingCart className="w-4 h-4 shrink-0" />
-            <span>PRE-ORDER NOW FOR JUST $4.95</span>
-          </button>
-
-          <div className="flex items-center justify-center gap-2 mt-3 text-xs font-semibold text-gray-400">
-            <Mail className="w-3.5 h-3.5 text-[#FFB800]" />
-            <span>Delivered to your inbox within <strong className="text-[#FFB800]">14 days.</strong></span>
+          <div className="text-xl sm:text-2xl font-black text-[#FFB800] mb-6 tracking-wide drop-shadow-sm">
+            FOR JUST $4.95
           </div>
+
+          {checkoutError && (
+            <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold p-3.5 rounded-xl text-center mb-4 leading-tight">
+              {checkoutError}
+            </div>
+          )}
+
+          <form onSubmit={handleCheckoutSubmit} className="space-y-4 text-left">
+            {/* Name */}
+            <div className="relative">
+              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                required
+                type="text"
+                placeholder="Full Name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full bg-black border border-white/20 focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00] rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-gray-400 text-sm outline-none transition-colors"
+              />
+            </div>
+
+            {/* Email */}
+            <div className="relative">
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                required
+                type="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full bg-black border border-white/20 focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00] rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-gray-400 text-sm outline-none transition-colors"
+              />
+            </div>
+
+            {/* Phone */}
+            <div className="relative">
+              <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                required
+                type="tel"
+                placeholder="Phone Number"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full bg-black border border-white/20 focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00] rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-gray-400 text-sm outline-none transition-colors"
+              />
+            </div>
+
+            {/* Submit / Proceed */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#00A36C] hover:bg-[#008A5B] text-white font-black py-3.5 rounded-xl uppercase tracking-wider text-sm transition-colors cursor-pointer disabled:opacity-75 flex items-center justify-center gap-2 mt-2 shadow-[0_4px_20px_rgba(0,163,108,0.3)]"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 text-white animate-spin" />
+                  <span>Processing...</span>
+                </>
+              ) : (
+                <span>GO TO STEP 2</span>
+              )}
+            </button>
+
+            <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest pt-2">
+              <ShieldCheck className="w-3.5 h-3.5 text-green-500" />
+              <span>Secure 256-bit Stripe checkout</span>
+            </div>
+          </form>
         </div>
 
       </div>
@@ -309,101 +365,29 @@ function LandingPageContent() {
         </p>
       </div>
 
-      {/* PRE-ORDER INPUT MODAL */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in duration-250">
-          <div className="relative w-full max-w-md bg-[#0e0e0e] border border-[#FF6B00]/40 rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(255,107,0,0.2)] flex flex-col max-h-[90vh] overflow-y-auto">
-            
-            {/* Close Button */}
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 p-1.5 hover:bg-white/10 rounded-full text-white/70 hover:text-white transition-colors cursor-pointer"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            {/* Header */}
-            <div className="text-center mb-6">
-              <h3 className="text-xl sm:text-2xl font-black uppercase text-white leading-tight">
-                Secure Your Pre-Order
-              </h3>
-              <p className="text-gray-400 text-xs mt-1.5">
-                Fill in your details below to proceed to the checkout page.
-              </p>
-            </div>
-
-            {checkoutError && (
-              <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold p-3.5 rounded-xl text-center mb-4 leading-tight">
-                {checkoutError}
-              </div>
-            )}
-
-            {/* Form */}
-            <form onSubmit={handleCheckoutSubmit} className="space-y-4 flex-1">
-              
-              {/* Name */}
-              <div className="relative">
-                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  required
-                  type="text"
-                  placeholder="Full Name..."
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-white/5 border border-white/15 focus:border-[#FF6B00] rounded-xl py-3 pl-10 pr-4 text-white text-sm outline-none transition-colors"
-                />
-              </div>
-
-              {/* Email */}
-              <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  required
-                  type="email"
-                  placeholder="Email Address..."
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-white/5 border border-white/15 focus:border-[#FF6B00] rounded-xl py-3 pl-10 pr-4 text-white text-sm outline-none transition-colors"
-                />
-              </div>
-
-              {/* Phone */}
-              <div className="relative">
-                <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  required
-                  type="tel"
-                  placeholder="Phone Number..."
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full bg-white/5 border border-white/15 focus:border-[#FF6B00] rounded-xl py-3 pl-10 pr-4 text-white text-sm outline-none transition-colors"
-                />
-              </div>
-
-              {/* Submit / Proceed */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-[#00A36C] hover:bg-[#008A5B] text-white font-black py-3.5 rounded-xl uppercase tracking-wider text-sm transition-colors cursor-pointer disabled:opacity-75 flex items-center justify-center gap-2 mt-2 shadow-[0_4px_20px_rgba(0,163,108,0.3)]"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 text-white animate-spin" />
-                    <span>Processing...</span>
-                  </>
-                ) : (
-                  <span>GO TO STEP 2</span>
-                )}
-              </button>
-
-              <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest pt-2">
-                <ShieldCheck className="w-3.5 h-3.5 text-green-500" />
-                <span>Secure 256-bit Stripe checkout</span>
-              </div>
-            </form>
-          </div>
-        </div>
+      {isPaymentModalOpen && clientSecret && (
+        <Elements
+          stripe={stripePromise}
+          options={{
+            clientSecret,
+            appearance: {
+              theme: 'night',
+              variables: {
+                colorPrimary: '#FF6B00',
+                colorBackground: '#0a0a0a',
+                colorText: '#ffffff',
+                colorDanger: '#df1b41',
+                fontFamily: 'system-ui, sans-serif',
+                borderRadius: '12px',
+              }
+            }
+          }}
+        >
+          <PaymentModal
+            onClose={() => setIsPaymentModalOpen(false)}
+            onSuccess={handlePaymentSuccess}
+          />
+        </Elements>
       )}
 
     </div>

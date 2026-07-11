@@ -34,6 +34,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <head>
         {/* Facebook Pixel noscript fallback — fires for users with JS disabled */}
@@ -49,7 +50,7 @@ export default function RootLayout({
           </noscript>
         )}
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         {/* Facebook Pixel — initializes on mount, tracks PageView on every route change */}
         <FacebookPixel />
         {/* Microsoft Clarity — cursor tracking, heatmaps, session recordings */}
