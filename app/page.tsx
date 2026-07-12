@@ -29,6 +29,7 @@ function LandingPageContent() {
   const [paymentError, setPaymentError] = useState("");
 
   const [clientSecret, setClientSecret] = useState("");
+  const [paymentIntentId, setPaymentIntentId] = useState("");
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   // Track landing page intent once per browser tab session
@@ -42,6 +43,23 @@ function LandingPageContent() {
       content_category: "Framework",
     });
     writeSessionStorage(key, "1");
+  }, []);
+
+  // Preload PaymentIntent on mount
+  useEffect(() => {
+    const initStripe = async () => {
+      try {
+        const res = await fetch("/api/create-payment-intent", { method: "POST", body: "{}" });
+        const data = await res.json();
+        if (data.clientSecret && data.paymentIntentId) {
+          setClientSecret(data.clientSecret);
+          setPaymentIntentId(data.paymentIntentId);
+        }
+      } catch (err) {
+        console.error("Failed to preload payment intent:", err);
+      }
+    };
+    initStripe();
   }, []);
 
   // Verify payment if session_id or payment_intent is in query params
@@ -114,19 +132,22 @@ function LandingPageContent() {
         content_name: "The One Viral Ad Framework",
       });
 
-      const res = await fetch("/api/create-payment-intent", {
+      if (!paymentIntentId) {
+        throw new Error("Payment is still initializing. Please try again in a few seconds.");
+      }
+
+      const res = await fetch("/api/update-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ paymentIntentId, ...formData }),
       });
 
       const data = await res.json();
 
-      if (!res.ok || !data.clientSecret) {
-        throw new Error(data.error || "Could not initialize payment.");
+      if (!res.ok) {
+        throw new Error(data.error || "Could not prepare payment.");
       }
 
-      setClientSecret(data.clientSecret);
       setIsPaymentModalOpen(true);
       setLoading(false);
     } catch (err: any) {
@@ -296,40 +317,40 @@ function LandingPageContent() {
           <form onSubmit={handleCheckoutSubmit} className="space-y-4 text-left">
             {/* Name */}
             <div className="relative">
-              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
               <input
                 required
                 type="text"
                 placeholder="Full Name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full bg-black border border-white/20 focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00] rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-gray-400 text-sm outline-none transition-colors"
+                className="w-full bg-white border border-gray-300 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00] rounded-xl py-3 pl-11 pr-4 text-black placeholder:text-gray-500 font-medium text-sm outline-none transition-all shadow-sm"
               />
             </div>
 
             {/* Email */}
             <div className="relative">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
               <input
                 required
                 type="email"
                 placeholder="Email Address"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full bg-black border border-white/20 focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00] rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-gray-400 text-sm outline-none transition-colors"
+                className="w-full bg-white border border-gray-300 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00] rounded-xl py-3 pl-11 pr-4 text-black placeholder:text-gray-500 font-medium text-sm outline-none transition-all shadow-sm"
               />
             </div>
 
             {/* Phone */}
             <div className="relative">
-              <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
               <input
                 required
                 type="tel"
                 placeholder="Phone Number"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full bg-black border border-white/20 focus:border-[#FF6B00] focus:ring-1 focus:ring-[#FF6B00] rounded-xl py-3 pl-10 pr-4 text-white placeholder:text-gray-400 text-sm outline-none transition-colors"
+                className="w-full bg-white border border-gray-300 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00] rounded-xl py-3 pl-11 pr-4 text-black placeholder:text-gray-500 font-medium text-sm outline-none transition-all shadow-sm"
               />
             </div>
 
@@ -365,27 +386,36 @@ function LandingPageContent() {
         </p>
       </div>
 
-      {isPaymentModalOpen && clientSecret && (
+      {clientSecret && (
         <Elements
           stripe={stripePromise}
           options={{
             clientSecret,
             appearance: {
-              theme: 'night',
+              theme: 'stripe',
               variables: {
                 colorPrimary: '#FF6B00',
-                colorBackground: '#0a0a0a',
-                colorText: '#ffffff',
+                colorBackground: '#ffffff',
+                colorText: '#000000',
                 colorDanger: '#df1b41',
                 fontFamily: 'system-ui, sans-serif',
                 borderRadius: '12px',
+                spacingUnit: '4px',
+              },
+              rules: {
+                '.Input': {
+                  border: '1px solid #d1d5db',
+                  boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                }
               }
             }
           }}
         >
           <PaymentModal
+            isOpen={isPaymentModalOpen}
             onClose={() => setIsPaymentModalOpen(false)}
             onSuccess={handlePaymentSuccess}
+            customerDetails={formData}
           />
         </Elements>
       )}
