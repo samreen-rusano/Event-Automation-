@@ -62,9 +62,13 @@ export async function GET(req: Request) {
             html: emailObj.html,
           });
           
-          userDoc.sentEmails.push(emailObj.id);
-          userDoc.lastSentAt = new Date();
-          await userDoc.save();
+          await User.updateOne(
+            { _id: userDoc._id },
+            { 
+              $push: { sentEmails: emailObj.id },
+              $set: { lastSentAt: new Date() }
+            }
+          );
         } catch (emailErr) {
           console.error("Failed to send welcome email:", emailErr);
         }

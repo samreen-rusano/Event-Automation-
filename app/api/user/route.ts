@@ -59,9 +59,13 @@ export async function POST(req: Request) {
                     html: email.html,
                 });
 
-                user.sentEmails.push(email.id);
-                user.lastSentAt = new Date();
-                await user.save();
+                await User.updateOne(
+                    { _id: user._id },
+                    { 
+                        $push: { sentEmails: email.id },
+                        $set: { lastSentAt: new Date() }
+                    }
+                );
             }
         } catch (emailError) {
             console.error("Failed to send initial email to", user.email, emailError);
