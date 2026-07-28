@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/user";
 import { transporter } from "@/lib/mailer";
-import { getPendingEmail } from "@/lib/emailTemplate";
+import { getEmailForPurchase } from "@/lib/emailTemplate";
 
 export async function POST(req: Request) {
   try {
@@ -22,9 +22,15 @@ export async function POST(req: Request) {
 
     const name = paymentIntent.metadata?.name || "";
     const phone = paymentIntent.metadata?.phone || "";
-    const website = paymentIntent.metadata?.website || "";
     const email = paymentIntent.receipt_email || paymentIntent.metadata?.email || "";
     const amount = `$${(paymentIntent.amount / 100).toFixed(2)}`;
+    
+    let purchasedItems: string[] = [];
+    try {
+      if (paymentIntent.metadata?.purchasedItems) {
+        purchasedItems = JSON.parse(paymentIntent.metadata.purchasedItems);
+      }
+    } catch(e) {}
 
     // Upsert user in DB and mark as paid
     await connectDB();
@@ -34,9 +40,12 @@ export async function POST(req: Request) {
         $set: {
           name,
           phone,
-          website,
           email,
           isPaid: true,
+        },
+        // We can optionally add purchasedItems to the user document
+        $addToSet: {
+          purchasedItems: { $each: purchasedItems }
         },
         $setOnInsert: {
           registeredAt: new Date(),
@@ -46,26 +55,30 @@ export async function POST(req: Request) {
       { upsert: true, returnDocument: "after" }
     );
 
-    // Send immediate welcome email if not already sent
-    if (userDoc && !userDoc.sentEmails.includes("immediate_welcome")) {
-      const firstName = userDoc.name ? userDoc.name.split(" ")[0] : "there";
-      const emailObj = getPendingEmail(userDoc.sentEmails || [], 0, firstName);
-      
-      if (emailObj && emailObj.id === "immediate_welcome") {
-        try {
-          await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: userDoc.email,
-            subject: emailObj.subject,
-            html: emailObj.html,
-          });
-          
-          userDoc.sentEmails.push(emailObj.id);
-          userDoc.lastSentAt = new Date();
-          await userDoc.save();
-        } catch (emailErr) {
-          console.error("Failed to send welcome email:", emailErr);
-        }
+    // Determine the email to send based on ALL purchased items for this user
+    // (Combining what they just bought with anything they bought previously in this session)
+    const allPurchasedItems = userDoc.purchasedItems || [];
+    
+    const emailData = getEmailForPurchase(allPurchasedItems, userDoc.name ? userDoc.name.split(" ")[0] : "there");
+
+    // Check if we've already sent an email. 
+    // If they already got email1, and now they deserve email3, we shouldn't send email3 if "Do not send multiple emails" is strict.
+    // Wait, if we wait until the Thank You page, they will only trigger verify-payment ONCE for the final outcome.
+    // Let's just check if THIS specific email has been sent.
+    if (userDoc && emailData && !userDoc.sentEmails.includes(emailData.id)) {
+      try {
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: userDoc.email,
+          subject: emailData.subject,
+          html: emailData.html,
+        });
+        
+        userDoc.sentEmails.push(emailData.id);
+        userDoc.lastSentAt = new Date();
+        await userDoc.save();
+      } catch (emailErr) {
+        console.error("Failed to send welcome email:", emailErr);
       }
     }
 
@@ -74,6 +87,7 @@ export async function POST(req: Request) {
       email,
       phone,
       amount,
+      purchasedItems: allPurchasedItems,
       transactionId: paymentIntent.id,
       paymentStatus: paymentIntent.status,
     });

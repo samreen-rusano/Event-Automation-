@@ -4,18 +4,35 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
-    const { paymentIntentId, name, email, phone } = await req.json();
+    const { paymentIntentId, name, email, phone, orderBump } = await req.json();
 
     if (!paymentIntentId) {
       return NextResponse.json({ error: "Missing paymentIntentId" }, { status: 400 });
     }
 
+    const hasOrderBump = orderBump === true;
+    const amount = hasOrderBump ? 4400 : 1700; // $44.00 or $17.00
+
+    const purchasedItems = ["framework"];
+    if (hasOrderBump) purchasedItems.push("order_bump");
+
+    const intent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    if (intent.customer) {
+      await stripe.customers.update(intent.customer as string, {
+        name: name || "",
+        email: email || "",
+        phone: phone || "",
+      });
+    }
+
     await stripe.paymentIntents.update(paymentIntentId, {
+      amount,
       ...(email && { receipt_email: email }),
       metadata: {
         name: name || "",
         email: email || "",
         phone: phone || "",
+        purchasedItems: JSON.stringify(purchasedItems),
       },
     });
 

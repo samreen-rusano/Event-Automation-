@@ -1,52 +1,30 @@
 "use client";
 
 import React, { useState, useEffect, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { X, ShoppingCart, Mail, Phone, Globe, User, Loader2, CheckCircle, ShieldCheck } from "lucide-react";
-import { fbEvent } from "@/components/FacebookPixel";
-import { readSessionStorage, writeSessionStorage } from "@/lib/browser";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import PaymentModal from '@/components/PaymentModal';
+import CheckoutForm from "@/components/CheckoutForm";
+import { ShieldCheck, RefreshCw } from "lucide-react";
+import { fbEvent } from "@/components/FacebookPixel";
+import { readSessionStorage, writeSessionStorage } from "@/lib/browser";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "");
 
 function LandingPageContent() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const sessionId = searchParams.get("session_id");
-  const paymentIntentParam = searchParams.get("payment_intent");
-
-  // Form & checkout state
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
-  const [loading, setLoading] = useState(false);
-  const [checkoutError, setCheckoutError] = useState("");
-
-  // Payment confirmation state
-  const [verifyingPayment, setVerifyingPayment] = useState(false);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [paymentData, setPaymentData] = useState<any>(null);
-  const [paymentError, setPaymentError] = useState("");
-
   const [clientSecret, setClientSecret] = useState("");
   const [paymentIntentId, setPaymentIntentId] = useState("");
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
-  // Track landing page intent once per browser tab session
   useEffect(() => {
     if (typeof window === "undefined") return;
     const key = "fb_viewcontent_preorder";
-    if (readSessionStorage(key)) return;
+    if (!readSessionStorage(key)) {
+      fbEvent("ViewContent", {
+        content_name: "One Viral Ad Framework Preorder Landing",
+        content_category: "Framework",
+      });
+      writeSessionStorage(key, "1");
+    }
 
-    fbEvent("ViewContent", {
-      content_name: "One Viral Ad Framework Preorder Landing",
-      content_category: "Framework",
-    });
-    writeSessionStorage(key, "1");
-  }, []);
-
-  // Preload PaymentIntent on mount
-  useEffect(() => {
     const initStripe = async () => {
       try {
         const res = await fetch("/api/create-payment-intent", { method: "POST", body: "{}" });
@@ -62,364 +40,344 @@ function LandingPageContent() {
     initStripe();
   }, []);
 
-  // Verify payment if session_id or payment_intent is in query params
-  useEffect(() => {
-    if (!sessionId && !paymentIntentParam) return;
-
-    const verify = async () => {
-      setVerifyingPayment(true);
-      try {
-        let res;
-        if (paymentIntentParam) {
-          res = await fetch("/api/verify-payment", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ payment_intent_id: paymentIntentParam }),
-          });
-        } else {
-          res = await fetch(`/api/verify-session?session_id=${sessionId}`);
-        }
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.error || "Verification failed.");
-        
-        setPaymentData(data);
-        setPaymentSuccess(true);
-
-        // Fire Purchase event
-        if (typeof window !== "undefined") {
-          const purchaseKey = `fb_purchase_${sessionId}`;
-          if (!window.sessionStorage.getItem(purchaseKey)) {
-            fbEvent("Purchase", {
-              value: 4.95,
-              currency: "USD",
-              content_name: "The One Viral Ad Framework",
-              transaction_id: data.transactionId,
-            });
-            window.sessionStorage.setItem(purchaseKey, "1");
-          }
-        }
-      } catch (err: any) {
-        setPaymentError(err.message || "Something went wrong verifying your payment.");
-      } finally {
-        setVerifyingPayment(false);
-      }
-    };
-
-    verify();
-  }, [sessionId]);
-
-  const handleCheckoutSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.phone) {
-      setCheckoutError("Please fill in all fields.");
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setCheckoutError("Please enter a valid email address.");
-      return;
-    }
-
-    setCheckoutError("");
-    setLoading(true);
-
-    try {
-      fbEvent("InitiateCheckout", {
-        value: 4.95,
-        currency: "USD",
-        content_name: "The One Viral Ad Framework",
-      });
-
-      if (!paymentIntentId) {
-        throw new Error("Payment is still initializing. Please try again in a few seconds.");
-      }
-
-      const res = await fetch("/api/update-payment-intent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentIntentId, ...formData }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Could not prepare payment.");
-      }
-
-      setIsPaymentModalOpen(true);
-      setLoading(false);
-    } catch (err: any) {
-      setCheckoutError(err.message || "An error occurred during payment initialization.");
-      setLoading(false);
-    }
-  };
-
-  const handlePaymentSuccess = async (paymentIntentId: string) => {
-    setIsPaymentModalOpen(false);
-    setVerifyingPayment(true);
-    try {
-      const res = await fetch("/api/verify-payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ payment_intent_id: paymentIntentId }),
-      });
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.error || "Verification failed.");
-      
-      setPaymentData(data);
-      setPaymentSuccess(true);
-
-      // Fire Purchase event
-      if (typeof window !== "undefined") {
-        const purchaseKey = `fb_purchase_${paymentIntentId}`;
-        if (!window.sessionStorage.getItem(purchaseKey)) {
-          fbEvent("Purchase", {
-            value: 4.95,
-            currency: "USD",
-            content_name: "The One Viral Ad Framework",
-            transaction_id: paymentIntentId,
-          });
-          window.sessionStorage.setItem(purchaseKey, "1");
-        }
-      }
-    } catch (err: any) {
-      setPaymentError(err.message || "Something went wrong verifying your payment.");
-    } finally {
-      setVerifyingPayment(false);
-    }
-  };
-
-  // If verifying payment, show a beautiful loader
-  if (verifyingPayment) {
-    return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-4 text-white">
-        <Loader2 className="w-12 h-12 text-[#FF6B00] animate-spin" />
-        <p className="text-gray-400 text-sm md:text-base font-bold tracking-wide animate-pulse">
-          CONFIRMING YOUR PAYMENT...
-        </p>
-      </div>
-    );
-  }
-
-  // If payment succeeded, show the thank you screen on the same page
-  if (paymentSuccess) {
-    return (
-      <div className="min-h-screen bg-black text-white flex flex-col justify-between p-6 md:p-8 font-sans selection:bg-[#FF6B00] selection:text-white">
-        <div className="flex-1 flex items-center justify-center">
-          <div className="w-full max-w-xl bg-[#111] rounded-3xl border border-[#FF6B00]/40 p-8 md:p-10 shadow-[0_0_50px_rgba(255,107,0,0.15)] flex flex-col items-center text-center">
-            <div className="w-20 h-20 rounded-full bg-green-500/10 border-2 border-green-500/40 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(34,197,94,0.15)] animate-bounce">
-              <CheckCircle className="w-10 h-10 text-green-400" />
-            </div>
-
-            <div className="bg-[#FF6B00] text-black font-extrabold text-[12px] md:text-[14px] px-4 py-1.5 rounded-full mb-6 tracking-widest uppercase">
-              PAYMENT SUCCESSFUL
-            </div>
-
-            <h1 className="text-3xl md:text-4xl font-black mb-6 tracking-tight leading-tight">
-              THANK YOU FOR YOUR ORDER!
-            </h1>
-
-            <div className="space-y-4 text-gray-300 text-[15px] md:text-[17px] leading-relaxed font-medium mb-8">
-              <p>
-                The <strong className="text-white">One Viral Ad Framework</strong> will be delivered to your inbox within the next 14 days.
-              </p>
-              <p className="text-[14px] md:text-[15px] text-gray-400 border-t border-white/10 pt-4 mt-4">
-                If you have any questions, please email <a href="mailto:yasirsultan1992@gmail.com" className="text-[#FF6B00] font-bold hover:underline">yasirsultan1992@gmail.com</a>, and I'll get back to you within 24 hours.
-              </p>
-            </div>
-
-            <button
-              onClick={() => router.replace("/")}
-              className="px-8 py-3.5 bg-white text-black hover:bg-gray-200 transition-all font-black text-sm uppercase rounded-xl tracking-wider cursor-pointer"
-            >
-              Back to Home
-            </button>
-          </div>
-        </div>
-
-        {/* Disclaimer in success page bottom */}
-        <div className="text-center mt-6">
-          <p className="text-[10px] md:text-[12px] text-gray-600 max-w-xl mx-auto leading-relaxed">
-            Disclaimer: The results expressed in this training are illustrative and not guaranteed. Your success is entirely up to you and the work you put in.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // If payment verification errored
-  if (paymentError) {
-    return (
-      <div className="min-h-screen bg-black text-white flex flex-col justify-center items-center p-6 text-center">
-        <div className="w-16 h-16 bg-red-500/10 border-2 border-red-500/40 rounded-full flex items-center justify-center mb-6">
-          <X className="w-8 h-8 text-red-500" />
-        </div>
-        <h1 className="text-2xl md:text-3xl font-black mb-3">Verification Failed</h1>
-        <p className="text-gray-400 max-w-md text-[14px] mb-8">{paymentError}</p>
-        <button
-          onClick={() => router.replace("/")}
-          className="px-6 py-3 bg-[#FF6B00] text-black font-bold uppercase rounded-lg hover:bg-[#e05a00] transition-colors cursor-pointer"
-        >
-          Return to Home
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-[#FF6B00] selection:text-white lg:h-screen lg:max-h-screen lg:overflow-hidden flex flex-col justify-between p-4 sm:p-6 lg:py-4 lg:px-8">
-      
-      {/* Container wrapper for scrolling on mobile & alignment on desktop */}
-      <div className="flex-1 flex flex-col justify-center max-w-4xl mx-auto w-full">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-[#FF6B00] selection:text-white">
+      {/* 
+        Spacing rhythm:
+        Large transitions deserve more whitespace (e.g. py-24, py-32)
+        Connected ideas remain visually close (e.g. mb-6, mb-8)
+        One idea per paragraph
+      */}
+
+      <main className="max-w-4xl mx-auto px-6 py-20">
         
-        {/* 1. HEADLINE ZONE */}
-        <div className="text-center flex flex-col items-center mt-2 sm:mt-4 lg:mt-2 mb-4 lg:mb-4">
-          <div className="flex items-center gap-3 mb-2 text-[#FF2E2E] font-black text-2xl sm:text-3xl md:text-4xl tracking-widest uppercase">
-            <span>\</span>
-            <span className="text-white">DISCOVER HOW</span>
-            <span>/</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[40px] xl:text-[46px] font-black leading-[1.08] tracking-tight uppercase mb-3 flex flex-col">
-            <span className="text-[#FFB800] drop-shadow-[0_4px_12px_rgba(255,184,0,0.15)]">STREETWEAR BRAND OWNERS</span>
-            <span className="text-white mt-0.5">CAN <span className="text-[#FF2E2E]">SELL OUT</span> THEIR NEXT DROP</span>
+        {/* HERO */}
+        <section className="text-center mb-32 pt-10">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight mb-8 max-w-3xl mx-auto">
+            Discover How Streetwear Brand Owners Can Sell Out Their Next Drop In 30 Days…
           </h1>
-
-          {/* Yellow Brush stroke wrapper */}
-          <div className="inline-block bg-[#FFB800] text-black px-5 py-1.5 sm:py-2.5 font-black text-xl sm:text-3xl lg:text-2xl xl:text-3xl uppercase rounded-lg shadow-lg mb-4 rotate-[-1deg] transform hover:scale-[1.02] transition-transform">
-            IN 30 DAYS
+          <div className="text-2xl md:text-3xl font-extrabold text-[#FF6B00] uppercase tracking-wider mb-10">
+            With Just One Viral Ad.
           </div>
-
-          {/* White Border text */}
-          <div className="border border-white/40 rounded-full px-10 py-3 sm:py-3.5 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold uppercase tracking-wide bg-white/5 mt-2">
-            WITH JUST <span className="text-[#FF2E2E] font-black">ONE VIRAL AD</span>
+          <div className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto space-y-3 font-medium">
+            <p>No marketing experience required.</p>
+            <p>Just $30/day ad budget, around 30 minutes to setup.</p>
           </div>
-        </div>
+        </section>
 
-        {/* 3. PRE-ORDER ACTION CARD */}
-        <div className="bg-[#0e0e0e] border border-[#FF6B00]/40 rounded-3xl p-5 sm:p-7 text-center shadow-[0_0_30px_rgba(255,107,0,0.1)] hover:border-[#FF6B00] transition-colors duration-300 max-w-md mx-auto w-full mb-4">
-          <h2 className="text-sm sm:text-base font-black tracking-wider uppercase mb-1">
-            PRE-ORDER THE <span className="text-[#FF2E2E]">ONE VIRAL AD FRAMEWORK</span>
+        <div className="w-16 h-px bg-[#FF6B00]/40 mx-auto mb-32" />
+
+        {/* BIG NEWS */}
+        <section className="text-center mb-32">
+          <div className="inline-block px-4 py-1.5 border border-white/20 rounded-full text-xs font-bold tracking-widest uppercase mb-8">
+            BIG NEWS
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold mb-8">For The First Time Ever…</h2>
+          <p className="text-xl md:text-2xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
+            I’m releasing the proprietary One Viral Ad Framework I’ve developed after analyzing 5,000+ ads and studying the campaigns of hundreds of successful streetwear brands.
+          </p>
+        </section>
+
+        <div className="w-16 h-px bg-white/20 mx-auto mb-32" />
+
+        {/* FINALLY */}
+        <section className="text-center mb-32">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-400 mb-8 uppercase tracking-widest">Finally…</h2>
+          <p className="text-3xl md:text-4xl font-black leading-tight uppercase max-w-3xl mx-auto">
+            A Simple Way For Streetwear Brand Owners To Sell Out Their Next Drop Without Becoming Full-Time Marketers.
+          </p>
+        </section>
+
+        {/* REALITY CHECK */}
+        <section className="max-w-2xl mx-auto mb-32 text-lg md:text-xl text-gray-300 space-y-8 leading-relaxed">
+          <p className="font-bold text-white text-2xl">Let’s face it…</p>
+          <p>Building a streetwear brand probably isn’t what you imagined.</p>
+          <p className="text-[#FFB800] font-medium">
+            [You started because you wanted to be creative. To build a brand people genuinely wanted to wear.]
+          </p>
+          <p className="font-bold text-white text-2xl pt-8">Instead…</p>
+          <p>Most of your time is spent worrying about your next drop</p>
+          <p>Worrying about cashflow</p>
+          <p>Posting content.</p>
+          <p>Trying new marketing tactics.</p>
+          <p>Wondering when you can finally be creative with peace of mind.</p>
+        </section>
+
+        <div className="w-16 h-px bg-[#FF2E2E]/40 mx-auto mb-32" />
+
+        {/* THE REALITY */}
+        <section className="text-center mb-32 max-w-2xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-black text-white mb-10">But Here’s The Reality…</h2>
+          <div className="text-xl md:text-2xl text-gray-300 space-y-6">
+            <p>Creativity needs cash flow.</p>
+            <p>And cashflow needs marketing.</p>
+            <p>Without cashflow,</p>
+            <p>You spend more time stressing.</p>
+            <p>You end up spend more time marketing than creating.</p>
+            <p className="text-[#FF6B00] font-bold mt-10">The One Viral Ad Framework was built to change that.</p>
+          </div>
+        </section>
+
+        {/* FORMULA (CIRCULAR PROCESS) */}
+        <section className="mb-40">
+          <h2 className="text-3xl md:text-4xl font-black text-center mb-16">The Formula Is Surprisingly Simple</h2>
+          
+          <div className="relative max-w-lg mx-auto p-10 bg-[#0e0e0e] border border-white/10 rounded-full aspect-square flex flex-col items-center justify-center text-center">
+            {/* Using a large icon and circular layout logic via CSS classes */}
+            <RefreshCw className="absolute w-[120%] h-[120%] text-[#FFB800]/5 -z-10 animate-[spin_40s_linear_infinite]" />
+            <div className="space-y-6 text-lg md:text-xl font-bold">
+              <p className="text-white">Design your one viral Ad</p>
+              <div className="w-px h-6 bg-[#FFB800] mx-auto"></div>
+              <p className="text-white">launch</p>
+              <div className="w-px h-6 bg-[#FFB800] mx-auto"></div>
+              <p className="text-[#FFB800]">Sell out your drop</p>
+              <div className="w-px h-6 bg-[#FFB800] mx-auto"></div>
+              <p className="text-white">Reinvest part of the profits back into the Ad</p>
+              <div className="w-px h-6 bg-[#FFB800] mx-auto"></div>
+              <p className="text-white">Repeat the process.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* WHO AM I */}
+        <section className="max-w-2xl mx-auto mb-32 space-y-8 text-lg md:text-xl text-gray-300">
+          <h2 className="text-2xl font-black text-[#FF6B00] mb-8">[WHO AM I and why should you listen?]</h2>
+          <p>I’m Yasir Sultan.</p>
+          <p>I’ve been running ads since 2017.</p>
+          <p>Managed millions in ad spend.</p>
+          <p>Generated tens of millions in revenue.</p>
+          <p className="font-bold text-white pt-6">But more importantly…</p>
+          <p className="text-[#FFB800] leading-relaxed">
+            Over the past year I’ve analyzed more than [5,000 ads while studying what actually drives streetwear brand owners to build a brand in the first place ]
+          </p>
+        </section>
+
+        <div className="w-16 h-px bg-white/20 mx-auto mb-32" />
+
+        {/* THE PROBLEM */}
+        <section className="max-w-3xl mx-auto mb-32 text-center">
+          <h2 className="text-2xl md:text-4xl font-black mb-10 leading-tight">
+            Here’s The Problem With Growing A Streetwear Brand Today…
           </h2>
-          <div className="text-xl sm:text-2xl font-black text-[#FFB800] mb-6 tracking-wide drop-shadow-sm">
-            FOR JUST $4.95
+          <p className="text-xl md:text-2xl text-gray-300 mb-12">The old way of growing a streetwear brand no longer works.</p>
+          
+          <div className="text-left max-w-xl mx-auto space-y-6 text-lg md:text-xl text-gray-400">
+            <p className="text-white font-medium mb-6">Remember when everyone told you to…</p>
+            <ul className="space-y-4 list-none">
+              <li>* Do live events.</li>
+              <li>* Post content every day.</li>
+              <li>* Spend months building your audience.</li>
+              <li>* Launch countless drops hoping one finally takes off.</li>
+              <li>* Test endless marketing ideas until something sticks.</li>
+            </ul>
+            <p className="text-[#FF2E2E] font-bold text-2xl pt-6">Those days are over.</p>
+          </div>
+        </section>
+
+        {/* WHY IT DOESNT WORK & MINDSET SHIFT */}
+        <section className="max-w-2xl mx-auto mb-32 space-y-8 text-lg md:text-xl text-gray-300">
+          <h2 className="text-2xl md:text-3xl font-black text-white mb-10">Why The Old Way Doesn’t Work Anymore</h2>
+          <p>Here’s the truth most people won’t tell you.</p>
+          <p>Success doesn’t come from working harder.</p>
+          <p className="text-[#FF6B00] font-bold text-2xl">It comes from leverage.</p>
+          <p>One Viral Ad can outperform months of daily content.</p>
+          <p>One Viral Ad can outperform hundreds of pieces of "ads"</p>
+          <p className="pt-6">The problem isn’t that you aren’t working hard enough.</p>
+          <p>It’s that you’re spending your energy on low-leverage activities.</p>
+          <p className="text-white font-medium">The goal isn’t to become a better content creator.</p>
+          <p className="text-white font-bold">The goal is to build one marketing asset that continues bringing buyers to you.</p>
+          <p>So that way you spend 99% of your time being creative.</p>
+          <p className="text-[#FFB800] font-bold pt-4">You can achieve that dream in just 30 days.</p>
+        </section>
+
+        {/* MINDSET SHIFT */}
+        <section className="max-w-2xl mx-auto mb-32 bg-[#111] p-10 md:p-16 rounded-3xl border border-white/5">
+          <h2 className="text-2xl md:text-3xl font-black text-white mb-10">The Mindset Shift That Changes Everything</h2>
+          <div className="space-y-8 text-lg md:text-xl text-gray-300">
+            <p className="text-[#FF2E2E] font-medium">Stop asking…</p>
+            <p className="font-bold text-white text-2xl">“How can I work harder?”</p>
+            <p className="text-[#00A36C] font-medium pt-4">Start asking…</p>
+            <p className="font-bold text-white text-2xl leading-relaxed">“How can I create one marketing asset that keeps selling for me?”</p>
+            
+            <p className="pt-8 text-white">That’s the difference between…</p>
+            <p className="text-gray-400">* Spending hours creating content that barely generates sales.</p>
+            <p className="text-white">And…</p>
+            <p className="text-[#FFB800] font-bold">* Creating One Viral Ad that consistently attracts buyers and sells out your drops.</p>
+            <p className="pt-8">The second approach requires a completely different way of thinking.</p>
+            <p className="text-white">And that’s exactly what you’ll learn inside The One Viral Ad Framework.</p>
+          </div>
+        </section>
+
+        {/* INTRODUCING */}
+        <section className="text-center mb-40">
+          <p className="text-xl text-gray-400 font-medium tracking-widest uppercase mb-8">Introducing…</p>
+          <h2 className="text-4xl md:text-6xl font-black text-white mb-12">The One Viral Ad Framework</h2>
+          
+          <div className="max-w-2xl mx-auto space-y-6 text-xl md:text-2xl text-gray-300 font-medium mb-16">
+            <p>Years of testing.</p>
+            <p>Thousands of ads.</p>
+            <p>Millions spent on advertising.</p>
           </div>
 
-          {checkoutError && (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold p-3.5 rounded-xl text-center mb-4 leading-tight">
-              {checkoutError}
+          <p className="text-2xl font-bold text-white mb-10">Compressed into one simple framework that:</p>
+          <ul className="max-w-xl mx-auto text-left space-y-6 text-lg md:text-xl text-gray-300 mb-16">
+            <li>* Takes less than 30 minutes to set up and launch</li>
+            <li>* Requires 0 marketing experience or technical knowledge</li>
+            <li>* Helps you achieve a profitable drop in just 30 days</li>
+          </ul>
+
+          <div className="max-w-2xl mx-auto space-y-6 text-lg md:text-xl text-gray-400">
+            <p>This isn’t another collection of random marketing tactics.</p>
+            <p>It’s a framework built from years of testing, thousands of ads, and real ads analysis of over 500 successful streetwear brands.</p>
+          </div>
+        </section>
+
+        <div className="w-16 h-px bg-[#FF6B00]/40 mx-auto mb-32" />
+
+        {/* PRICING & LOGIC */}
+        <section className="max-w-3xl mx-auto mb-32 text-center">
+          <h2 className="text-3xl md:text-5xl font-black uppercase text-[#FF6B00] mb-16 leading-tight">
+            GET INSTANT ACCESS TO THE ONE VIRAL AD FRAMEWORK FOR JUST $17
+          </h2>
+          
+          <div className="text-left space-y-12 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="font-bold text-white text-2xl">Why Just $17?</p>
+            <p>For 2 simple reasons.</p>
+            
+            <div className="space-y-4 pt-4">
+              <p className="text-white font-bold text-xl">1. Because money talks.</p>
+              <p>I’d rather you invest a small amount than give this framework away for free.</p>
+              <p>People who invest—even a small amount—are far more likely to pay attention, implement what they learn, and actually use it for their next drop.</p>
+            </div>
+
+            <div className="space-y-4 pt-4">
+              <p className="text-white font-bold text-xl">2. Because this is only the first step.</p>
+              <p>I’m also launching a "7 day build your viral Ad with us challenge" where selected streetwear brand owners will build and launch their first Viral Ad with our guidance.</p>
+              <p>I’d rather invite founders who have already demonstrated they’re serious by investing in this framework.</p>
+              <p className="text-gray-400 italic">Yes, that’s the upsell. And you’ll see it on the next page.</p>
+            </div>
+
+            <p className="text-[#FFB800] font-bold text-2xl pt-8 text-center">
+              But whether you join the challenge or not…<br/>
+              The One Viral Ad Framework is yours to keep for just $17.
+            </p>
+          </div>
+        </section>
+
+        {/* GUARANTEE */}
+        <section className="max-w-2xl mx-auto mb-32 bg-[#0e0e0e] border border-white/10 rounded-3xl p-10 md:p-12 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FFB800] to-transparent"></div>
+          <h2 className="text-2xl md:text-3xl font-black text-white mb-4">YES, OF COURSE THERE’S A GUARANTEE</h2>
+          <p className="text-[#FFB800] font-bold text-xl mb-10">My 30-Day Money-Back Guarantee</p>
+          
+          <div className="text-left space-y-6 text-lg text-gray-300 leading-relaxed">
+            <p>While I can’t guarantee you’ll sell out your next drop within 30 days…</p>
+            <p>Your results will depend on your work ethic, and how well you implement the framework.</p>
+            <p className="text-white font-bold">What I can guarantee is that the value you’ll receive will be worth 50x more than the $17 you paid.</p>
+            <p>Go through the framework. Study it. Use it to build your Viral Ad.</p>
+            <p>If it doesn’t completely blow your mind with value, simply contact me at any point within the next 30 days.</p>
+            <p className="text-white font-black text-xl pt-4">I’ll refund your entire $17.<br/>No questions asked.</p>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="max-w-3xl mx-auto mb-32">
+          <h2 className="text-2xl md:text-3xl font-black text-center mb-16 uppercase">FREQUENTLY ASKED QUESTIONS</h2>
+          
+          <div className="space-y-12 text-lg md:text-xl">
+            <div>
+              <p className="font-bold text-white mb-3">What advertising platform does The One Viral Ad Framework work on?</p>
+              <p className="text-gray-400">The framework is designed primarily for Meta advertising, including Facebook and Instagram.</p>
+            </div>
+            <div>
+              <p className="font-bold text-white mb-3">Do I need to be technically advanced to use this framework?</p>
+              <p className="text-gray-400">No. Even if you’ve never opened Ads Manager before, you’ll be able to follow along.</p>
+            </div>
+            <div>
+              <p className="font-bold text-white mb-3">What if I don’t want to set up the campaign myself?</p>
+              <p className="text-gray-400">You don’t have to. You can hire a freelancer to handle the technical campaign setup for less than 60 USD.</p>
+            </div>
+            <div>
+              <p className="font-bold text-white mb-3">Do I need any graphic design or video editing experience to create my Viral Ad?</p>
+              <p className="text-gray-400">No. Zero experience required.</p>
+            </div>
+            <div>
+              <p className="font-bold text-white mb-3">How soon can I expect results?</p>
+              <p className="text-gray-400 space-y-4">
+                <span className="block">The honest answer is… I don’t know. I don’t know your product. I don’t know your work ethic. No one can honestly guarantee results.</span>
+                <span className="block">What I can tell you is that some direct-to-consumer brands have generated meaningful sales within 7 days because they found the right angle and launched an ad that genuinely connected with their audience.</span>
+                <span className="block">Your results may happen quickly. They may take longer.</span>
+                <span className="block text-white font-medium">But once you create a Viral Ad that works… You now own a marketing asset you can use over and over again for future drops.</span>
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-white mb-3">Will this work for my specific brand?</p>
+              <p className="text-gray-400 space-y-4">
+                <span className="block">This framework was built specifically for streetwear and identity-driven clothing brands.</span>
+                <span className="block">It is ideal if you sell: * T-shirts * Hoodies * Sweatshirts * Jackets * Or any other type of clothing people wear on their body.</span>
+                <span className="block">If your business falls outside that category, this offer is not applicable to you.</span>
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-white mb-3">Do I need a large advertising budget?</p>
+              <p className="text-gray-400">No. I recommend starting with around $30 per day.</p>
+            </div>
+            <div>
+              <p className="font-bold text-white mb-3">Do I need an audience to make this work?</p>
+              <p className="text-gray-400">No. Even if you have zero audience, that’s completely fine.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* FINAL CTA & CHECKOUT */}
+        <section className="text-center mb-20" id="checkout">
+          <h2 className="text-3xl md:text-5xl font-black uppercase text-white mb-16 leading-tight max-w-4xl mx-auto">
+            READY TO SELL OUT YOUR NEXT DROP IN 30 DAYS?
+          </h2>
+
+          <div className="mb-10 text-xl font-bold text-gray-300">
+            Complete the form below to Get Instant Access To The One Viral Ad Framework Now
+          </div>
+
+          {clientSecret ? (
+            <Elements
+              stripe={stripePromise}
+              options={{
+                clientSecret,
+                appearance: {
+                  theme: 'night',
+                  variables: {
+                    colorPrimary: '#FF6B00',
+                    colorBackground: '#000000',
+                    colorText: '#ffffff',
+                    colorDanger: '#df1b41',
+                    fontFamily: 'system-ui, sans-serif',
+                    borderRadius: '12px',
+                    spacingUnit: '5px',
+                  },
+                  rules: {
+                    '.Input': {
+                      border: '1px solid #374151',
+                      boxShadow: 'none',
+                      backgroundColor: '#000000'
+                    },
+                    '.Input:focus': {
+                      border: '1px solid #FF6B00',
+                      boxShadow: 'none',
+                    }
+                  }
+                }
+              }}
+            >
+              <CheckoutForm paymentIntentId={paymentIntentId} clientSecret={clientSecret} />
+            </Elements>
+          ) : (
+            <div className="py-20 flex justify-center">
+              <div className="w-10 h-10 border-4 border-[#FF6B00] border-t-transparent rounded-full animate-spin"></div>
             </div>
           )}
-
-          <form onSubmit={handleCheckoutSubmit} className="space-y-4 text-left">
-            {/* Name */}
-            <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
-              <input
-                required
-                type="text"
-                placeholder="Full Name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full bg-white border border-gray-300 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00] rounded-xl py-3 pl-11 pr-4 text-black placeholder:text-gray-500 font-medium text-sm outline-none transition-all shadow-sm"
-              />
-            </div>
-
-            {/* Email */}
-            <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
-              <input
-                required
-                type="email"
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full bg-white border border-gray-300 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00] rounded-xl py-3 pl-11 pr-4 text-black placeholder:text-gray-500 font-medium text-sm outline-none transition-all shadow-sm"
-              />
-            </div>
-
-            {/* Phone */}
-            <div className="relative">
-              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
-              <input
-                required
-                type="tel"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full bg-white border border-gray-300 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00] rounded-xl py-3 pl-11 pr-4 text-black placeholder:text-gray-500 font-medium text-sm outline-none transition-all shadow-sm"
-              />
-            </div>
-
-            {/* Submit / Proceed */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-[#00A36C] hover:bg-[#008A5B] text-white font-black py-3.5 rounded-xl uppercase tracking-wider text-sm transition-colors cursor-pointer disabled:opacity-75 flex items-center justify-center gap-2 mt-2 shadow-[0_4px_20px_rgba(0,163,108,0.3)]"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 text-white animate-spin" />
-                  <span>Processing...</span>
-                </>
-              ) : (
-                <span>GO TO STEP 2</span>
-              )}
-            </button>
-
-            <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest pt-2">
-              <ShieldCheck className="w-3.5 h-3.5 text-green-500" />
-              <span>Secure 256-bit Stripe checkout</span>
-            </div>
-          </form>
-        </div>
-
-      </div>
-
-      {/* 4. DISCLAIMER FOOTER ZONE */}
-      <div className="text-center mt-auto py-1">
-        <p className="text-[10px] sm:text-[11px] text-gray-600 max-w-xl mx-auto leading-relaxed">
-          Disclaimer: The results expressed in this training are illustrative and not guaranteed. Your success is entirely up to you and the work you put in.
-        </p>
-      </div>
-
-      {clientSecret && (
-        <Elements
-          stripe={stripePromise}
-          options={{
-            clientSecret,
-            appearance: {
-              theme: 'stripe',
-              variables: {
-                colorPrimary: '#FF6B00',
-                colorBackground: '#ffffff',
-                colorText: '#000000',
-                colorDanger: '#df1b41',
-                fontFamily: 'system-ui, sans-serif',
-                borderRadius: '12px',
-                spacingUnit: '4px',
-              },
-              rules: {
-                '.Input': {
-                  border: '1px solid #d1d5db',
-                  boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-                }
-              }
-            }
-          }}
-        >
-          <PaymentModal
-            isOpen={isPaymentModalOpen}
-            onClose={() => setIsPaymentModalOpen(false)}
-            onSuccess={handlePaymentSuccess}
-            customerDetails={formData}
-          />
-        </Elements>
-      )}
-
+        </section>
+      </main>
     </div>
   );
 }
@@ -428,7 +386,7 @@ export default function LandingPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-black flex items-center justify-center text-white">
-        <Loader2 className="w-8 h-8 text-[#FF6B00] animate-spin" />
+        <div className="w-10 h-10 border-4 border-[#FF6B00] border-t-transparent rounded-full animate-spin"></div>
       </div>
     }>
       <LandingPageContent />
