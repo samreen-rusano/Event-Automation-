@@ -6,7 +6,6 @@ export interface EmailData {
 
 export function renderHtml(firstName: string, lines: string[]): string {
     const bgLight = "#F4F5F7";
-    const textDark = "#162228";
     const textMuted = "#45606D";
 
     const formattedLines = lines.map(line => {

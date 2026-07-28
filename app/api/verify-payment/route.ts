@@ -30,7 +30,7 @@ export async function POST(req: Request) {
       if (paymentIntent.metadata?.purchasedItems) {
         purchasedItems = JSON.parse(paymentIntent.metadata.purchasedItems);
       }
-    } catch(e) {}
+    } catch { }
 
     // Upsert user in DB and mark as paid
     await connectDB();
@@ -91,8 +91,9 @@ export async function POST(req: Request) {
       transactionId: paymentIntent.id,
       paymentStatus: paymentIntent.status,
     });
-  } catch (err: any) {
-    console.error("[Stripe] verify-payment error:", err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const error = err as Error;
+    console.error("[Stripe] verify-payment error:", error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

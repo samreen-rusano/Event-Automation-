@@ -37,8 +37,9 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (err: any) {
-    console.error("[Stripe] update-payment-intent error:", err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const error = err as Error;
+    console.error("[Stripe] update-payment-intent error:", error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

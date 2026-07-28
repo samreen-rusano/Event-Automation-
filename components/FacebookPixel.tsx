@@ -1,5 +1,8 @@
 "use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prefer-rest-params */
+/* eslint-disable prefer-spread */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 

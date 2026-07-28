@@ -1,5 +1,6 @@
 "use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prefer-rest-params */
 import { useEffect } from "react";
 
 const RAW_CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID || "";

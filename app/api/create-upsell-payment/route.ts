@@ -25,7 +25,7 @@ export async function POST(req: Request) {
       if (originalIntent.metadata && originalIntent.metadata.purchasedItems) {
         purchasedItems = JSON.parse(originalIntent.metadata.purchasedItems);
       }
-    } catch (e) {
+    } catch {
       console.error("Error parsing purchasedItems from original intent metadata");
     }
 
@@ -54,8 +54,9 @@ export async function POST(req: Request) {
       success: true,
       paymentIntentId: paymentIntent.id 
     });
-  } catch (err: any) {
-    console.error("[Stripe] create-upsell-payment error:", err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const error = err as Error;
+    console.error("[Stripe] create-upsell-payment error:", error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

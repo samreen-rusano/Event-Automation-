@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from "@/components/CheckoutForm";
-import { ShieldCheck, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { fbEvent } from "@/components/FacebookPixel";
 import { readSessionStorage, writeSessionStorage } from "@/lib/browser";
 
@@ -181,7 +181,7 @@ function LandingPageContent() {
           <p>Success doesn’t come from working harder.</p>
           <p className="text-[#FF6B00] font-bold text-2xl">It comes from leverage.</p>
           <p>One Viral Ad can outperform months of daily content.</p>
-          <p>One Viral Ad can outperform hundreds of pieces of "ads"</p>
+          <p>One Viral Ad can outperform hundreds of pieces of &quot;ads&quot;</p>
           <p className="pt-6">The problem isn’t that you aren’t working hard enough.</p>
           <p>It’s that you’re spending your energy on low-leverage activities.</p>
           <p className="text-white font-medium">The goal isn’t to become a better content creator.</p>
@@ -252,7 +252,7 @@ function LandingPageContent() {
 
             <div className="space-y-4 pt-4">
               <p className="text-white font-bold text-xl">2. Because this is only the first step.</p>
-              <p>I’m also launching a "7 day build your viral Ad with us challenge" where selected streetwear brand owners will build and launch their first Viral Ad with our guidance.</p>
+              <p>I’m also launching a &quot;7 day build your viral Ad with us challenge&quot; where selected streetwear brand owners will build and launch their first Viral Ad with our guidance.</p>
               <p>I’d rather invite founders who have already demonstrated they’re serious by investing in this framework.</p>
               <p className="text-gray-400 italic">Yes, that’s the upsell. And you’ll see it on the next page.</p>
             </div>

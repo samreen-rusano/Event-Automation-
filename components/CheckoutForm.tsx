@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Loader2, ShieldCheck, Check } from "lucide-react";
 
@@ -13,7 +13,7 @@ interface CheckoutFormProps {
 export default function CheckoutForm({ paymentIntentId, clientSecret }: CheckoutFormProps) {
   const stripe = useStripe();
   const elements = useElements();
-  const router = useRouter();
+
 
   const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
   const [orderBump, setOrderBump] = useState(false);
@@ -35,8 +35,9 @@ export default function CheckoutForm({ paymentIntentId, clientSecret }: Checkout
         // Note: we don't need to re-initialize elements for amount changes, Stripe handles it
         // internally when confirmed, though ideally the elements instance should be refreshed if the amount displayed in PaymentElement changes.
         // Actually PaymentElement doesn't show the total amount, only the payment fields.
-      } catch (err: any) {
-        console.error("Failed to update payment intent:", err);
+      } catch (err: unknown) {
+        const error = err as Error;
+        console.error("Failed to update payment intent:", error);
       } finally {
         setUpdatingPrice(false);
       }
@@ -45,6 +46,7 @@ export default function CheckoutForm({ paymentIntentId, clientSecret }: Checkout
     // Skip initial mount if form is empty and bump is false, because we already created it.
     // Wait, on initial mount we created for $17. If orderBump changes to true, we must update.
     updateIntent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderBump, paymentIntentId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -91,8 +93,9 @@ export default function CheckoutForm({ paymentIntentId, clientSecret }: Checkout
       if (result.error) {
         throw new Error(result.error.message || "Payment failed.");
       }
-    } catch (err: any) {
-      setError(err.message || "Something went wrong.");
+    } catch (err: unknown) {
+      const error = err as Error;
+      setError(error.message || "Something went wrong.");
       setLoading(false);
     }
   };

@@ -52,8 +52,9 @@ export async function GET(req: Request) {
     }
 
     return NextResponse.json({ success: true, processed: droppedOffUsers.length, sent: sentCount });
-  } catch (err: any) {
-    console.error("[CRON] fallback-emails error:", err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const error = err as Error;
+    console.error("[CRON] fallback-emails error:", error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

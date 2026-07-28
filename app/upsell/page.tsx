@@ -28,9 +28,10 @@ function UpsellContent() {
       } else {
         throw new Error(data.error || "Could not process upsell payment");
       }
-    } catch (err: any) {
-      console.error(err);
-      alert(err.message || "Something went wrong. Please try again.");
+    } catch (err: unknown) {
+      const error = err as Error;
+      console.error(error);
+      alert(error.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -80,7 +81,7 @@ function UpsellContent() {
           <div className="text-left max-w-xl mx-auto space-y-10 mb-12 text-gray-300 text-lg leading-relaxed">
             <div>
               <h4 className="text-white font-bold text-xl mb-4">Objective</h4>
-              <p>In just 7 days, you'll have:</p>
+              <p>In just 7 days, you&apos;ll have:</p>
               <ul className="list-disc pl-5 space-y-2 mt-4 text-gray-400">
                 <li>A clear, irresistible offer.</li>
                 <li>7 versions of your first viral ad.</li>
@@ -111,7 +112,7 @@ function UpsellContent() {
               disabled={loading}
               className="text-gray-500 hover:text-gray-300 underline font-medium text-sm md:text-base transition-colors"
             >
-              No thanks, I don't want personalized guidance.
+              No thanks, I don&apos;t want personalized guidance.
             </button>
           </div>
 

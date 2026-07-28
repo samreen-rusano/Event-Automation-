@@ -14,7 +14,6 @@ function SuccessContent() {
   const intentId = paymentIntent || originalIntent;
   
   const [loading, setLoading] = useState(true);
-  const [purchaseData, setPurchaseData] = useState<any>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -34,9 +33,10 @@ function SuccessContent() {
         
         if (!res.ok) throw new Error(data.error || "Verification failed");
         
-        setPurchaseData(data);
-      } catch (err: any) {
-        console.error(err);
+        // Validation successful
+      } catch (err: unknown) {
+        const error = err as Error;
+        console.error(error);
         setError("We couldn't load your order details, but your payment was successful. Please check your email.");
       } finally {
         setLoading(false);
@@ -81,7 +81,7 @@ function SuccessContent() {
               Check Your Inbox
             </h2>
             <p className="text-gray-300 leading-relaxed">
-              We've just sent you an email with your access links. Please check your inbox (and spam/promotions folders just in case) for access to the One Viral Ad Framework.
+              We&apos;ve just sent you an email with your access links. Please check your inbox (and spam/promotions folders just in case) for access to the One Viral Ad Framework.
             </p>
           </div>
 
@@ -93,7 +93,7 @@ function SuccessContent() {
               Slack Channel Access
             </h2>
             <p className="text-gray-300 leading-relaxed">
-              If your purchase included the 7-Day Build Your Viral Ad Program, we will be adding you to our Slack workspace using the email address you provided. Your 7-day challenge will begin once you've been added and we've exchanged greetings.
+              If your purchase included the 7-Day Build Your Viral Ad Program, we will be adding you to our Slack workspace using the email address you provided. Your 7-day challenge will begin once you&apos;ve been added and we&apos;ve exchanged greetings.
             </p>
           </div>
 

@@ -40,6 +40,7 @@ export default function RootLayout({
         {/* Facebook Pixel noscript fallback — fires for users with JS disabled */}
         {FB_PIXEL_ID && (
           <noscript>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               height="1"
               width="1"
