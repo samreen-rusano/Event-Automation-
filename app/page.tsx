@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from "@/components/CheckoutForm";
-import { RefreshCw } from "lucide-react";
+import { CircleDollarSign, Timer, User, Shirt, Lock, Plus, ChevronDown, Minus, ChevronUp } from "lucide-react";
 import { fbEvent } from "@/components/FacebookPixel";
 import { readSessionStorage, writeSessionStorage } from "@/lib/browser";
 
@@ -13,6 +13,25 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY 
 function LandingPageContent() {
   const [clientSecret, setClientSecret] = useState("");
   const [paymentIntentId, setPaymentIntentId] = useState("");
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (lightboxImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [lightboxImage]);
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxImage(null);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -41,342 +60,425 @@ function LandingPageContent() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-[#FF6B00] selection:text-white">
-      {/* 
-        Spacing rhythm:
-        Large transitions deserve more whitespace (e.g. py-24, py-32)
-        Connected ideas remain visually close (e.g. mb-6, mb-8)
-        One idea per paragraph
-      */}
-
-      <main className="max-w-4xl mx-auto px-6 py-20">
+    <div className="min-h-screen bg-[#000000] text-[#F1F1F1] font-sans selection:bg-[#F8B001] selection:text-black">
+      <main className="w-[min(94vw,1150px)] mx-auto px-2 sm:px-4 py-8 min-h-[100svh] flex flex-col items-center justify-start">
         
-        {/* HERO */}
-        <section className="text-center mb-32 pt-10">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight mb-8 max-w-3xl mx-auto">
-            Discover How Streetwear Brand Owners Can Sell Out Their Next Drop In 30 Days…
+        {/* TOP CONTENT (HIDDEN DURING FAQ FOCUS) */}
+        <div className={activeFaq !== null ? "hidden" : "w-full flex flex-col items-center"}>
+          
+          {/* SECTION 1 — EYEBROW */}
+          <div className="text-center font-bold tracking-[0.2em] text-base md:text-xl lg:text-2xl mb-4 mt-4">
+            <span className="text-[#DB0101]">//</span>
+            <span className="text-[#F1F1F1] mx-2 sm:mx-3 uppercase">DISCOVER HOW</span>
+            <span className="text-[#DB0101]">//</span>
+          </div>
+
+          {/* SECTION 2 — MAIN HERO HEADLINE */}
+          <h1 className="w-full text-center font-[900] leading-[0.9] tracking-tight uppercase mb-6" style={{ fontSize: "clamp(42px, 7vw, 92px)" }}>
+            <div className="text-[#F8B001]">STREETWEAR</div>
+            <div className="text-[#F8B001]">BRAND OWNERS</div>
+            <div>
+              <span className="text-[#F1F1F1]">CAN </span>
+              <span className="text-[#DB0101]">SELL OUT</span>
+            </div>
+            <div className="text-[#F1F1F1]">THEIR NEXT DROP</div>
           </h1>
-          <div className="text-2xl md:text-3xl font-extrabold text-[#FF6B00] uppercase tracking-wider mb-10">
-            With Just One Viral Ad.
+
+          {/* SECTION 3 — "IN 30 DAYS" BADGE */}
+          <div className="bg-[#F8B001] text-[#000000] font-bold uppercase px-4 py-1.5 rounded-md text-lg md:text-2xl mb-6 inline-block">
+            IN 30 DAYS
           </div>
-          <div className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto space-y-3 font-medium">
-            <p>No marketing experience required.</p>
-            <p>Just $30/day ad budget, around 30 minutes to setup.</p>
+
+          {/* SECTION 4 — VIRAL AD PILL */}
+          <div className="border-2 border-[#353535] rounded-full px-6 py-2 text-lg md:text-2xl font-bold uppercase mb-8 inline-block">
+            <span className="text-[#F1F1F1]">WITH JUST </span>
+            <span className="text-[#DB0101]">ONE VIRAL AD</span>
           </div>
-        </section>
 
-        <div className="w-16 h-px bg-[#FF6B00]/40 mx-auto mb-32" />
+          {/* SECTION 5 — DIVIDER */}
+          <div className="w-full border-t border-[#303030] mb-8"></div>
 
-        {/* BIG NEWS */}
-        <section className="text-center mb-32">
-          <div className="inline-block px-4 py-1.5 border border-white/20 rounded-full text-xs font-bold tracking-widest uppercase mb-8">
-            BIG NEWS
-          </div>
-          <h2 className="text-2xl md:text-3xl font-bold mb-8">For The First Time Ever…</h2>
-          <p className="text-xl md:text-2xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
-            I’m releasing the proprietary One Viral Ad Framework I’ve developed after analyzing 5,000+ ads and studying the campaigns of hundreds of successful streetwear brands.
-          </p>
-        </section>
-
-        <div className="w-16 h-px bg-white/20 mx-auto mb-32" />
-
-        {/* FINALLY */}
-        <section className="text-center mb-32">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-400 mb-8 uppercase tracking-widest">Finally…</h2>
-          <p className="text-3xl md:text-4xl font-black leading-tight uppercase max-w-3xl mx-auto">
-            A Simple Way For Streetwear Brand Owners To Sell Out Their Next Drop Without Becoming Full-Time Marketers.
-          </p>
-        </section>
-
-        {/* REALITY CHECK */}
-        <section className="max-w-2xl mx-auto mb-32 text-lg md:text-xl text-gray-300 space-y-8 leading-relaxed">
-          <p className="font-bold text-white text-2xl">Let’s face it…</p>
-          <p>Building a streetwear brand probably isn’t what you imagined.</p>
-          <p className="text-[#FFB800] font-medium">
-            [You started because you wanted to be creative. To build a brand people genuinely wanted to wear.]
-          </p>
-          <p className="font-bold text-white text-2xl pt-8">Instead…</p>
-          <p>Most of your time is spent worrying about your next drop</p>
-          <p>Worrying about cashflow</p>
-          <p>Posting content.</p>
-          <p>Trying new marketing tactics.</p>
-          <p>Wondering when you can finally be creative with peace of mind.</p>
-        </section>
-
-        <div className="w-16 h-px bg-[#FF2E2E]/40 mx-auto mb-32" />
-
-        {/* THE REALITY */}
-        <section className="text-center mb-32 max-w-2xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-black text-white mb-10">But Here’s The Reality…</h2>
-          <div className="text-xl md:text-2xl text-gray-300 space-y-6">
-            <p>Creativity needs cash flow.</p>
-            <p>And cashflow needs marketing.</p>
-            <p>Without cashflow,</p>
-            <p>You spend more time stressing.</p>
-            <p>You end up spend more time marketing than creating.</p>
-            <p className="text-[#FF6B00] font-bold mt-10">The One Viral Ad Framework was built to change that.</p>
-          </div>
-        </section>
-
-        {/* FORMULA (CIRCULAR PROCESS) */}
-        <section className="mb-40">
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-16">The Formula Is Surprisingly Simple</h2>
-          
-          <div className="relative max-w-lg mx-auto p-10 bg-[#0e0e0e] border border-white/10 rounded-full aspect-square flex flex-col items-center justify-center text-center">
-            {/* Using a large icon and circular layout logic via CSS classes */}
-            <RefreshCw className="absolute w-[120%] h-[120%] text-[#FFB800]/5 -z-10 animate-[spin_40s_linear_infinite]" />
-            <div className="space-y-6 text-lg md:text-xl font-bold">
-              <p className="text-white">Design your one viral Ad</p>
-              <div className="w-px h-6 bg-[#FFB800] mx-auto"></div>
-              <p className="text-white">launch</p>
-              <div className="w-px h-6 bg-[#FFB800] mx-auto"></div>
-              <p className="text-[#FFB800]">Sell out your drop</p>
-              <div className="w-px h-6 bg-[#FFB800] mx-auto"></div>
-              <p className="text-white">Reinvest part of the profits back into the Ad</p>
-              <div className="w-px h-6 bg-[#FFB800] mx-auto"></div>
-              <p className="text-white">Repeat the process.</p>
+          {/* SECTION 6 — FOUR BENEFITS */}
+          <div className="w-full flex flex-row items-start justify-between gap-1 sm:gap-2 md:gap-4 mb-8">
+            {/* Benefit 1 */}
+            <div className="flex-1 flex flex-col items-center text-center px-1">
+              <CircleDollarSign className="w-8 h-8 md:w-10 md:h-10 text-[#F8B001] mb-3" strokeWidth={1.5} />
+              <div className="text-[#F1F1F1] font-bold text-xs sm:text-sm md:text-lg uppercase leading-tight mb-1">$30/DAY</div>
+              <div className="text-[#919191] text-[10px] sm:text-xs md:text-sm leading-tight">Daily Ad Budget</div>
+            </div>
+            <div className="w-px bg-[#303030] self-stretch"></div>
+            {/* Benefit 2 */}
+            <div className="flex-1 flex flex-col items-center text-center px-1">
+              <Timer className="w-8 h-8 md:w-10 md:h-10 text-[#F8B001] mb-3" strokeWidth={1.5} />
+              <div className="text-[#F1F1F1] font-bold text-xs sm:text-sm md:text-lg uppercase leading-tight mb-1">60 MINUTES</div>
+              <div className="text-[#919191] text-[10px] sm:text-xs md:text-sm leading-tight">To Set Everything Up</div>
+            </div>
+            <div className="w-px bg-[#303030] self-stretch"></div>
+            {/* Benefit 3 */}
+            <div className="flex-1 flex flex-col items-center text-center px-1">
+              <User className="w-8 h-8 md:w-10 md:h-10 text-[#F8B001] mb-3" strokeWidth={1.5} />
+              <div className="text-[#F1F1F1] font-bold text-xs sm:text-sm md:text-lg uppercase leading-tight mb-1">NO PRIOR</div>
+              <div className="text-[#919191] text-[10px] sm:text-xs md:text-sm leading-tight">Marketing Experience<br/>Needed</div>
+            </div>
+            <div className="w-px bg-[#303030] self-stretch"></div>
+            {/* Benefit 4 */}
+            <div className="flex-1 flex flex-col items-center text-center px-1">
+              <Shirt className="w-8 h-8 md:w-10 md:h-10 text-[#F8B001] mb-3" strokeWidth={1.5} />
+              <div className="text-[#F1F1F1] font-bold text-xs sm:text-sm md:text-lg uppercase leading-tight mb-1">STREETWEAR OR</div>
+              <div className="text-[#919191] text-[10px] sm:text-xs md:text-sm leading-tight">Identity-Driven<br/>Clothing Brands Only</div>
             </div>
           </div>
-        </section>
 
-        {/* WHO AM I */}
-        <section className="max-w-2xl mx-auto mb-32 space-y-8 text-lg md:text-xl text-gray-300">
-          <h2 className="text-2xl font-black text-[#FF6B00] mb-8">[WHO AM I and why should you listen?]</h2>
-          <p>I’m Yasir Sultan.</p>
-          <p>I’ve been running ads since 2017.</p>
-          <p>Managed millions in ad spend.</p>
-          <p>Generated tens of millions in revenue.</p>
-          <p className="font-bold text-white pt-6">But more importantly…</p>
-          <p className="text-[#FFB800] leading-relaxed">
-            Over the past year I’ve analyzed more than [5,000 ads while studying what actually drives streetwear brand owners to build a brand in the first place ]
-          </p>
-        </section>
+          {/* SECOND DIVIDER */}
+          <div className="w-full border-t border-[#303030] mb-8"></div>
 
-        <div className="w-16 h-px bg-white/20 mx-auto mb-32" />
-
-        {/* THE PROBLEM */}
-        <section className="max-w-3xl mx-auto mb-32 text-center">
-          <h2 className="text-2xl md:text-4xl font-black mb-10 leading-tight">
-            Here’s The Problem With Growing A Streetwear Brand Today…
+          {/* SECTION 7 — FRAMEWORK TITLE */}
+          <h2 className="text-[#F1F1F1] font-bold uppercase tracking-tight mb-6 text-center w-full" style={{ fontSize: "clamp(24px, 3.2vw, 42px)" }}>
+            ONE VIRAL AD FRAMEWORK
           </h2>
-          <p className="text-xl md:text-2xl text-gray-300 mb-12">The old way of growing a streetwear brand no longer works.</p>
-          
-          <div className="text-left max-w-xl mx-auto space-y-6 text-lg md:text-xl text-gray-400">
-            <p className="text-white font-medium mb-6">Remember when everyone told you to…</p>
-            <ul className="space-y-4 list-none">
-              <li>* Do live events.</li>
-              <li>* Post content every day.</li>
-              <li>* Spend months building your audience.</li>
-              <li>* Launch countless drops hoping one finally takes off.</li>
-              <li>* Test endless marketing ideas until something sticks.</li>
-            </ul>
-            <p className="text-[#FF2E2E] font-bold text-2xl pt-6">Those days are over.</p>
+
+          {/* SECTION 8 — MAIN CTA */}
+          <button 
+            onClick={() => document.getElementById('checkout')?.scrollIntoView({ behavior: 'smooth' })}
+            className="w-full bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-bold uppercase rounded-md flex items-center justify-center gap-3 transition-colors mb-8 cursor-pointer border-none"
+            style={{ minHeight: "64px", fontSize: "clamp(18px, 2.5vw, 32px)" }}
+          >
+            <Lock className="w-6 h-6 md:w-8 md:h-8 text-white" />
+            GET INSTANT ACCESS – $17 USD
+          </button>
+        </div>
+        {/* END OF HIDDEN TOP CONTENT */}
+
+        {/* SECTION 9 — FAQ LIST */}
+        <div id="faq-section" className="w-full space-y-3 mb-10">
+          {[
+            "What is the One Viral Ad Framework?",
+            "Why should I care about this framework?",
+            "Is there a guarantee?",
+            "Why should I trust you?"
+          ].map((q, i) => {
+            const isOpen = activeFaq === i;
+
+            if (isOpen && i === 0) {
+              return (
+                <div key={i} className="w-full bg-[#000000] border-2 border-[#353535] rounded-[7px] md:rounded-[10px] overflow-hidden">
+                  <button 
+                    onClick={() => {
+                      setActiveFaq(null);
+                      setTimeout(() => {
+                        document.getElementById('faq-section')?.scrollIntoView({ behavior: 'auto' });
+                      }, 10);
+                    }}
+                    className="w-full p-4 md:p-6 flex items-center justify-between cursor-pointer text-left focus:outline-none focus:bg-white/5" 
+                    aria-expanded="true"
+                  >
+                    <div className="flex items-center gap-4 flex-1">
+                      <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F8B001] flex items-center justify-center text-[#000000]">
+                        <Minus className="w-6 h-6 md:w-8 md:h-8" strokeWidth={4} />
+                      </div>
+                      <span className="text-[#F1F1F1] font-[800]" style={{ fontSize: "clamp(18px, 2.4vw, 32px)" }}>
+                        What is the <span className="text-[#F8B001]">One Viral Ad</span> Framework?
+                      </span>
+                    </div>
+                    <ChevronUp className="w-6 h-6 md:w-8 md:h-8 text-[#F8B001] flex-shrink-0 ml-2" strokeWidth={3} />
+                  </button>
+                  
+                  <div className="w-[90%] mx-auto border-t border-[#353535]"></div>
+                  
+                  <div className="p-4 md:p-8 pb-6 text-[#F1F1F1] font-[500]" style={{ fontSize: "clamp(18px, 4.4vw, 36px)", lineHeight: 1.7 }}>
+                    <p className="mb-10">
+                      The One Viral Ad Framework is a step-by-step guide designed to help you create <span className="text-[#DB0101] font-[800]">ONE HIGH-CONVERTING AD</span> that can help sell out your next drop profitably in <span className="text-[#F8B001] font-[800]">30 DAYS.</span>
+                    </p>
+                    
+                    <p className="mb-12">
+                      It takes <span className="text-[#F8B001] font-[800]">60 MINUTES</span> to <span className="text-[#F8B001] font-[800]">BUILD YOUR ONE VIRAL AD FROM SCRATCH</span>, requires <span className="font-[800]">NO PRIOR MARKETING EXPERIENCE</span>, needs just <span className="text-[#F8B001] font-[800]">$30 USD/DAY IN AD SPEND</span>, and is designed specifically for <span className="text-[#F8B001] font-[800]">META ADS.</span>
+                    </p>
+                    
+                    <button 
+                      onClick={() => {
+                        setActiveFaq(null);
+                        setTimeout(() => document.getElementById('checkout')?.scrollIntoView({ behavior: 'smooth' }), 10);
+                      }}
+                      className="w-full bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-bold uppercase rounded-[6px] md:rounded-[8px] flex items-center justify-center gap-3 transition-colors cursor-pointer border-none"
+                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 32px)" }}
+                    >
+                      <Lock className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                      GET INSTANT ACCESS – $17 USD
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+
+            if (isOpen && i === 1) {
+              return (
+                <div key={i} className="w-full bg-[#000000] border-2 border-[#353535] rounded-[7px] md:rounded-[10px] overflow-hidden">
+                  <button 
+                    onClick={() => {
+                      setActiveFaq(null);
+                      setTimeout(() => {
+                        document.getElementById('faq-section')?.scrollIntoView({ behavior: 'auto' });
+                      }, 10);
+                    }}
+                    className="w-full p-4 md:p-6 flex items-center justify-between cursor-pointer text-left focus:outline-none focus:bg-white/5" 
+                    aria-expanded="true"
+                  >
+                    <div className="flex items-center gap-4 flex-1">
+                      <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F8B001] flex items-center justify-center text-[#000000]">
+                        <Minus className="w-6 h-6 md:w-8 md:h-8" strokeWidth={4} />
+                      </div>
+                      <span className="text-[#E9EAEA] font-[800]" style={{ fontSize: "clamp(18px, 2.4vw, 32px)" }}>
+                        {q}
+                      </span>
+                    </div>
+                    <ChevronUp className="w-6 h-6 md:w-8 md:h-8 text-[#F8B001] flex-shrink-0 ml-2" strokeWidth={3} />
+                  </button>
+                  
+                  <div className="w-[90%] mx-auto border-t border-[#303030]"></div>
+                  
+                  <div className="px-5 md:px-8 py-6 text-[#E9EAEA] font-[500]" style={{ fontSize: "clamp(18px, 4.1vw, 25px)", lineHeight: 1.6 }}>
+                    <p className="mb-6">
+                      You started your streetwear brand to be creative. To be artistic. Yet you spend most of your time trying to market it.
+                    </p>
+                    
+                    <p className="mb-6">
+                      Which means you're spending more time marketing your brand than creating it.
+                    </p>
+
+                    <p className="mb-10">
+                      The One Viral Ad Framework helps you build <span className="text-[#DB0101] font-[800]">ONE HIGH-CONVERTING AD</span> so you can generate sales faster, spend less time promoting your brand, and <span className="text-[#F8B001] font-[800]">MORE TIME DOING CREATIVE WORK.</span>
+                    </p>
+                    
+                    <button 
+                      onClick={() => {
+                        setActiveFaq(null);
+                        setTimeout(() => document.getElementById('checkout')?.scrollIntoView({ behavior: 'smooth' }), 10);
+                      }}
+                      className="w-full bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-bold uppercase rounded-[6px] md:rounded-[8px] flex items-center justify-center gap-3 transition-colors cursor-pointer border-none"
+                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 32px)" }}
+                    >
+                      <Lock className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                      GET INSTANT ACCESS FOR $17 USD
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+
+            if (isOpen && i === 2) {
+              return (
+                <div key={i} className="w-full bg-[#000000] border-2 border-[#353535] rounded-[7px] md:rounded-[10px] overflow-hidden">
+                  <button 
+                    onClick={() => {
+                      setActiveFaq(null);
+                      setTimeout(() => {
+                        document.getElementById('faq-section')?.scrollIntoView({ behavior: 'auto' });
+                      }, 10);
+                    }}
+                    className="w-full p-4 md:p-6 flex items-center justify-between cursor-pointer text-left focus:outline-none focus:bg-white/5" 
+                    aria-expanded="true"
+                  >
+                    <div className="flex items-center gap-4 flex-1">
+                      <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F8B001] flex items-center justify-center text-[#000000]">
+                        <Minus className="w-6 h-6 md:w-8 md:h-8" strokeWidth={4} />
+                      </div>
+                      <span className="text-[#E9EAEA] font-[800]" style={{ fontSize: "clamp(18px, 2.4vw, 32px)" }}>
+                        {q}
+                      </span>
+                    </div>
+                    <ChevronUp className="w-6 h-6 md:w-8 md:h-8 text-[#F8B001] flex-shrink-0 ml-2" strokeWidth={3} />
+                  </button>
+                  
+                  <div className="w-[90%] mx-auto border-t border-[#303030]"></div>
+                  
+                  <div className="px-5 md:px-8 py-6 text-[#E9EAEA] font-[500]" style={{ fontSize: "clamp(18px, 4.1vw, 25px)", lineHeight: 1.6 }}>
+                    <p className="mb-6">
+                      While I can't guarantee you'll sell out your next drop in <span className="text-[#F8B001] font-[800]">30 DAYS</span>—because I don't control your work ethic or how well you implement the framework—I <span className="text-[#F8B001] font-[800]">CAN</span> guarantee you'll receive <span className="text-[#F8B001] font-[800]">far more value</span> than the <span className="text-[#F8B001] font-[800]">$17 USD</span> purchase price.
+                    </p>
+                    
+                    <p className="mb-8">
+                      If you don't, simply email me within <span className="text-[#F8B001] font-[800]">30 DAYS</span> and I'll refund your <span className="text-[#F8B001] font-[800]">$17 USD</span>.
+                    </p>
+
+                    <p className="mb-10 text-[#DB0101] font-[800] uppercase">
+                      NO QUESTIONS ASKED.
+                    </p>
+                    
+                    <button 
+                      onClick={() => {
+                        setActiveFaq(null);
+                        setTimeout(() => document.getElementById('checkout')?.scrollIntoView({ behavior: 'smooth' }), 10);
+                      }}
+                      className="w-full bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-bold uppercase rounded-[6px] md:rounded-[8px] flex items-center justify-center gap-3 transition-colors cursor-pointer border-none"
+                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 32px)" }}
+                    >
+                      <Lock className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                      GET INSTANT ACCESS FOR $17 USD
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+
+            if (isOpen && i === 3) {
+              return (
+                <div key={i} className="w-full bg-[#000000] border-2 border-[#353535] rounded-[7px] md:rounded-[10px] overflow-hidden">
+                  <button 
+                    onClick={() => {
+                      setActiveFaq(null);
+                      setTimeout(() => {
+                        document.getElementById('faq-section')?.scrollIntoView({ behavior: 'auto' });
+                      }, 10);
+                    }}
+                    className="w-full p-4 md:p-6 flex items-center justify-between cursor-pointer text-left focus:outline-none focus:bg-white/5" 
+                    aria-expanded="true"
+                  >
+                    <div className="flex items-center gap-4 flex-1">
+                      <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F8B001] flex items-center justify-center text-[#000000]">
+                        <Minus className="w-6 h-6 md:w-8 md:h-8" strokeWidth={4} />
+                      </div>
+                      <span className="text-[#E9EAEA] font-[800]" style={{ fontSize: "clamp(18px, 2.4vw, 32px)" }}>
+                        {q}
+                      </span>
+                    </div>
+                    <ChevronUp className="w-6 h-6 md:w-8 md:h-8 text-[#F8B001] flex-shrink-0 ml-2" strokeWidth={3} />
+                  </button>
+                  
+                  <div className="w-[90%] mx-auto border-t border-[#303030]"></div>
+                  
+                  <div className="px-5 md:px-8 py-6 text-[#E9EAEA] font-[500]" style={{ fontSize: "clamp(18px, 4vw, 25px)", lineHeight: 1.6 }}>
+                    <p className="mb-6">
+                      I've helped a <span className="text-[#F8B001] font-[800]">streetwear brand</span> generate <span className="text-[#DB0101] font-[800]">OVER $1.2 MILLION USD</span> in additional revenue over <span className="text-[#F8B001] font-[800]">13 MONTHS</span> using <span className="text-[#F8B001] font-[800]">META ADS.</span>
+                    </p>
+                    
+                    <p className="mb-6">
+                      I also have <span className="text-[#DB0101] font-[800]">50+ WRITTEN TESTIMONIALS</span> and <span className="text-[#F8B001] font-[800]">10 VIDEO TESTIMONIALS</span> from clients in the <span className="text-[#F8B001] font-[800]">D2C ECOMMERCE</span> space.
+                    </p>
+
+                    <p className="mb-6">
+                      Over the last year, I've focused heavily on studying <span className="text-[#F8B001] font-[800]">streetwear brands</span>, marketing strategies, and campaigns that consistently sell out drops.
+                    </p>
+
+                    <p className="mb-6">
+                      The One Viral Ad Framework is the result of <span className="text-[#F8B001] font-[800]">EVERYTHING I LEARNED.</span>
+                    </p>
+                    
+                    <p className="mb-6">
+                      <span className="text-[#F8B001] font-[800]">Proof of my claims</span> is attached below.
+                    </p>
+                    
+                    <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-10">
+                      <button 
+                        type="button"
+                        className="w-full bg-[#000000] border border-[#454545] rounded-[6px] overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#F8B001]"
+                        onClick={(e) => { e.stopPropagation(); setLightboxImage("/Image 1 - left side.jpeg"); }}
+                        aria-label="View Case study proof — $1.2M streetwear client"
+                      >
+                        <img 
+                          src="/Image 1 - left side.jpeg" 
+                          alt="Case study proof — $1.2M streetwear client" 
+                          className="w-full h-auto object-contain" 
+                          loading="lazy"
+                        />
+                      </button>
+                      <button 
+                        type="button"
+                        className="w-full bg-[#000000] border border-[#454545] rounded-[6px] overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#F8B001]"
+                        onClick={(e) => { e.stopPropagation(); setLightboxImage("/Image 2 - right side.jpeg"); }}
+                        aria-label="View Client testimonial proof — written and video testimonials"
+                      >
+                        <img 
+                          src="/Image 2 - right side.jpeg" 
+                          alt="Client testimonial proof — written and video testimonials" 
+                          className="w-full h-auto object-contain" 
+                          loading="lazy"
+                        />
+                      </button>
+                    </div>
+
+                    <button 
+                      onClick={() => {
+                        setActiveFaq(null);
+                        setTimeout(() => document.getElementById('checkout')?.scrollIntoView({ behavior: 'smooth' }), 10);
+                      }}
+                      className="w-full bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-bold uppercase rounded-[6px] md:rounded-[8px] flex items-center justify-center gap-3 transition-colors cursor-pointer border-none"
+                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 32px)" }}
+                    >
+                      <Lock className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                      GET INSTANT ACCESS – $17 USD
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <button 
+                key={i} 
+                onClick={() => {
+                  if (i === 0 || i === 1 || i === 2 || i === 3) {
+                    setActiveFaq(i);
+                    setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 10);
+                  }
+                }}
+                className={`w-full bg-[#000000] border-2 border-[#353535] rounded-md p-4 flex items-center justify-between transition-colors text-left focus:outline-none focus:border-[#F8B001] cursor-pointer hover:border-[#454545]`} 
+                aria-expanded="false"
+              >
+                <div className="flex items-center gap-4 flex-1">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full border-2 border-[#F8B001] flex items-center justify-center text-[#F8B001]">
+                    <Plus className="w-5 h-5" strokeWidth={3} />
+                  </div>
+                  <span className="text-[#F1F1F1] font-bold pr-2" style={{ fontSize: "clamp(16px, 2vw, 24px)" }}>{q}</span>
+                </div>
+                <ChevronDown className="w-6 h-6 text-[#F8B001] flex-shrink-0" strokeWidth={3} />
+              </button>
+            );
+          })}
+        </div>
+
+        {/* SECTION 10 — DISCLAIMER */}
+        <div className="text-[#A7A7A7] text-[14px] sm:text-[15px] md:text-[16px] lg:text-[18px] text-center max-w-[760px] mx-auto mt-6 md:mt-8 mb-12 md:mb-16 leading-[1.45]">
+          Disclaimer: The results expressed in this training are illustrative and not guaranteed. Your success is entirely up to you and the work you put in.
+        </div>
+
+        {/* LIGHTBOX MODAL */}
+        {lightboxImage && (
+          <div 
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(0,0,0,0.85)]"
+            onClick={() => setLightboxImage(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Image Preview"
+          >
+            <button 
+              className="absolute top-4 right-4 text-white hover:text-[#F8B001] z-50 p-2 focus:outline-none focus:ring-2 focus:ring-[#F8B001]"
+              onClick={() => setLightboxImage(null)}
+              aria-label="Close Preview"
+            >
+              <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+            </button>
+            <img 
+              src={lightboxImage} 
+              alt="Full Preview" 
+              className="max-w-[calc(100vw-24px)] max-h-[calc(100svh-24px)] w-auto h-auto object-contain cursor-auto shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+              onClick={(e) => e.stopPropagation()}
+            />
           </div>
-        </section>
+        )}
 
-        {/* WHY IT DOESNT WORK & MINDSET SHIFT */}
-        <section className="max-w-2xl mx-auto mb-32 space-y-8 text-lg md:text-xl text-gray-300">
-          <h2 className="text-2xl md:text-3xl font-black text-white mb-10">Why The Old Way Doesn’t Work Anymore</h2>
-          <p>Here’s the truth most people won’t tell you.</p>
-          <p>Success doesn’t come from working harder.</p>
-          <p className="text-[#FF6B00] font-bold text-2xl">It comes from leverage.</p>
-          <p>One Viral Ad can outperform months of daily content.</p>
-          <p>One Viral Ad can outperform hundreds of pieces of &quot;ads&quot;</p>
-          <p className="pt-6">The problem isn’t that you aren’t working hard enough.</p>
-          <p>It’s that you’re spending your energy on low-leverage activities.</p>
-          <p className="text-white font-medium">The goal isn’t to become a better content creator.</p>
-          <p className="text-white font-bold">The goal is to build one marketing asset that continues bringing buyers to you.</p>
-          <p>So that way you spend 99% of your time being creative.</p>
-          <p className="text-[#FFB800] font-bold pt-4">You can achieve that dream in just 30 days.</p>
-        </section>
-
-        {/* MINDSET SHIFT */}
-        <section className="max-w-2xl mx-auto mb-32 bg-[#111] p-10 md:p-16 rounded-3xl border border-white/5">
-          <h2 className="text-2xl md:text-3xl font-black text-white mb-10">The Mindset Shift That Changes Everything</h2>
-          <div className="space-y-8 text-lg md:text-xl text-gray-300">
-            <p className="text-[#FF2E2E] font-medium">Stop asking…</p>
-            <p className="font-bold text-white text-2xl">“How can I work harder?”</p>
-            <p className="text-[#00A36C] font-medium pt-4">Start asking…</p>
-            <p className="font-bold text-white text-2xl leading-relaxed">“How can I create one marketing asset that keeps selling for me?”</p>
-            
-            <p className="pt-8 text-white">That’s the difference between…</p>
-            <p className="text-gray-400">* Spending hours creating content that barely generates sales.</p>
-            <p className="text-white">And…</p>
-            <p className="text-[#FFB800] font-bold">* Creating One Viral Ad that consistently attracts buyers and sells out your drops.</p>
-            <p className="pt-8">The second approach requires a completely different way of thinking.</p>
-            <p className="text-white">And that’s exactly what you’ll learn inside The One Viral Ad Framework.</p>
-          </div>
-        </section>
-
-        {/* INTRODUCING */}
-        <section className="text-center mb-40">
-          <p className="text-xl text-gray-400 font-medium tracking-widest uppercase mb-8">Introducing…</p>
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-12">The One Viral Ad Framework</h2>
-          
-          <div className="max-w-2xl mx-auto space-y-6 text-xl md:text-2xl text-gray-300 font-medium mb-16">
-            <p>Years of testing.</p>
-            <p>Thousands of ads.</p>
-            <p>Millions spent on advertising.</p>
-          </div>
-
-          <p className="text-2xl font-bold text-white mb-10">Compressed into one simple framework that:</p>
-          <ul className="max-w-xl mx-auto text-left space-y-6 text-lg md:text-xl text-gray-300 mb-16">
-            <li>* Takes less than 30 minutes to set up and launch</li>
-            <li>* Requires 0 marketing experience or technical knowledge</li>
-            <li>* Helps you achieve a profitable drop in just 30 days</li>
-          </ul>
-
-          <div className="max-w-2xl mx-auto space-y-6 text-lg md:text-xl text-gray-400">
-            <p>This isn’t another collection of random marketing tactics.</p>
-            <p>It’s a framework built from years of testing, thousands of ads, and real ads analysis of over 500 successful streetwear brands.</p>
-          </div>
-        </section>
-
-        <div className="w-16 h-px bg-[#FF6B00]/40 mx-auto mb-32" />
-
-        {/* PRICING & LOGIC */}
-        <section className="max-w-3xl mx-auto mb-32 text-center">
-          <h2 className="text-3xl md:text-5xl font-black uppercase text-[#FF6B00] mb-16 leading-tight">
-            GET INSTANT ACCESS TO THE ONE VIRAL AD FRAMEWORK FOR JUST $17
-          </h2>
-          
-          <div className="text-left space-y-12 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
-            <p className="font-bold text-white text-2xl">Why Just $17?</p>
-            <p>For 2 simple reasons.</p>
-            
-            <div className="space-y-4 pt-4">
-              <p className="text-white font-bold text-xl">1. Because money talks.</p>
-              <p>I’d rather you invest a small amount than give this framework away for free.</p>
-              <p>People who invest—even a small amount—are far more likely to pay attention, implement what they learn, and actually use it for their next drop.</p>
-            </div>
-
-            <div className="space-y-4 pt-4">
-              <p className="text-white font-bold text-xl">2. Because this is only the first step.</p>
-              <p>I’m also launching a &quot;7 day build your viral Ad with us challenge&quot; where selected streetwear brand owners will build and launch their first Viral Ad with our guidance.</p>
-              <p>I’d rather invite founders who have already demonstrated they’re serious by investing in this framework.</p>
-              <p className="text-gray-400 italic">Yes, that’s the upsell. And you’ll see it on the next page.</p>
-            </div>
-
-            <p className="text-[#FFB800] font-bold text-2xl pt-8 text-center">
-              But whether you join the challenge or not…<br/>
-              The One Viral Ad Framework is yours to keep for just $17.
-            </p>
-          </div>
-        </section>
-
-        {/* GUARANTEE */}
-        <section className="max-w-2xl mx-auto mb-32 bg-[#0e0e0e] border border-white/10 rounded-3xl p-10 md:p-12 text-center relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FFB800] to-transparent"></div>
-          <h2 className="text-2xl md:text-3xl font-black text-white mb-4">YES, OF COURSE THERE’S A GUARANTEE</h2>
-          <p className="text-[#FFB800] font-bold text-xl mb-10">My 30-Day Money-Back Guarantee</p>
-          
-          <div className="text-left space-y-6 text-lg text-gray-300 leading-relaxed">
-            <p>While I can’t guarantee you’ll sell out your next drop within 30 days…</p>
-            <p>Your results will depend on your work ethic, and how well you implement the framework.</p>
-            <p className="text-white font-bold">What I can guarantee is that the value you’ll receive will be worth 50x more than the $17 you paid.</p>
-            <p>Go through the framework. Study it. Use it to build your Viral Ad.</p>
-            <p>If it doesn’t completely blow your mind with value, simply contact me at any point within the next 30 days.</p>
-            <p className="text-white font-black text-xl pt-4">I’ll refund your entire $17.<br/>No questions asked.</p>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section className="max-w-3xl mx-auto mb-32">
-          <h2 className="text-2xl md:text-3xl font-black text-center mb-16 uppercase">FREQUENTLY ASKED QUESTIONS</h2>
-          
-          <div className="space-y-12 text-lg md:text-xl">
-            <div>
-              <p className="font-bold text-white mb-3">What advertising platform does The One Viral Ad Framework work on?</p>
-              <p className="text-gray-400">The framework is designed primarily for Meta advertising, including Facebook and Instagram.</p>
-            </div>
-            <div>
-              <p className="font-bold text-white mb-3">Do I need to be technically advanced to use this framework?</p>
-              <p className="text-gray-400">No. Even if you’ve never opened Ads Manager before, you’ll be able to follow along.</p>
-            </div>
-            <div>
-              <p className="font-bold text-white mb-3">What if I don’t want to set up the campaign myself?</p>
-              <p className="text-gray-400">You don’t have to. You can hire a freelancer to handle the technical campaign setup for less than 60 USD.</p>
-            </div>
-            <div>
-              <p className="font-bold text-white mb-3">Do I need any graphic design or video editing experience to create my Viral Ad?</p>
-              <p className="text-gray-400">No. Zero experience required.</p>
-            </div>
-            <div>
-              <p className="font-bold text-white mb-3">How soon can I expect results?</p>
-              <p className="text-gray-400 space-y-4">
-                <span className="block">The honest answer is… I don’t know. I don’t know your product. I don’t know your work ethic. No one can honestly guarantee results.</span>
-                <span className="block">What I can tell you is that some direct-to-consumer brands have generated meaningful sales within 7 days because they found the right angle and launched an ad that genuinely connected with their audience.</span>
-                <span className="block">Your results may happen quickly. They may take longer.</span>
-                <span className="block text-white font-medium">But once you create a Viral Ad that works… You now own a marketing asset you can use over and over again for future drops.</span>
-              </p>
-            </div>
-            <div>
-              <p className="font-bold text-white mb-3">Will this work for my specific brand?</p>
-              <p className="text-gray-400 space-y-4">
-                <span className="block">This framework was built specifically for streetwear and identity-driven clothing brands.</span>
-                <span className="block">It is ideal if you sell: * T-shirts * Hoodies * Sweatshirts * Jackets * Or any other type of clothing people wear on their body.</span>
-                <span className="block">If your business falls outside that category, this offer is not applicable to you.</span>
-              </p>
-            </div>
-            <div>
-              <p className="font-bold text-white mb-3">Do I need a large advertising budget?</p>
-              <p className="text-gray-400">No. I recommend starting with around $30 per day.</p>
-            </div>
-            <div>
-              <p className="font-bold text-white mb-3">Do I need an audience to make this work?</p>
-              <p className="text-gray-400">No. Even if you have zero audience, that’s completely fine.</p>
-            </div>
-          </div>
-        </section>
-
-        {/* FINAL CTA & CHECKOUT */}
-        <section className="text-center mb-20" id="checkout">
-          <h2 className="text-3xl md:text-5xl font-black uppercase text-white mb-16 leading-tight max-w-4xl mx-auto">
+        {/* CHECKOUT SECTION */}
+        <section className="w-full text-center pb-12 pt-4 md:pt-8" id="checkout">
+          <h2 className="text-[#FFFFFF] font-[900] uppercase leading-[0.95] max-w-4xl mx-auto mb-5 md:mb-7 tracking-tight" style={{ fontSize: "clamp(38px, 5vw, 72px)" }}>
             READY TO SELL OUT YOUR NEXT DROP IN 30 DAYS?
           </h2>
 
-          <div className="mb-10 text-xl font-bold text-gray-300">
+          <div className="text-[#A7A7A7] font-medium max-w-2xl mx-auto mb-8 md:mb-11 leading-[1.35]" style={{ fontSize: "clamp(18px, 2vw, 26px)" }}>
             Complete the form below to Get Instant Access To The One Viral Ad Framework Now
           </div>
 
-          {clientSecret ? (
-            <Elements
-              stripe={stripePromise}
-              options={{
-                clientSecret,
-                appearance: {
-                  theme: 'night',
-                  variables: {
-                    colorPrimary: '#FF6B00',
-                    colorBackground: '#000000',
-                    colorText: '#ffffff',
-                    colorDanger: '#df1b41',
-                    fontFamily: 'system-ui, sans-serif',
-                    borderRadius: '12px',
-                    spacingUnit: '5px',
-                  },
-                  rules: {
-                    '.Input': {
-                      border: '1px solid #374151',
-                      boxShadow: 'none',
-                      backgroundColor: '#000000'
-                    },
-                    '.Input:focus': {
-                      border: '1px solid #FF6B00',
-                      boxShadow: 'none',
-                    }
-                  }
-                }
-              }}
-            >
-              <CheckoutForm paymentIntentId={paymentIntentId} clientSecret={clientSecret} />
-            </Elements>
-          ) : (
-            <div className="py-20 flex justify-center">
-              <div className="w-10 h-10 border-4 border-[#FF6B00] border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          )}
+          <CheckoutForm paymentIntentId={paymentIntentId} clientSecret={clientSecret} stripePromise={stripePromise} />
         </section>
+
       </main>
     </div>
   );
@@ -386,7 +488,7 @@ export default function LandingPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-black flex items-center justify-center text-white">
-        <div className="w-10 h-10 border-4 border-[#FF6B00] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-10 h-10 border-4 border-[#F8B001] border-t-transparent rounded-full animate-spin"></div>
       </div>
     }>
       <LandingPageContent />

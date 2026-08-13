@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader2, Check, Lock, MessageCircle, ClipboardCheck, HelpCircle, Rocket } from "lucide-react";
 
 function UpsellContent() {
   const router = useRouter();
@@ -10,10 +10,23 @@ function UpsellContent() {
   const originalPaymentIntentId = searchParams.get("payment_intent");
   
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
-  // Initialize upsell payment intent when they decide to buy
+  // Prevent multiple successful purchases from being created
+  useEffect(() => {
+    const hasBoughtUpsell = localStorage.getItem(`upsell_purchased_${originalPaymentIntentId}`);
+    if (hasBoughtUpsell) {
+      setSuccess(true);
+    }
+  }, [originalPaymentIntentId]);
+
   const handleAcceptUpsell = async () => {
+    if (success) return; // Prevent double trigger
+    
     setLoading(true);
+    setError("");
+
     try {
       const res = await fetch("/api/create-upsell-payment", {
         method: "POST",
@@ -23,100 +36,158 @@ function UpsellContent() {
       const data = await res.json();
       
       if (data.success && data.paymentIntentId) {
-        // Direct to success page with both intents
-        router.push(`/success?original_intent=${originalPaymentIntentId}&payment_intent=${data.paymentIntentId}`);
+        setSuccess(true);
+        localStorage.setItem(`upsell_purchased_${originalPaymentIntentId}`, "true");
       } else {
         throw new Error(data.error || "Could not process upsell payment");
       }
     } catch (err: unknown) {
       const error = err as Error;
       console.error(error);
-      alert(error.message || "Something went wrong. Please try again.");
+      setError(error.message || "Payment failed. Please try again or contact support.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDeclineUpsell = () => {
-    // If declined, redirect to success page with original payment intent
-    router.push(`/success?payment_intent=${originalPaymentIntentId}`);
-  };
-
   if (!originalPaymentIntentId) {
     return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center text-white p-6 text-center">
+      <div className="min-h-screen bg-[#000000] flex flex-col items-center justify-center text-[#E9EAEA] p-6 text-center font-sans">
         <h1 className="text-2xl font-bold mb-4">Invalid Access</h1>
-        <p className="text-gray-400 mb-8">No purchase found.</p>
-        <button onClick={() => router.push("/")} className="text-[#FF6B00] hover:underline">Return to Home</button>
+        <p className="text-[#A0A0A0] mb-8">No purchase found.</p>
+        <button onClick={() => router.push("/")} className="text-[#F8B001] hover:underline font-bold">Return to Home</button>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans">
-      <div className="max-w-3xl mx-auto px-6 py-12 md:py-20">
+    <div className="min-h-screen bg-[#000000] text-[#E9EAEA] font-sans flex justify-center pt-6 pb-12 px-2 md:px-6">
+      <div className="w-full max-w-[min(98vw,900px)] bg-[#000000] border-2 border-[#353535] rounded-[8px] md:rounded-[10px] p-6 md:p-10 mx-auto shadow-2xl relative">
         
-        <div className="text-center mb-12">
-          <div className="w-16 h-16 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
-            <span className="text-2xl">🎉</span>
+        {/* Success Icon */}
+        <div className="flex justify-center items-center gap-3 mb-6">
+          <div className="w-8 h-[2px] bg-[#F8B001]/60"></div>
+          <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border-[3px] border-[#F8B001] flex items-center justify-center">
+            <Check className="w-8 h-8 md:w-10 md:h-10 text-[#F8B001]" strokeWidth={4} />
           </div>
-          <h1 className="text-3xl md:text-4xl font-black mb-4">Thank You for Your Purchase!</h1>
-          <p className="text-gray-400 text-lg">Your order is confirmed, but wait...</p>
+          <div className="w-8 h-[2px] bg-[#F8B001]/60"></div>
         </div>
 
-        <div className="w-full h-px bg-white/10 mb-12"></div>
+        {/* Success Headline */}
+        <h1 className="text-center font-[900] leading-[1] mb-6 uppercase tracking-tight" style={{ fontSize: "clamp(42px, 6vw, 76px)" }}>
+          <span className="text-[#E9EAEA] block">YOUR ORDER IS</span>
+          <span className="text-[#F8B001] block mt-1">SUCCESSFUL!</span>
+        </h1>
 
-        <div className="bg-[#0e0e0e] border border-[#FFB800]/30 rounded-3xl p-8 md:p-12 shadow-[0_0_40px_rgba(255,184,0,0.1)] text-center relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-[#FFB800]"></div>
-          
-          <h2 className="text-[#FFB800] font-black tracking-widest uppercase text-sm md:text-base mb-4">One-Time Offer</h2>
-          <h3 className="text-3xl md:text-5xl font-black mb-8 leading-tight">
-            Want to Build Your One Viral Ad With Us in just 7 days?
-          </h3>
-          
-          <div className="text-2xl md:text-3xl font-bold text-white mb-10">
-            Only $57
-          </div>
+        <div className="w-full h-px bg-[#353535] mx-auto mb-6 max-w-2xl"></div>
 
-          <div className="text-left max-w-xl mx-auto space-y-10 mb-12 text-gray-300 text-lg leading-relaxed">
-            <div>
-              <h4 className="text-white font-bold text-xl mb-4">Objective</h4>
-              <p>In just 7 days, you&apos;ll have:</p>
-              <ul className="list-disc pl-5 space-y-2 mt-4 text-gray-400">
-                <li>A clear, irresistible offer.</li>
-                <li>7 versions of your first viral ad.</li>
-                <li>A high-converting product page script.</li>
-              </ul>
+        {/* Confirmation Copy */}
+        <p className="text-center text-[#A0A0A0] text-lg md:text-2xl font-medium mb-10 max-w-2xl mx-auto leading-tight">
+          <span className="text-[#E9EAEA]">Please check your email to gain access to </span><br className="hidden md:block"/>
+          <span className="text-[#F8B001]">your purchase.</span>
+        </p>
+
+        {/* UPSell Content */}
+        {!success ? (
+          <div className="w-full">
+            {/* ONE-TIME OFFER */}
+            <div className="flex justify-center mb-6">
+              <span className="bg-[#DB0101] text-[#FFFFFF] uppercase font-[900] text-sm md:text-lg px-4 md:px-5 py-1.5 md:py-2 rounded-[4px] tracking-wide">
+                ONE-TIME OFFER
+              </span>
             </div>
-            
-            <div>
-              <h4 className="text-white font-bold text-xl mb-4">What It Includes</h4>
-              <p className="text-gray-400">
-                7 days of private Slack access, where you can ask questions, receive personalized feedback, and get guidance from us as you build your One Viral Ad.
-              </p>
-            </div>
-          </div>
 
-          <div className="space-y-6 max-w-xl mx-auto">
+            {/* Upsell Headline */}
+            <h2 className="text-center font-[900] text-[34px] md:text-[54px] leading-[1.1] mb-6 uppercase tracking-tight">
+              <span className="text-[#E9EAEA]">BUILD YOUR </span>
+              <span className="text-[#F8B001]">VIRAL AD </span>
+              <span className="text-[#E9EAEA]">WITH US</span>
+            </h2>
+
+            {/* Urgency */}
+            <div className="flex justify-center items-center gap-3 md:gap-4 mb-10">
+              <div className="w-8 md:w-16 h-px bg-[#DB0101]"></div>
+              <span className="text-[#DB0101] uppercase font-[900] text-sm md:text-xl tracking-widest">IN THE NEXT 24 HOURS</span>
+              <div className="w-8 md:w-16 h-px bg-[#DB0101]"></div>
+            </div>
+
+            {/* Four Benefits Grid */}
+            <div className="grid grid-cols-4 gap-2 md:gap-6 mb-10 border-b border-[#353535] pb-10">
+              
+              <div className="flex flex-col items-center text-center">
+                <MessageCircle className="w-8 h-8 md:w-12 md:h-12 text-[#F8B001] mb-3 md:mb-4" strokeWidth={1.5} />
+                <h3 className="text-[#E9EAEA] uppercase font-[900] text-[10px] sm:text-xs md:text-lg leading-[1.1] mb-2 md:mb-3">24-HOUR<br/>SLACK ACCESS</h3>
+                <div className="w-6 h-[2px] bg-[#F8B001] mb-2 md:mb-3"></div>
+                <p className="text-[#A0A0A0] text-[10px] sm:text-xs md:text-base leading-tight px-1">Get direct access<br/>to us in Slack.</p>
+              </div>
+              
+              <div className="flex flex-col items-center text-center border-l border-[#353535]">
+                <ClipboardCheck className="w-8 h-8 md:w-12 md:h-12 text-[#F8B001] mb-3 md:mb-4" strokeWidth={1.5} />
+                <h3 className="text-[#E9EAEA] uppercase font-[900] text-[10px] sm:text-xs md:text-lg leading-[1.1] mb-2 md:mb-3">REVIEW &<br/>FEEDBACK</h3>
+                <div className="w-6 h-[2px] bg-[#F8B001] mb-2 md:mb-3"></div>
+                <p className="text-[#A0A0A0] text-[10px] sm:text-xs md:text-base leading-tight px-1">We'll review your<br/>ad and give you<br/>honest feedback.</p>
+              </div>
+              
+              <div className="flex flex-col items-center text-center border-l border-[#353535]">
+                <HelpCircle className="w-8 h-8 md:w-12 md:h-12 text-[#F8B001] mb-3 md:mb-4" strokeWidth={1.5} />
+                <h3 className="text-[#E9EAEA] uppercase font-[900] text-[10px] sm:text-xs md:text-lg leading-[1.1] mb-2 md:mb-3">ASK ANY<br/>QUESTIONS</h3>
+                <div className="w-6 h-[2px] bg-[#F8B001] mb-2 md:mb-3"></div>
+                <p className="text-[#A0A0A0] text-[10px] sm:text-xs md:text-base leading-tight px-1">Get answers<br/>whenever you're<br/>stuck or second-<br/>guessing a decision.</p>
+              </div>
+              
+              <div className="flex flex-col items-center text-center border-l border-[#353535]">
+                <Rocket className="w-8 h-8 md:w-12 md:h-12 text-[#F8B001] mb-3 md:mb-4" strokeWidth={1.5} />
+                <h3 className="text-[#E9EAEA] uppercase font-[900] text-[10px] sm:text-xs md:text-lg leading-[1.1] mb-2 md:mb-3">LAUNCH WITH<br/>CONFIDENCE</h3>
+                <div className="w-6 h-[2px] bg-[#F8B001] mb-2 md:mb-3"></div>
+                <p className="text-[#A0A0A0] text-[10px] sm:text-xs md:text-base leading-tight px-1">Get our perspective<br/>before you spend<br/>money launching<br/>your ad.</p>
+              </div>
+            </div>
+
+            {/* Price block */}
+            <p className="text-center text-[#E9EAEA] uppercase font-bold text-sm md:text-lg tracking-widest mb-3">ALL THIS FOR JUST</p>
+            <div className="flex justify-center mb-8 md:mb-10">
+              <div className="bg-[#F8B001] text-[#000000] font-[900] text-5xl md:text-7xl px-12 md:px-16 py-3 md:py-4 rounded-[6px] md:rounded-[8px] leading-none">
+                $57 USD
+              </div>
+            </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="bg-[#DB0101]/10 border border-[#DB0101] text-[#DB0101] text-sm md:text-base font-bold p-4 rounded-md text-center leading-tight mb-6 max-w-2xl mx-auto">
+                {error}
+              </div>
+            )}
+
+            {/* CTA */}
             <button
               onClick={handleAcceptUpsell}
               disabled={loading}
-              className="w-full bg-[#00A36C] hover:bg-[#008A5B] text-white font-black py-5 rounded-xl uppercase tracking-wider text-lg transition-all shadow-[0_4px_20px_rgba(0,163,108,0.3)] hover:shadow-[0_4px_30px_rgba(0,163,108,0.5)] flex items-center justify-center gap-2"
+              className="w-full max-w-3xl mx-auto bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-[900] py-5 md:py-6 rounded-[8px] md:rounded-[10px] uppercase text-base sm:text-lg md:text-2xl transition-colors cursor-pointer disabled:opacity-80 flex items-center justify-center gap-3 md:gap-4 border-none min-h-[72px] md:min-h-[88px] leading-tight px-4"
             >
-              {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : "YES, ADD TO MY ORDER FOR $57"}
+              {loading ? (
+                <>
+                  <Loader2 className="w-6 h-6 md:w-8 md:h-8 text-white animate-spin" />
+                  <span>PROCESSING...</span>
+                </>
+              ) : (
+                <>
+                  <Lock className="w-6 h-6 md:w-8 md:h-8 flex-shrink-0" />
+                  <span>YES! BUILD MY VIRAL AD WITH YOU – $57 USD</span>
+                </>
+              )}
             </button>
-            <p className="text-xs text-gray-500 mt-2">1-Click Purchase: Your card ending in the previously used number will be charged $57.</p>
-            
-            <button
-              onClick={handleDeclineUpsell}
-              disabled={loading}
-              className="text-gray-500 hover:text-gray-300 underline font-medium text-sm md:text-base transition-colors"
-            >
-              No thanks, I don&apos;t want personalized guidance.
-            </button>
+            <div className="text-center text-xs text-[#A0A0A0] mt-4 font-medium uppercase tracking-wider">
+              1-Click Secure Purchase
+            </div>
           </div>
+        ) : (
+          <div className="w-full text-center pt-8 border-t border-[#353535] mt-8 animate-in fade-in duration-500">
+            <h2 className="text-[#00A36C] font-black text-2xl md:text-4xl mb-4 uppercase">
+              Thank you for your order. Please check email - Yasir
+            </h2>
+          </div>
+        )}
 
-        </div>
       </div>
     </div>
   );
@@ -124,7 +195,7 @@ function UpsellContent() {
 
 export default function UpsellPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="w-8 h-8 text-[#FFB800] animate-spin" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#000000] flex items-center justify-center"><Loader2 className="w-10 h-10 text-[#F8B001] animate-spin" /></div>}>
       <UpsellContent />
     </Suspense>
   );

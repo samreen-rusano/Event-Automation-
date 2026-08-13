@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/user";
 import { transporter } from "@/lib/mailer";
-import { getEmailForPurchase } from "@/lib/emailTemplate";
+import { getEmailForTransaction } from "@/lib/emailTemplate";
 
 export async function POST(req: Request) {
   try {
@@ -32,6 +32,8 @@ export async function POST(req: Request) {
       }
     } catch { }
 
+    const isUpsell = paymentIntent.metadata?.isUpsell === "true";
+
     // Upsert user in DB and mark as paid
     await connectDB();
     const userDoc = await User.findOneAndUpdate(
@@ -43,9 +45,9 @@ export async function POST(req: Request) {
           email,
           isPaid: true,
         },
-        // We can optionally add purchasedItems to the user document
         $addToSet: {
-          purchasedItems: { $each: purchasedItems }
+          purchasedItems: { $each: purchasedItems },
+          processedIntents: payment_intent_id // Track to avoid processing the same intent twice
         },
         $setOnInsert: {
           registeredAt: new Date(),
@@ -55,16 +57,11 @@ export async function POST(req: Request) {
       { upsert: true, returnDocument: "after" }
     );
 
-    // Determine the email to send based on ALL purchased items for this user
-    // (Combining what they just bought with anything they bought previously in this session)
-    const allPurchasedItems = userDoc.purchasedItems || [];
-    
-    const emailData = getEmailForPurchase(allPurchasedItems, userDoc.name ? userDoc.name.split(" ")[0] : "there");
+    // Determine the email to send based on what was purchased in THIS specific transaction
+    const emailData = getEmailForTransaction(purchasedItems, isUpsell);
 
-    // Check if we've already sent an email. 
-    // If they already got email1, and now they deserve email3, we shouldn't send email3 if "Do not send multiple emails" is strict.
-    // Wait, if we wait until the Thank You page, they will only trigger verify-payment ONCE for the final outcome.
-    // Let's just check if THIS specific email has been sent.
+    // Check if we've already sent THIS specific email to THIS user
+    // This allows them to receive Email 1 then Email 3 separately, but not Email 1 twice.
     if (userDoc && emailData && !userDoc.sentEmails.includes(emailData.id)) {
       try {
         await transporter.sendMail({
@@ -87,7 +84,7 @@ export async function POST(req: Request) {
       email,
       phone,
       amount,
-      purchasedItems: allPurchasedItems,
+      purchasedItems,
       transactionId: paymentIntent.id,
       paymentStatus: paymentIntent.status,
     });
