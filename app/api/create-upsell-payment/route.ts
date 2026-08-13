@@ -70,8 +70,11 @@ export async function POST(req: Request) {
         phone: originalIntent.metadata?.phone || "",
         purchasedItems: JSON.stringify(purchasedItems),
         isUpsell: "true",
-        originalIntentId: originalPaymentIntentId
+        originalIntentId: originalPaymentIntentId,
+        transactionType: "upsell57"
       },
+    }, {
+      idempotencyKey: `upsell_${originalPaymentIntentId}`
     });
 
     return NextResponse.json({ 

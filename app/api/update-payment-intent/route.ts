@@ -33,6 +33,7 @@ export async function POST(req: Request) {
         email: email || "",
         phone: phone || "",
         purchasedItems: JSON.stringify(purchasedItems),
+        transactionType: hasOrderBump ? "framework_sop" : "framework",
       },
     });
 

@@ -79,31 +79,22 @@ export const emails = {
     }
 };
 
-export function getEmailForTransaction(purchasedItems: string[], isUpsell: boolean): EmailData | null {
-    if (!purchasedItems || purchasedItems.length === 0) return null;
+export function getEmailForTransactionType(transactionType: string): EmailData | null {
+    if (!transactionType) return null;
 
-    if (isUpsell) {
-        // This transaction was specifically the $57 upsell charge
+    if (transactionType === "upsell57") {
         return {
             id: emails.email3.id,
             subject: emails.email3.subject,
             html: renderHtml(emails.email3.body)
         };
-    }
-
-    // Initial purchase logic
-    const hasFramework = purchasedItems.includes("framework");
-    const hasOrderBump = purchasedItems.includes("order_bump");
-
-    if (hasFramework && hasOrderBump) {
-        // $44 total
+    } else if (transactionType === "framework_sop") {
         return {
             id: emails.email2.id,
             subject: emails.email2.subject,
             html: renderHtml(emails.email2.body)
         };
-    } else if (hasFramework) {
-        // $17 total
+    } else if (transactionType === "framework") {
         return {
             id: emails.email1.id,
             subject: emails.email1.subject,

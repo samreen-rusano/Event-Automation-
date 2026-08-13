@@ -20,71 +20,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Payment not completed" }, { status: 402 });
     }
 
-    const name = paymentIntent.metadata?.name || "";
-    const phone = paymentIntent.metadata?.phone || "";
-    const email = paymentIntent.receipt_email || paymentIntent.metadata?.email || "";
-    const amount = `$${(paymentIntent.amount / 100).toFixed(2)}`;
-    
-    let purchasedItems: string[] = [];
-    try {
-      if (paymentIntent.metadata?.purchasedItems) {
-        purchasedItems = JSON.parse(paymentIntent.metadata.purchasedItems);
-      }
-    } catch { }
-
-    const isUpsell = paymentIntent.metadata?.isUpsell === "true";
-
-    // Upsert user in DB and mark as paid
-    await connectDB();
-    const userDoc = await User.findOneAndUpdate(
-      { email },
-      {
-        $set: {
-          name,
-          phone,
-          email,
-          isPaid: true,
-        },
-        $addToSet: {
-          purchasedItems: { $each: purchasedItems },
-          processedIntents: payment_intent_id // Track to avoid processing the same intent twice
-        },
-        $setOnInsert: {
-          registeredAt: new Date(),
-          sentEmails: [],
-        },
-      },
-      { upsert: true, returnDocument: "after" }
-    );
-
-    // Determine the email to send based on what was purchased in THIS specific transaction
-    const emailData = getEmailForTransaction(purchasedItems, isUpsell);
-
-    // Check if we've already sent THIS specific email to THIS user
-    // This allows them to receive Email 1 then Email 3 separately, but not Email 1 twice.
-    if (userDoc && emailData && !userDoc.sentEmails.includes(emailData.id)) {
-      try {
-        await transporter.sendMail({
-          from: process.env.EMAIL_USER,
-          to: userDoc.email,
-          subject: emailData.subject,
-          html: emailData.html,
-        });
-        
-        userDoc.sentEmails.push(emailData.id);
-        userDoc.lastSentAt = new Date();
-        await userDoc.save();
-      } catch (emailErr) {
-        console.error("Failed to send welcome email:", emailErr);
-      }
-    }
+    // Use shared fulfillment logic as a fallback to ensure immediate fulfillment during standard redirect flow
+    const { fulfillPurchase } = await import("@/lib/fulfillment");
+    await fulfillPurchase(paymentIntent);
 
     return NextResponse.json({
-      name,
-      email,
-      phone,
-      amount,
-      purchasedItems,
+      name: paymentIntent.metadata?.name || "",
+      email: paymentIntent.receipt_email || paymentIntent.metadata?.email || "",
+      phone: paymentIntent.metadata?.phone || "",
+      amount: `$${(paymentIntent.amount / 100).toFixed(2)}`,
       transactionId: paymentIntent.id,
       paymentStatus: paymentIntent.status,
     });

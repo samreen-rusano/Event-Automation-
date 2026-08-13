@@ -26,6 +26,7 @@ export async function POST(req: Request) {
         email: data.email || "",
         phone: data.phone || "",
         purchasedItems: JSON.stringify(purchasedItems),
+        transactionType: hasOrderBump ? "framework_sop" : "framework",
       },
       payment_method_types: ["card"],
     });
