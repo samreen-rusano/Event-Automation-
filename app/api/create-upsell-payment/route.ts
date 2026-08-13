@@ -10,6 +10,30 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing originalPaymentIntentId" }, { status: 400 });
     }
 
+    if (originalPaymentIntentId.startsWith("simulated_")) {
+      if (process.env.NODE_ENV === "production" || process.env.NEXT_PUBLIC_ENABLE_PAYMENT_BYPASS !== "true") {
+        return NextResponse.json({ error: "Bypass disabled" }, { status: 403 });
+      }
+
+      // Record upsell for bypass user
+      const { connectDB } = await import("@/lib/db");
+      const User = (await import("@/models/user")).default;
+      
+      await connectDB();
+      await User.findOneAndUpdate(
+        { processedIntents: originalPaymentIntentId },
+        { 
+          $addToSet: { purchasedItems: "upsell" },
+          $set: { paymentStatus: "simulated_upsell" }
+        }
+      );
+
+      return NextResponse.json({ 
+        success: true,
+        paymentIntentId: `simulated_upsell_${Date.now()}` 
+      });
+    }
+
     const originalIntent = await stripe.paymentIntents.retrieve(originalPaymentIntentId);
     
     if (!originalIntent) {

@@ -10,6 +10,30 @@ interface CheckoutFormProps {
   stripePromise: any;
 }
 
+const STRIPE_APPEARANCE: any = {
+  theme: 'night',
+  variables: {
+    colorPrimary: '#F8B001',
+    colorBackground: '#000000',
+    colorText: '#ffffff',
+    colorDanger: '#DB0101',
+    fontFamily: 'system-ui, sans-serif',
+    borderRadius: '6px',
+    spacingUnit: '5px',
+  },
+  rules: {
+    '.Input': {
+      border: '1px solid #353535',
+      boxShadow: 'none',
+      backgroundColor: '#000000'
+    },
+    '.Input:focus': {
+      border: '1px solid #F8B001',
+      boxShadow: 'none',
+    }
+  }
+};
+
 export default function CheckoutForm({ paymentIntentId, clientSecret, stripePromise }: CheckoutFormProps) {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
   const [orderBump, setOrderBump] = useState(false);
@@ -40,6 +64,11 @@ export default function CheckoutForm({ paymentIntentId, clientSecret, stripeProm
   }, [orderBump, paymentIntentId, clientSecret]);
 
   const total = orderBump ? 44 : 17;
+  
+  const stripeOptions = React.useMemo(() => ({
+    clientSecret,
+    appearance: STRIPE_APPEARANCE
+  }), [clientSecret]);
 
   return (
     <div className="space-y-6 md:space-y-8 bg-[#000000] border border-[#353535] rounded-[10px] p-5 sm:p-8 max-w-[min(92vw,850px)] mx-auto text-left w-full text-[#E9EAEA]">
@@ -87,32 +116,7 @@ export default function CheckoutForm({ paymentIntentId, clientSecret, stripeProm
       {clientSecret ? (
         <Elements
           stripe={stripePromise}
-          options={{
-            clientSecret,
-            appearance: {
-              theme: 'night',
-              variables: {
-                colorPrimary: '#F8B001',
-                colorBackground: '#000000',
-                colorText: '#ffffff',
-                colorDanger: '#DB0101',
-                fontFamily: 'system-ui, sans-serif',
-                borderRadius: '6px',
-                spacingUnit: '5px',
-              },
-              rules: {
-                '.Input': {
-                  border: '1px solid #353535',
-                  boxShadow: 'none',
-                  backgroundColor: '#000000'
-                },
-                '.Input:focus': {
-                  border: '1px solid #F8B001',
-                  boxShadow: 'none',
-                }
-              }
-            }
-          }}
+          options={stripeOptions}
         >
           <StripePaymentSection 
             formData={formData}
@@ -133,6 +137,26 @@ export default function CheckoutForm({ paymentIntentId, clientSecret, stripeProm
 
     </div>
   );
+}
+
+class StripeErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean}> {
+  constructor(props: {children: React.ReactNode}) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="bg-[#DB0101]/10 border border-[#DB0101] text-[#DB0101] text-sm md:text-base font-bold p-4 rounded-[6px] text-center">
+          Secure card details could not load.<br/>Please retry or refresh the page.
+        </div>
+      );
+    }
+    return this.props.children;
+  }
 }
 
 function StripePaymentSection({ 
@@ -203,7 +227,9 @@ function StripePaymentSection({
       <div className="space-y-4">
         <span className="block text-sm font-bold text-[#E9EAEA] mb-1.5">Card Details</span>
         <div className="bg-[#000000] border border-[#353535] rounded-[6px] p-4 min-h-[52px] md:min-h-[60px]">
-          <PaymentElement />
+          <StripeErrorBoundary>
+            <PaymentElement />
+          </StripeErrorBoundary>
         </div>
       </div>
 
@@ -224,6 +250,45 @@ function StripePaymentSection({
           <span>COMPLETE ORDER FOR ${total.toFixed(2)} USD</span>
         )}
       </button>
+
+      {process.env.NODE_ENV !== "production" && process.env.NEXT_PUBLIC_ENABLE_PAYMENT_BYPASS === "true" && (
+        <div className="mt-6 pt-6 border-t border-[#353535]">
+          <div className="text-center text-[#DB0101] text-[10px] md:text-xs font-bold uppercase mb-3 tracking-widest">
+            DEVELOPMENT PAYMENT BYPASS ENABLED
+          </div>
+          <button
+            type="button"
+            onClick={async () => {
+              if (!formData.name || !formData.email || !formData.phone) {
+                setError("Please fill in Name, Email, and Phone to test bypass.");
+                return;
+              }
+              setLoading(true);
+              setError("");
+              try {
+                const res = await fetch("/api/bypass-payment", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ ...formData, orderBump }),
+                });
+                const data = await res.json();
+                if (data.success && data.transactionId) {
+                  window.location.href = `/upsell?payment_intent=${data.transactionId}`;
+                } else {
+                  throw new Error(data.error || "Bypass failed");
+                }
+              } catch (err: any) {
+                setError(err.message || "Bypass error");
+                setLoading(false);
+              }
+            }}
+            disabled={loading || updatingPrice}
+            className="w-full bg-[#1A1A1A] text-[#F8B001] border-2 border-[#F8B001] font-bold py-3 md:py-4 rounded-[8px] md:rounded-[10px] uppercase text-sm md:text-base transition-colors hover:bg-[#F8B001] hover:text-[#000000] cursor-pointer disabled:opacity-75"
+          >
+            TEST ONLY — CONTINUE WITHOUT STRIPE
+          </button>
+        </div>
+      )}
     </>
   );
 }
