@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
     lastEmailType: String,
     lastSentAt: { type: Date },
     sentEmails: { type: [String], default: [] },
+    processedIntents: { type: [String], default: [] },
 });
 
 export default mongoose.models.User ||

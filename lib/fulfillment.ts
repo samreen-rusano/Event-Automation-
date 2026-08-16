@@ -25,6 +25,22 @@ export async function fulfillPurchase(paymentIntent: Stripe.PaymentIntent) {
     return;
   }
 
+  // Amount + Metadata Validation (Section 49)
+  const amount = paymentIntent.amount;
+  let isValid = false;
+  if (transactionType === "framework" && amount === 1700) {
+    isValid = true;
+  } else if (transactionType === "framework_sop" && amount === 4400) {
+    isValid = true;
+  } else if (transactionType === "upsell57" && amount === 5700) {
+    isValid = true;
+  }
+
+  if (!isValid) {
+    console.error(`[Fulfillment] Security alert! PaymentIntent ${paymentIntent.id} has mismatched amount (${amount}) for transactionType (${transactionType}). FULFILLMENT REJECTED.`);
+    return;
+  }
+
   // Parse legacy purchasedItems if present, or reconstruct based on transactionType for the DB
   let purchasedItems: string[] = [];
   try {
@@ -39,6 +55,13 @@ export async function fulfillPurchase(paymentIntent: Stripe.PaymentIntent) {
 
   // 1. Upsert user in DB and record this intent idempotently
   await connectDB();
+  
+  const existingUser = await User.findOne({ processedIntents: paymentIntent.id });
+  if (existingUser) {
+    console.log(`[Fulfillment] PaymentIntent ${paymentIntent.id} was already processed. Skipping duplicate fulfillment.`);
+    return existingUser;
+  }
+
   const userDoc = await User.findOneAndUpdate(
     { email },
     {

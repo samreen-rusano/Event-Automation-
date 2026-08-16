@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/user";
 import { transporter } from "@/lib/mailer";
-import { getEmailForTransaction } from "@/lib/emailTemplate";
 
 export async function POST(req: Request) {
   try {
