@@ -262,7 +262,7 @@ function StripePaymentSection({
       </button>
 
       <div className="text-center text-[#777777] font-medium text-[11px] md:text-xs mt-4 max-w-[90%] md:max-w-md mx-auto leading-snug">
-        By completing this order, you authorize DYM to securely save your payment method for a 1-click purchase after checkout.
+        By completing this order, you authorize DYM to securely save your payment method to enable an optional 1-click purchase after checkout.
       </div>
 
       {process.env.NODE_ENV !== "production" && process.env.NEXT_PUBLIC_ENABLE_PAYMENT_BYPASS === "true" && (
