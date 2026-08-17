@@ -359,7 +359,7 @@ function OrderBumpSection({ orderBump, setOrderBump }: { orderBump: boolean, set
             Get Started with the <span className="text-[#F8B001] font-bold">One Viral Ad Launch SOP</span>: A step-by-step execution roadmap that takes you through <span className="text-[#F8B001] font-bold">EVERY STEP</span> of building and launching your <span className="text-[#F8B001] font-bold">viral ad campaign</span> — so you always know exactly <span className="text-[#F8B001] font-bold">WHAT TO DO NEXT</span> and can stay accountable until your campaign is live.
           </p>
           <p className="text-[#E9EAEA] text-[15px] md:text-lg leading-[1.5]">
-            This is the perfect add-on to your Framework! <span className="font-[900] uppercase text-white">THIS OFFER IS NOT AVAILABLE ANYWHERE ELSE.</span>
+            This is the perfect add-on to your Framework! <span className="font-[900] uppercase text-[#F8B001]" style={{ fontSize: "clamp(14px, 1.5vw, 18px)" }}>THIS OFFER IS NOT AVAILABLE ANYWHERE ELSE.</span>
           </p>
         </div>
       </div>

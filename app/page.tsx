@@ -66,21 +66,21 @@ function LandingPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#000000] text-[#F1F1F1] font-sans selection:bg-[#F8B001] selection:text-black">
+    <div className="min-h-screen bg-[#000000] text-[#F1F1F1] font-sans selection:bg-[#F8B001] selection:text-black" style={{ WebkitTextSizeAdjust: "100%", textSizeAdjust: "100%" }}>
       <main className="w-[min(94vw,1150px)] mx-auto px-2 sm:px-4 py-8 min-h-[100svh] flex flex-col items-center justify-start">
         
         {/* TOP CONTENT (HIDDEN DURING FAQ FOCUS) */}
         <div className={activeFaq !== null ? "hidden" : "w-full flex flex-col items-center"}>
           
           {/* SECTION 1 — EYEBROW */}
-          <div className="text-center font-bold tracking-[0.2em] text-base md:text-xl lg:text-2xl mb-4 mt-4">
+          <div className="text-center font-bold tracking-[0.2em] text-base md:text-xl lg:text-2xl mb-3 mt-2 sm:mt-4">
             <span className="text-[#DB0101]">//</span>
             <span className="text-[#F1F1F1] mx-2 sm:mx-3 uppercase">DISCOVER HOW</span>
             <span className="text-[#DB0101]">//</span>
           </div>
 
           {/* SECTION 2 — MAIN HERO HEADLINE */}
-          <h1 className="w-full text-center font-[900] leading-[0.9] tracking-tight uppercase mb-6" style={{ fontSize: "clamp(42px, 7vw, 92px)" }}>
+          <h1 className="w-full text-center font-[900] leading-[0.9] tracking-tight uppercase mb-4" style={{ fontSize: "clamp(36px, 5.5vw, 64px)" }}>
             <div className="text-[#F8B001]">STREETWEAR</div>
             <div className="text-[#F8B001]">BRAND OWNERS</div>
             <div>
@@ -91,21 +91,21 @@ function LandingPageContent() {
           </h1>
 
           {/* SECTION 3 — "IN 30 DAYS" BADGE */}
-          <div className="bg-[#F8B001] text-[#000000] font-bold uppercase px-4 py-1.5 rounded-md text-lg md:text-2xl mb-6 inline-block">
+          <div className="bg-[#F8B001] text-[#000000] font-bold uppercase px-4 py-1.5 rounded-md text-lg md:text-2xl mb-4 inline-block">
             IN 30 DAYS
           </div>
 
           {/* SECTION 4 — VIRAL AD PILL */}
-          <div className="border-2 border-[#353535] rounded-full px-6 py-2 text-lg md:text-2xl font-bold uppercase mb-8 inline-block">
+          <div className="border-2 border-[#353535] rounded-full px-6 py-2 text-lg md:text-2xl font-bold uppercase mb-5 inline-block">
             <span className="text-[#F1F1F1]">WITH JUST </span>
             <span className="text-[#DB0101]">ONE VIRAL AD</span>
           </div>
 
           {/* SECTION 5 — DIVIDER */}
-          <div className="w-full border-t border-[#303030] mb-8"></div>
+          <div className="w-full border-t border-[#303030] mb-5"></div>
 
           {/* SECTION 6 — FOUR BENEFITS */}
-          <div className="w-full flex flex-row items-start justify-between gap-1 sm:gap-2 md:gap-4 mb-8">
+          <div className="w-full flex flex-row items-start justify-between gap-1 sm:gap-2 md:gap-4 mb-5">
             {/* Benefit 1 */}
             <div className="flex-1 flex flex-col items-center text-center px-1">
               <CircleDollarSign className="w-8 h-8 md:w-10 md:h-10 text-[#F8B001] mb-3" strokeWidth={1.5} />
@@ -136,18 +136,18 @@ function LandingPageContent() {
           </div>
 
           {/* SECOND DIVIDER */}
-          <div className="w-full border-t border-[#303030] mb-8"></div>
+          <div className="w-full border-t border-[#303030] mb-5"></div>
 
           {/* SECTION 7 — FRAMEWORK TITLE */}
-          <h2 className="text-[#F1F1F1] font-bold uppercase tracking-tight mb-6 text-center w-full" style={{ fontSize: "clamp(24px, 3.2vw, 42px)" }}>
+          <h2 className="text-[#F1F1F1] font-bold uppercase tracking-tight mb-4 text-center w-full" style={{ fontSize: "clamp(22px, 3vw, 36px)" }}>
             ONE VIRAL AD FRAMEWORK
           </h2>
 
           {/* SECTION 8 — MAIN CTA */}
           <button 
             onClick={() => document.getElementById('checkout')?.scrollIntoView({ behavior: 'smooth' })}
-            className="w-full bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-bold uppercase rounded-md flex items-center justify-center gap-3 transition-colors mb-8 cursor-pointer border-none"
-            style={{ minHeight: "64px", fontSize: "clamp(18px, 2.5vw, 32px)" }}
+            className="w-full max-w-[95%] sm:max-w-2xl bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-bold uppercase rounded-[8px] md:rounded-[12px] flex items-center justify-center gap-3 transition-transform hover:scale-[1.02] active:scale-[0.98] mb-8 mx-auto cursor-pointer border-none py-4"
+            style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 24px)" }}
           >
             <Lock className="w-6 h-6 md:w-8 md:h-8 text-white" />
             GET INSTANT ACCESS – $17 USD
@@ -182,7 +182,7 @@ function LandingPageContent() {
                       <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F8B001] flex items-center justify-center text-[#000000]">
                         <Minus className="w-6 h-6 md:w-8 md:h-8" strokeWidth={4} />
                       </div>
-                      <span className="text-[#F1F1F1] font-[800]" style={{ fontSize: "clamp(18px, 2.4vw, 32px)" }}>
+                      <span className="text-[#F1F1F1] font-[800]" style={{ fontSize: "clamp(18px, 2vw, 24px)" }}>
                         What is the <span className="text-[#F8B001]">One Viral Ad</span> Framework?
                       </span>
                     </div>
@@ -191,7 +191,7 @@ function LandingPageContent() {
                   
                   <div className="w-[90%] mx-auto border-t border-[#353535]"></div>
                   
-                  <div className="p-4 md:p-8 pb-6 text-[#F1F1F1] font-[500]" style={{ fontSize: "clamp(18px, 4.4vw, 36px)", lineHeight: 1.7 }}>
+                  <div className="p-4 md:p-8 pb-6 text-[#F1F1F1] font-[500]" style={{ fontSize: "clamp(16px, 2.5vw, 24px)", lineHeight: 1.7 }}>
                     <p className="mb-10">
                       The One Viral Ad Framework is a step-by-step guide designed to help you create <span className="text-[#DB0101] font-[800]">ONE HIGH-CONVERTING AD</span> that can help sell out your next drop profitably in <span className="text-[#F8B001] font-[800]">30 DAYS.</span>
                     </p>
@@ -206,7 +206,7 @@ function LandingPageContent() {
                         setTimeout(() => document.getElementById('checkout')?.scrollIntoView({ behavior: 'smooth' }), 10);
                       }}
                       className="w-full bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-bold uppercase rounded-[6px] md:rounded-[8px] flex items-center justify-center gap-3 transition-colors cursor-pointer border-none"
-                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 32px)" }}
+                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 24px)" }}
                     >
                       <Lock className="w-6 h-6 md:w-8 md:h-8 text-white" />
                       GET INSTANT ACCESS – $17 USD
@@ -233,7 +233,7 @@ function LandingPageContent() {
                       <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F8B001] flex items-center justify-center text-[#000000]">
                         <Minus className="w-6 h-6 md:w-8 md:h-8" strokeWidth={4} />
                       </div>
-                      <span className="text-[#E9EAEA] font-[800]" style={{ fontSize: "clamp(18px, 2.4vw, 32px)" }}>
+                      <span className="text-[#E9EAEA] font-[800]" style={{ fontSize: "clamp(18px, 2vw, 24px)" }}>
                         {q}
                       </span>
                     </div>
@@ -242,7 +242,7 @@ function LandingPageContent() {
                   
                   <div className="w-[90%] mx-auto border-t border-[#303030]"></div>
                   
-                  <div className="px-5 md:px-8 py-6 text-[#E9EAEA] font-[500]" style={{ fontSize: "clamp(18px, 4.1vw, 25px)", lineHeight: 1.6 }}>
+                  <div className="px-5 md:px-8 py-6 text-[#E9EAEA] font-[500]" style={{ fontSize: "clamp(16px, 2.5vw, 22px)", lineHeight: 1.6 }}>
                     <p className="mb-6">
                       You started your streetwear brand to be creative. To be artistic. Yet you spend most of your time trying to market it.
                     </p>
@@ -261,7 +261,7 @@ function LandingPageContent() {
                         setTimeout(() => document.getElementById('checkout')?.scrollIntoView({ behavior: 'smooth' }), 10);
                       }}
                       className="w-full bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-bold uppercase rounded-[6px] md:rounded-[8px] flex items-center justify-center gap-3 transition-colors cursor-pointer border-none"
-                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 32px)" }}
+                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 24px)" }}
                     >
                       <Lock className="w-6 h-6 md:w-8 md:h-8 text-white" />
                       GET INSTANT ACCESS FOR $17 USD
@@ -288,7 +288,7 @@ function LandingPageContent() {
                       <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F8B001] flex items-center justify-center text-[#000000]">
                         <Minus className="w-6 h-6 md:w-8 md:h-8" strokeWidth={4} />
                       </div>
-                      <span className="text-[#E9EAEA] font-[800]" style={{ fontSize: "clamp(18px, 2.4vw, 32px)" }}>
+                      <span className="text-[#E9EAEA] font-[800]" style={{ fontSize: "clamp(18px, 2vw, 24px)" }}>
                         {q}
                       </span>
                     </div>
@@ -297,7 +297,7 @@ function LandingPageContent() {
                   
                   <div className="w-[90%] mx-auto border-t border-[#303030]"></div>
                   
-                  <div className="px-5 md:px-8 py-6 text-[#E9EAEA] font-[500]" style={{ fontSize: "clamp(18px, 4.1vw, 25px)", lineHeight: 1.6 }}>
+                  <div className="px-5 md:px-8 py-6 text-[#E9EAEA] font-[500]" style={{ fontSize: "clamp(16px, 2.5vw, 22px)", lineHeight: 1.6 }}>
                     <p className="mb-6">
                       While I can't guarantee you'll sell out your next drop in <span className="text-[#F8B001] font-[800]">30 DAYS</span>—because I don't control your work ethic or how well you implement the framework—I <span className="text-[#F8B001] font-[800]">CAN</span> guarantee you'll receive <span className="text-[#F8B001] font-[800]">far more value</span> than the <span className="text-[#F8B001] font-[800]">$17 USD</span> purchase price.
                     </p>
@@ -316,7 +316,7 @@ function LandingPageContent() {
                         setTimeout(() => document.getElementById('checkout')?.scrollIntoView({ behavior: 'smooth' }), 10);
                       }}
                       className="w-full bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-bold uppercase rounded-[6px] md:rounded-[8px] flex items-center justify-center gap-3 transition-colors cursor-pointer border-none"
-                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 32px)" }}
+                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 24px)" }}
                     >
                       <Lock className="w-6 h-6 md:w-8 md:h-8 text-white" />
                       GET INSTANT ACCESS FOR $17 USD
@@ -343,7 +343,7 @@ function LandingPageContent() {
                       <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F8B001] flex items-center justify-center text-[#000000]">
                         <Minus className="w-6 h-6 md:w-8 md:h-8" strokeWidth={4} />
                       </div>
-                      <span className="text-[#E9EAEA] font-[800]" style={{ fontSize: "clamp(18px, 2.4vw, 32px)" }}>
+                      <span className="text-[#E9EAEA] font-[800]" style={{ fontSize: "clamp(18px, 2vw, 24px)" }}>
                         {q}
                       </span>
                     </div>
@@ -352,7 +352,7 @@ function LandingPageContent() {
                   
                   <div className="w-[90%] mx-auto border-t border-[#303030]"></div>
                   
-                  <div className="px-5 md:px-8 py-6 text-[#E9EAEA] font-[500]" style={{ fontSize: "clamp(18px, 4vw, 25px)", lineHeight: 1.6 }}>
+                  <div className="px-5 md:px-8 py-6 text-[#E9EAEA] font-[500]" style={{ fontSize: "clamp(16px, 2.5vw, 22px)", lineHeight: 1.6 }}>
                     <p className="mb-6">
                       I've helped a <span className="text-[#F8B001] font-[800]">streetwear brand</span> generate <span className="text-[#DB0101] font-[800]">OVER $1.2 MILLION USD</span> in additional revenue over <span className="text-[#F8B001] font-[800]">13 MONTHS</span> using <span className="text-[#F8B001] font-[800]">META ADS.</span>
                     </p>
@@ -408,7 +408,7 @@ function LandingPageContent() {
                         setTimeout(() => document.getElementById('checkout')?.scrollIntoView({ behavior: 'smooth' }), 10);
                       }}
                       className="w-full bg-[#006E27] hover:bg-[#007C2C] text-[#FFFFFF] font-bold uppercase rounded-[6px] md:rounded-[8px] flex items-center justify-center gap-3 transition-colors cursor-pointer border-none"
-                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 32px)" }}
+                      style={{ minHeight: "72px", fontSize: "clamp(18px, 2.5vw, 24px)" }}
                     >
                       <Lock className="w-6 h-6 md:w-8 md:h-8 text-white" />
                       GET INSTANT ACCESS – $17 USD
@@ -434,7 +434,7 @@ function LandingPageContent() {
                   <div className="flex-shrink-0 w-8 h-8 rounded-full border-2 border-[#F8B001] flex items-center justify-center text-[#F8B001]">
                     <Plus className="w-5 h-5" strokeWidth={3} />
                   </div>
-                  <span className="text-[#F1F1F1] font-bold pr-2" style={{ fontSize: "clamp(16px, 2vw, 24px)" }}>{q}</span>
+                  <span className="text-[#F1F1F1] font-bold pr-2" style={{ fontSize: "clamp(16px, 2vw, 22px)" }}>{q}</span>
                 </div>
                 <ChevronDown className="w-6 h-6 text-[#F8B001] flex-shrink-0" strokeWidth={3} />
               </button>
@@ -442,10 +442,7 @@ function LandingPageContent() {
           })}
         </div>
 
-        {/* SECTION 10 — DISCLAIMER */}
-        <div className="text-[#A7A7A7] text-[14px] sm:text-[15px] md:text-[16px] lg:text-[18px] text-center max-w-[760px] mx-auto mt-6 md:mt-8 mb-12 md:mb-16 leading-[1.45]">
-          Disclaimer: The results expressed in this training are illustrative and not guaranteed. Your success is entirely up to you and the work you put in.
-        </div>
+        {/* DISCLAIMER MOVED TO BOTTOM */}
 
         {/* LIGHTBOX MODAL */}
         {lightboxImage && (
@@ -474,12 +471,12 @@ function LandingPageContent() {
 
         {/* CHECKOUT SECTION */}
         <section className="w-full text-center pb-12 pt-4 md:pt-8" id="checkout">
-          <h2 className="text-[#FFFFFF] font-[900] uppercase leading-[0.95] max-w-4xl mx-auto mb-5 md:mb-7 tracking-tight" style={{ fontSize: "clamp(38px, 5vw, 72px)" }}>
-            READY TO SELL OUT YOUR NEXT DROP IN 30 DAYS?
+          <h2 className="text-[#FFFFFF] font-[900] uppercase leading-[0.95] max-w-4xl mx-auto mb-5 md:mb-7 tracking-tight" style={{ fontSize: "clamp(32px, 4vw, 56px)" }}>
+            READY TO <span className="text-[#DB0101]">SELL OUT</span> YOUR NEXT DROP <span className="text-[#F8B001]">IN 30 DAYS</span>?
           </h2>
 
-          <div className="text-[#A7A7A7] font-medium max-w-2xl mx-auto mb-8 md:mb-11 leading-[1.35]" style={{ fontSize: "clamp(18px, 2vw, 26px)" }}>
-            Complete the form below to Get Instant Access To The One Viral Ad Framework Now
+          <div className="text-[#A7A7A7] font-medium max-w-2xl mx-auto mb-8 md:mb-11 leading-[1.35]" style={{ fontSize: "clamp(16px, 1.8vw, 22px)" }}>
+            Complete the form below to <span className="text-[#F8B001]">Get Instant Access</span> <span className="text-[#DB0101]">To The One Viral Ad Framework</span> Now
           </div>
 
           {checkoutInitError ? (
@@ -496,6 +493,11 @@ function LandingPageContent() {
             <CheckoutForm paymentIntentId={paymentIntentId} clientSecret={clientSecret} stripePromise={stripePromise} />
           )}
         </section>
+
+        {/* SECTION 10 — DISCLAIMER */}
+        <div className="text-[#A7A7A7] text-[14px] sm:text-[15px] md:text-[16px] lg:text-[18px] text-center max-w-[760px] mx-auto mt-12 mb-8 leading-[1.45]">
+          Disclaimer: The results expressed in this training are illustrative and not guaranteed. Your success is entirely up to you and the work you put in.
+        </div>
 
       </main>
     </div>
