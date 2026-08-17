@@ -40,26 +40,28 @@ export default function CheckoutForm({ paymentIntentId, clientSecret, stripeProm
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [updatingPrice, setUpdatingPrice] = useState(false);
+  // Tracks the in-flight order-bump sync so handleSubmit can await it before sending its own
+  // final sync — prevents the two PATCH calls from racing and leaving the charged amount/metadata
+  // out of sync with what the order summary displays.
+  const pendingUpdateRef = React.useRef<Promise<void> | null>(null);
 
   // When orderBump changes, update the payment intent
   useEffect(() => {
-    const updateIntent = async () => {
-      if (!paymentIntentId || !clientSecret) return;
-      setUpdatingPrice(true);
-      try {
-        await fetch("/api/update-payment-intent", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ paymentIntentId, ...formData, orderBump }),
-        });
-      } catch (err: unknown) {
+    if (!paymentIntentId || !clientSecret) return;
+    setUpdatingPrice(true);
+    const updateIntent = fetch("/api/update-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ paymentIntentId, ...formData, orderBump }),
+    })
+      .catch((err: unknown) => {
         console.error("Failed to update payment intent:", err);
-      } finally {
+      })
+      .then(() => {
         setUpdatingPrice(false);
-      }
-    };
-    
-    updateIntent();
+      });
+
+    pendingUpdateRef.current = updateIntent;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderBump, paymentIntentId, clientSecret]);
 
@@ -129,6 +131,7 @@ export default function CheckoutForm({ paymentIntentId, clientSecret, stripeProm
             setLoading={setLoading}
             setError={setError}
             updatingPrice={updatingPrice}
+            pendingUpdateRef={pendingUpdateRef}
           />
         </Elements>
       ) : (
@@ -166,10 +169,11 @@ function StripePaymentSection({
   total, 
   paymentIntentId, 
   clientSecret, 
-  loading, 
-  setLoading, 
-  setError, 
-  updatingPrice 
+  loading,
+  setLoading,
+  setError,
+  updatingPrice,
+  pendingUpdateRef
 }: any) {
   const stripe = useStripe();
   const elements = useElements();
@@ -186,6 +190,12 @@ function StripePaymentSection({
     setError("");
 
     try {
+      // Wait for any in-flight order-bump sync to land first, then send the authoritative final
+      // sync, so the amount/metadata Stripe actually charges always matches what's on screen.
+      if (pendingUpdateRef?.current) {
+        await pendingUpdateRef.current;
+      }
+
       await fetch("/api/update-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

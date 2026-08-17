@@ -1,9 +1,9 @@
-import Stripe from "stripe";
+import type Stripe from "stripe";
 import { NextResponse } from "next/server";
+import { stripe } from "@/lib/stripe";
 
 export async function POST(req: Request) {
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
     const { originalPaymentIntentId } = await req.json();
 
     if (!originalPaymentIntentId) {
@@ -35,9 +35,14 @@ export async function POST(req: Request) {
     }
 
     const originalIntent = await stripe.paymentIntents.retrieve(originalPaymentIntentId);
-    
+
     if (!originalIntent) {
       return NextResponse.json({ error: "Invalid original payment intent" }, { status: 400 });
+    }
+
+    // Only a genuinely succeeded original purchase may authorize an off-session upsell charge.
+    if (originalIntent.status !== "succeeded") {
+      return NextResponse.json({ error: "Original purchase has not completed successfully" }, { status: 400 });
     }
 
     if (!originalIntent.customer || !originalIntent.payment_method) {
@@ -70,7 +75,7 @@ export async function POST(req: Request) {
         phone: originalIntent.metadata?.phone || "",
         purchasedItems: JSON.stringify(purchasedItems),
         isUpsell: "true",
-        originalIntentId: originalPaymentIntentId,
+        originalPaymentIntentId: originalPaymentIntentId,
         transactionType: "upsell57"
       },
     }, {
@@ -82,8 +87,22 @@ export async function POST(req: Request) {
       paymentIntentId: paymentIntent.id 
     });
   } catch (err: unknown) {
-    const error = err as Error;
-    console.error("[Stripe] create-upsell-payment error:", error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const stripeErr = err as Stripe.errors.StripeError;
+    console.error("[Stripe] create-upsell-payment error:", stripeErr.message);
+
+    if (stripeErr.code === "authentication_required") {
+      return NextResponse.json(
+        { error: "Your card requires additional authentication and couldn't be charged automatically. Please contact support." },
+        { status: 402 }
+      );
+    }
+    if (stripeErr.type === "StripeCardError") {
+      return NextResponse.json(
+        { error: stripeErr.message || "Your card was declined for this purchase." },
+        { status: 402 }
+      );
+    }
+
+    return NextResponse.json({ error: stripeErr.message || "Upsell payment failed." }, { status: 500 });
   }
 }

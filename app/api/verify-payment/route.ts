@@ -1,12 +1,8 @@
-import Stripe from "stripe";
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/db";
-import User from "@/models/user";
-import { transporter } from "@/lib/mailer";
+import { stripe } from "@/lib/stripe";
 
 export async function POST(req: Request) {
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
     const { payment_intent_id } = await req.json();
 
     if (!payment_intent_id) {

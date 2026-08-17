@@ -8,7 +8,10 @@ function UpsellContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const originalPaymentIntentId = searchParams.get("payment_intent");
-  
+  // Stripe appends this automatically on redirect from confirmPayment(); only "succeeded" means the
+  // original $17/$44 charge actually went through.
+  const redirectStatus = searchParams.get("redirect_status");
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -20,6 +23,18 @@ function UpsellContent() {
       setSuccess(true);
     }
   }, [originalPaymentIntentId]);
+
+  // Guard against showing "YOUR ORDER IS SUCCESSFUL!" when the original payment actually failed
+  // (e.g. bank decline during the required-action redirect flow).
+  if (originalPaymentIntentId && redirectStatus && redirectStatus !== "succeeded") {
+    return (
+      <div className="min-h-screen bg-[#000000] flex flex-col items-center justify-center text-[#E9EAEA] p-6 text-center font-sans">
+        <h1 className="text-2xl font-bold mb-4 text-[#DB0101]">Payment Not Completed</h1>
+        <p className="text-[#A0A0A0] mb-8">Your payment was not successful. Please try again.</p>
+        <button onClick={() => router.push("/")} className="text-[#F8B001] hover:underline font-bold">Return to Home</button>
+      </div>
+    );
+  }
 
   const handleAcceptUpsell = async () => {
     if (success) return; // Prevent double trigger

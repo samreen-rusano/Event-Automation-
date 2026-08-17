@@ -13,6 +13,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY 
 function LandingPageContent() {
   const [clientSecret, setClientSecret] = useState("");
   const [paymentIntentId, setPaymentIntentId] = useState("");
+  const [checkoutInitError, setCheckoutInitError] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
@@ -44,20 +45,25 @@ function LandingPageContent() {
       writeSessionStorage(key, "1");
     }
 
-    const initStripe = async () => {
-      try {
-        const res = await fetch("/api/create-payment-intent", { method: "POST", body: "{}" });
-        const data = await res.json();
-        if (data.clientSecret && data.paymentIntentId) {
-          setClientSecret(data.clientSecret);
-          setPaymentIntentId(data.paymentIntentId);
-        }
-      } catch (err) {
-        console.error("Failed to preload payment intent:", err);
-      }
-    };
     initStripe();
   }, []);
+
+  const initStripe = async () => {
+    setCheckoutInitError(false);
+    try {
+      const res = await fetch("/api/create-payment-intent", { method: "POST", body: "{}" });
+      const data = await res.json();
+      if (data.clientSecret && data.paymentIntentId) {
+        setClientSecret(data.clientSecret);
+        setPaymentIntentId(data.paymentIntentId);
+      } else {
+        throw new Error(data.error || "Missing clientSecret in response");
+      }
+    } catch (err) {
+      console.error("Failed to preload payment intent:", err);
+      setCheckoutInitError(true);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#000000] text-[#F1F1F1] font-sans selection:bg-[#F8B001] selection:text-black">
@@ -476,7 +482,19 @@ function LandingPageContent() {
             Complete the form below to Get Instant Access To The One Viral Ad Framework Now
           </div>
 
-          <CheckoutForm paymentIntentId={paymentIntentId} clientSecret={clientSecret} stripePromise={stripePromise} />
+          {checkoutInitError ? (
+            <div className="max-w-[min(92vw,850px)] mx-auto bg-[#DB0101]/10 border border-[#DB0101] text-[#DB0101] text-sm md:text-base font-bold p-6 rounded-[10px] text-center leading-tight">
+              Secure checkout could not load. Please check your connection and try again.
+              <button
+                onClick={initStripe}
+                className="block mx-auto mt-4 bg-[#DB0101] text-white font-bold uppercase px-6 py-3 rounded-[6px] cursor-pointer border-none"
+              >
+                Retry
+              </button>
+            </div>
+          ) : (
+            <CheckoutForm paymentIntentId={paymentIntentId} clientSecret={clientSecret} stripePromise={stripePromise} />
+          )}
         </section>
 
       </main>

@@ -1,8 +1,8 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { fulfillPurchase } from "@/lib/fulfillment";
+import { stripe } from "@/lib/stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
 
 export async function POST(req: Request) {
