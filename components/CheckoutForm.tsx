@@ -238,7 +238,7 @@ function StripePaymentSection({
         <span className="block text-sm font-bold text-[#E9EAEA] mb-1.5">Card Details</span>
         <div className="bg-[#000000] border border-[#353535] rounded-[6px] p-4 min-h-[52px] md:min-h-[60px]">
           <StripeErrorBoundary>
-            <PaymentElement />
+            <PaymentElement options={{ terms: { card: 'never' } }} />
           </StripeErrorBoundary>
         </div>
       </div>
@@ -260,6 +260,10 @@ function StripePaymentSection({
           <span>COMPLETE ORDER FOR ${total.toFixed(2)} USD</span>
         )}
       </button>
+
+      <div className="text-center text-[#777777] font-medium text-[11px] md:text-xs mt-4 max-w-[90%] md:max-w-md mx-auto leading-snug">
+        By completing this order, you authorize DYM to securely save your payment method for a 1-click purchase after checkout.
+      </div>
 
       {process.env.NODE_ENV !== "production" && process.env.NEXT_PUBLIC_ENABLE_PAYMENT_BYPASS === "true" && (
         <div className="mt-6 pt-6 border-t border-[#353535]">
